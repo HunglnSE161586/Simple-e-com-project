@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -22,6 +23,7 @@ import java.util.Map;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity()
 public class SecurityConfig{
     @Autowired
     private JwtAuthenticationFilter jwtAuthenticationFilter;
@@ -43,7 +45,7 @@ public class SecurityConfig{
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**",
                                 "/swagger-ui/index.html",
-                                "api/users/register",
+                                "/api/users/**",
                                 "/api-docs/**").permitAll()
                         // All other endpoints require authentication
                         .anyRequest().authenticated()

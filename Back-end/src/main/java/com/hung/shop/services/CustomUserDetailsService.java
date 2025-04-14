@@ -7,6 +7,7 @@ import com.hung.shop.repositories.UsersRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,18 +20,25 @@ import java.util.Set;
 public class CustomUserDetailsService implements UserDetailsService {
     @Autowired
     private UsersRepository usersRepository;
-//    @Override
-//    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-//        Users user = usersRepository.findByEmail(email)
-//                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
-//        return new CustomUserDetails(user);
-//    }
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         String role="";
         Set<GrantedAuthority> authoritySet =new HashSet<>();
-        Users user=new Users();
-        user.setEmail(email);
-        return new CustomUserDetails(user);
+        Users user = usersRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
+        if (user.getRole() != null) {
+            role = user.getRole().getRoleName();
+            authoritySet.add(new SimpleGrantedAuthority(role));
+        }
+
+        return new CustomUserDetails(user,authoritySet);
     }
+//    @Override
+//    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+//        String role="";
+//        Set<GrantedAuthority> authoritySet =new HashSet<>();
+//        Users user=new Users();
+//        user.setEmail(email);
+//        return new CustomUserDetails(user);
+//    }
 }

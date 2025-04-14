@@ -1,15 +1,20 @@
 package com.hung.shop.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-
+import java.util.Set;
+@AllArgsConstructor
+@NoArgsConstructor
 public class CustomUserDetails implements UserDetails {
 
-    private final Users user;
+    private Users user;
+    Set<GrantedAuthority> authoritySet;
 
     public CustomUserDetails(Users user) {
         this.user = user;
