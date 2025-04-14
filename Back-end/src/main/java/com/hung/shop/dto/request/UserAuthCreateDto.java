@@ -10,5 +10,5 @@ public class UserAuthCreateDto {
     private String provider;
     private String providerId;
     private String password;
-    private Long userId;
+//    private Long userId;
 }

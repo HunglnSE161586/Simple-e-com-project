@@ -1,6 +1,7 @@
 package com.hung.shop.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -14,6 +15,7 @@ public class Users {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
+    @Email
     @Column(nullable = false,unique = true, updatable = false)
     private String email;
 
@@ -29,7 +31,7 @@ public class Users {
     @JoinColumn(name = "role_id", nullable = false)
     private UserRoles role;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserAuth> userAuths;
 
     @PrePersist

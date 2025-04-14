@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -46,10 +47,23 @@ public class UserService {
         String password = passwordEncoder.encode(userCreateDto.getUserAuthCreateDto().getPassword());
         userCreateDto.getUserAuthCreateDto().setPassword(password);
         UserAuth userAuth = userAuthMapper.toEntity(userCreateDto.getUserAuthCreateDto());
+        userAuth.setUser(user);
         user.setUserAuths(new ArrayList<>());
         user.getUserAuths().add(userAuth);
-
+    
         user= usersRepository.save(user);
         return userMapper.toDto(user);
+    }
+    public UserDto getUserById(Long id) {
+        Optional<Users> userOptional = usersRepository.findByUserId(id);
+        if (userOptional.isPresent()) {
+            return userMapper.toDto(userOptional.get());
+        } else {
+            throw new IllegalArgumentException("User not found");
+        }
+    }
+    public List<UserDto> getAllUsers() {
+        List<UserDto> userDtos = usersRepository.findAll().stream().map(userMapper::toDto).toList();
+        return userDtos;
     }
 }
