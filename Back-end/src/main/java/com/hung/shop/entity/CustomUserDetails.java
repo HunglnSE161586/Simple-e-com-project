@@ -14,7 +14,7 @@ import java.util.Set;
 public class CustomUserDetails implements UserDetails {
 
     private Users user;
-    Set<GrantedAuthority> authoritySet;
+    private Set<GrantedAuthority> authoritySet;
 
     public CustomUserDetails(Users user) {
         this.user = user;
@@ -23,7 +23,7 @@ public class CustomUserDetails implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         // If you want to support roles later, return them here
-        return Collections.emptyList();
+        return authoritySet;
     }
 
     @Override

@@ -66,6 +66,8 @@ public class UserController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+    // has warning when run:
+    //Serializing PageImpl instances as-is is not supported, meaning that there is no guarantee about the stability of the resulting JSON structure!
     @GetMapping("")
     @Operation(summary = "Get paged users", description = "Retrieves users in the system with paging.")
     @ApiResponses(value = {
@@ -93,6 +95,34 @@ public class UserController {
                                             @Valid @RequestBody UserUpdateRequest userUpdateRequest) {
         try {
             return ResponseEntity.ok(userService.updateUser(id, userUpdateRequest));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+    @DeleteMapping("/{id}")
+    @Operation(summary = "Soft delete a user", description = "Marks a user as inactive instead of deleting from database. Only  an admin can perform this operation.")
+    @PreAuthorize("hasRole('ADMIN')")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User soft-deleted successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid request or user not found"),
+    })
+    public ResponseEntity<?> softDeleteUser(@PathVariable Long id) {
+        try {
+            return ResponseEntity.ok(userService.updateUserStatus(id, false)); // false = inactive
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+    @PatchMapping("/{id}/restore")
+    @Operation(summary = "Restore a soft-deleted user", description = "Restores a soft-deleted user. Only the user or an admin can perform this operation.")
+    @PreAuthorize("hasRole('ADMIN')")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User restored successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid request or user not found")
+    })
+    public ResponseEntity<?> restoreUser(@PathVariable Long id) {
+        try {
+            return ResponseEntity.ok(userService.updateUserStatus(id, true)); // true = active
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

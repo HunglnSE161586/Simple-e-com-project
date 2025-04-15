@@ -84,4 +84,14 @@ public class UserService {
             throw new IllegalArgumentException("User not found");
         }
     }
+    public UserDto updateUserStatus(Long id, Boolean isActive) {
+        Optional<Users> userOptional = usersRepository.findByUserId(id);
+        if (userOptional.isPresent()) {
+            Users user = userOptional.get();
+            user.setIsActive(isActive);
+                return userMapper.toDto(usersRepository.save(user));
+        } else {
+            throw new IllegalArgumentException("User not found");
+        }
+    }
 }
