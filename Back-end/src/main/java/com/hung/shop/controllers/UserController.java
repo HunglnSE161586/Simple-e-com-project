@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -75,8 +76,8 @@ public class UserController {
             @ApiResponse(responseCode = "400", description = "Invalid request or user not found"),
     })
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> getPagedUsers( @RequestParam(defaultValue = "0") int page,
-                                            @RequestParam(defaultValue = "10") int size) {
+    public ResponseEntity<?> getPagedUsers( @RequestParam(defaultValue = "0") @Min(value = 0, message = "Page index must be non-negative") int page,
+                                            @RequestParam(defaultValue = "10") @Min(value = 1, message = "Page size must be at least 1") int size) {
         try {
             return ResponseEntity.ok(userService.getPagedUsers(page, size));
         } catch (Exception e) {
