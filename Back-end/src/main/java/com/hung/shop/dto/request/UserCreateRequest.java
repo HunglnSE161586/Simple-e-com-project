@@ -4,7 +4,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 @Data
-public class UserCreateDto {
+public class UserCreateRequest {
     @Email(message = "Email should be valid")
     @NotNull(message = "Email is required")
     private String email;
