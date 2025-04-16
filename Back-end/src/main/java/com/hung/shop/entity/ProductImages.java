@@ -16,14 +16,16 @@ public class ProductImages {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long imageId;
     @Column(nullable = false)
-    private Long productId;
-    @Column(nullable = false)
     private String imageUrl;
 
     private String altText;
 
     private Integer displayOrder;
     private LocalDateTime createdAt;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id", nullable = false)
+    private Products product;
 
     @PrePersist
     public void prePersist() {

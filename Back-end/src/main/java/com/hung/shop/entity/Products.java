@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -45,6 +46,10 @@ public class Products {
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
     private Set<Categories> categories = new HashSet<>();
+    //cascade = CascadeType.ALL: any operation you perform on the parent entity (Product) will also be performed automatically on its associated child entities (ProductImages).
+    //orphanRemoval = true: if you remove a Product entity, all associated ProductImages entities will also be removed from the database.
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProductImages> images;
 
     @PrePersist
     public void prePersist() {
