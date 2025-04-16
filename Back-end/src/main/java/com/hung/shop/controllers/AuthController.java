@@ -6,6 +6,8 @@ import com.hung.shop.services.JwtBlacklistService;
 import com.hung.shop.services.UserService;
 import com.hung.shop.utils.JwtTokenUtil;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +36,11 @@ public class AuthController {
     private JwtBlacklistService blacklistService;
 
     @PostMapping("/login")
+    @Operation(summary = "Login", description = "Authenticate user and return JWT token.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Login successful"),
+            @ApiResponse(responseCode = "401", description = "Invalid username or password")
+    })
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
         try {
             // spring check user exists by calling CustomUserDetailsService.loadUserByUsername()
@@ -57,7 +64,12 @@ public class AuthController {
         }
     }
     @PostMapping("/logout")
-    @Operation(summary = "Logout", description = "Logout user and blacklist the token. Note: test with Postman. Do not use Swagger to test this API as Swagger won't send the token in the header.")
+    @Operation(summary = "Logout", description = "Logout user and blacklist the token. Note: test with Postman." +
+            " Do not use Swagger to test this API as Swagger won't send the token in the header.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Logout successful"),
+            @ApiResponse(responseCode = "400", description = "No token found in the request. Please provide a valid token.")
+    })
     public ResponseEntity<?> logout(HttpServletRequest request) {
         System.out.println("Auth Header: " + request.getHeader("Authorization"));
         System.out.println("Extracted token: " + jwtTokenUtil.extractJwtFromRequest(request));
