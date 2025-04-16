@@ -74,6 +74,7 @@ public class UserService {
         Page<UserDto> userDtos = usersRepository.findAll(pageable).map(userMapper::toDto);
         return userDtos;
     }
+    @Transactional
     public UserDto updateUser(Long id, UserUpdateRequest userUpdateRequest) {
         Optional<Users> userOptional = usersRepository.findByUserId(id);
         if (userOptional.isPresent()) {
@@ -84,6 +85,7 @@ public class UserService {
             throw new IllegalArgumentException("User not found");
         }
     }
+    @Transactional
     public UserDto updateUserStatus(Long id, Boolean isActive) {
         Optional<Users> userOptional = usersRepository.findByUserId(id);
         if (userOptional.isPresent()) {

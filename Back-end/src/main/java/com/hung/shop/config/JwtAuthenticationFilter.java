@@ -1,8 +1,14 @@
 package com.hung.shop.config;
 
 import com.hung.shop.services.CustomUserDetailsService;
+import com.hung.shop.services.JwtBlacklistService;
 import com.hung.shop.utils.JwtTokenUtil;
+import io.jsonwebtoken.JwtException;
+import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,17 +20,23 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
+    private static final Logger logger = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
     @Autowired
     private CustomUserDetailsService userDetailsService;
+    @Autowired
+    private JwtBlacklistService blacklistService;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, jakarta.servlet.http.HttpServletResponse response, jakarta.servlet.FilterChain filterChain) throws jakarta.servlet.ServletException, java.io.IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws jakarta.servlet.ServletException, java.io.IOException {
         try {
-            String jwt = extractJwtFromRequest(request);
+            String jwt = jwtTokenUtil.extractJwtFromRequest(request);
 
             if (StringUtils.hasText(jwt) && jwtTokenUtil.validateToken(jwt)) {
+                if (blacklistService.isBlacklisted(jwt)) {
+                    throw new JwtException("Token has been blacklisted");
+                }
                 String email = jwtTokenUtil.getUsernameFromToken(jwt);
 
                 // Load user details based on the email
@@ -39,15 +51,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
         } catch (Exception ex) {
             // Log the exception or handle errors as needed
-            System.out.println("Could not set user authentication: " + ex.getMessage());
+            logger.warn("JWT authentication failed: {}", ex.getMessage());
         }
         filterChain.doFilter(request, response);
     }
-    private String extractJwtFromRequest(HttpServletRequest request) {
-        String bearerToken = request.getHeader("Authorization");
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(7);
-        }
-        return null;
-    }
+
 }

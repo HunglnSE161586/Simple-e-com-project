@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "categories")
@@ -21,6 +23,10 @@ public class Categories {
 
     private String description;
     private LocalDateTime createdAt;
+
+    @ManyToMany(mappedBy = "categories")
+    private Set<Products> products = new HashSet<>();
+
 
     @PrePersist
     public void prePersist() {
