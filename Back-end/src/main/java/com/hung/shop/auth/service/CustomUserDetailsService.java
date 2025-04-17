@@ -1,10 +1,8 @@
-package com.hung.shop.services;
+package com.hung.shop.auth.service;
 
-import com.hung.shop.entity.CustomUserDetails;
+import com.hung.shop.auth.entity.CustomUserDetails;
 import com.hung.shop.entity.Users;
-import com.hung.shop.repositories.UserAuthRepository;
 import com.hung.shop.repositories.UsersRepository;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

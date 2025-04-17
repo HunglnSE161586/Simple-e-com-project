@@ -1,5 +1,6 @@
-package com.hung.shop.utils;
+package com.hung.shop.auth.utils;
 
+import com.hung.shop.auth.internal.IJwtTokenUtil;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
@@ -8,10 +9,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import javax.crypto.SecretKey;
-import java.security.Key;
 import java.util.Date;
 @Component
-public class JwtTokenUtil {
+public class JwtTokenUtil implements IJwtTokenUtil {
     private final SecretKey SECRET_KEY = Keys.hmacShaKeyFor("tempSecretKey1234567890aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa".getBytes());
 
     // Token validity in milliseconds (e.g., 15 minutes)
@@ -30,8 +30,8 @@ public class JwtTokenUtil {
                 .compact();
     }
 
-    // Extract username from token
-    public String getUsernameFromToken(String token) {
+    // Extract email from token
+    public String getEmailFromToken(String token) {
         Claims claims = Jwts.parserBuilder()
                 .setSigningKey(SECRET_KEY)
                 .build()

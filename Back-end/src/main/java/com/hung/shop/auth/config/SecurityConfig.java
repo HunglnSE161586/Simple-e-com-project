@@ -1,8 +1,8 @@
-package com.hung.shop.config;
+package com.hung.shop.auth.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hung.shop.auth.config.JwtAuthenticationFilter;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

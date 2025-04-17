@@ -1,7 +1,7 @@
-package com.hung.shop.mapper;
+package com.hung.shop.auth.mapper;
 
-import com.hung.shop.dto.request.UserAuthCreateDto;
-import com.hung.shop.entity.UserAuth;
+import com.hung.shop.auth.dto.request.UserAuthCreateDto;
+import com.hung.shop.auth.entity.UserAuth;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")

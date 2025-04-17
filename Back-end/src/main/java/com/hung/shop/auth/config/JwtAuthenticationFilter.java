@@ -1,8 +1,7 @@
-package com.hung.shop.config;
+package com.hung.shop.auth.config;
 
-import com.hung.shop.services.CustomUserDetailsService;
-import com.hung.shop.services.JwtBlacklistService;
-import com.hung.shop.utils.JwtTokenUtil;
+import com.hung.shop.auth.internal.IJwtBlacklistService;
+import com.hung.shop.auth.internal.IJwtTokenUtil;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -22,11 +22,11 @@ import org.springframework.web.filter.OncePerRequestFilter;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private static final Logger logger = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
     @Autowired
-    private JwtTokenUtil jwtTokenUtil;
+    private IJwtTokenUtil jwtTokenUtil;
     @Autowired
-    private CustomUserDetailsService userDetailsService;
+    private UserDetailsService userDetailsService;
     @Autowired
-    private JwtBlacklistService blacklistService;
+    private IJwtBlacklistService blacklistService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws jakarta.servlet.ServletException, java.io.IOException {
@@ -37,7 +37,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 if (blacklistService.isBlacklisted(jwt)) {
                     throw new JwtException("Token has been blacklisted");
                 }
-                String email = jwtTokenUtil.getUsernameFromToken(jwt);
+                String email = jwtTokenUtil.getEmailFromToken(jwt);
 
                 // Load user details based on the email
                 UserDetails userDetails = userDetailsService.loadUserByUsername(email);

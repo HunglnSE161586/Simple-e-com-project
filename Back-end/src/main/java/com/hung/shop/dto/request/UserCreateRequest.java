@@ -1,5 +1,6 @@
 package com.hung.shop.dto.request;
 
+import com.hung.shop.auth.dto.request.UserAuthCreateDto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;

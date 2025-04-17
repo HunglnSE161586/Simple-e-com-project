@@ -1,10 +1,8 @@
-package com.hung.shop.controllers;
+package com.hung.shop.auth.controller;
 
-import com.hung.shop.dto.request.LoginRequest;
-import com.hung.shop.services.CustomUserDetailsService;
-import com.hung.shop.services.JwtBlacklistService;
-import com.hung.shop.services.UserService;
-import com.hung.shop.utils.JwtTokenUtil;
+import com.hung.shop.auth.dto.request.LoginRequest;
+import com.hung.shop.auth.internal.IJwtBlacklistService;
+import com.hung.shop.auth.internal.IJwtTokenUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -17,6 +15,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,11 +28,11 @@ public class AuthController {
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
-    private CustomUserDetailsService customUserDetailsService;
+    private UserDetailsService customUserDetailsService;
     @Autowired
-    private JwtTokenUtil jwtTokenUtil;
+    private IJwtTokenUtil jwtTokenUtil;
     @Autowired
-    private JwtBlacklistService blacklistService;
+    private IJwtBlacklistService blacklistService;
 
     @PostMapping("/login")
     @Operation(summary = "Login", description = "Authenticate user and return JWT token.")
@@ -71,8 +70,6 @@ public class AuthController {
             @ApiResponse(responseCode = "400", description = "No token found in the request. Please provide a valid token.")
     })
     public ResponseEntity<?> logout(HttpServletRequest request) {
-        System.out.println("Auth Header: " + request.getHeader("Authorization"));
-        System.out.println("Extracted token: " + jwtTokenUtil.extractJwtFromRequest(request));
 
         String token = jwtTokenUtil.extractJwtFromRequest(request);
         if (token != null) {

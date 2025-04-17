@@ -1,4 +1,4 @@
-package com.hung.shop.dto.request;
+package com.hung.shop.auth.dto.request;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;

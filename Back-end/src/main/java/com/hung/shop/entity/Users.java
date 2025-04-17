@@ -1,5 +1,6 @@
 package com.hung.shop.entity;
 
+import com.hung.shop.auth.entity.UserAuth;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.*;

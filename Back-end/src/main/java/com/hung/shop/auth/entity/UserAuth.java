@@ -1,5 +1,6 @@
-package com.hung.shop.entity;
+package com.hung.shop.auth.entity;
 
+import com.hung.shop.entity.Users;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,10 +17,10 @@ public class UserAuth {
     private String provider;
     private String providerId;
     private String password;
+    @Column(updatable = false)
+    private Long userId;
     private LocalDateTime createdAt;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private Users user;
+
     @PrePersist
     public void prePersist() {
         this.createdAt = LocalDateTime.now();

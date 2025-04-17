@@ -1,4 +1,4 @@
-package com.hung.shop.dto.request;
+package com.hung.shop.auth.dto.request;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,5 +1,6 @@
-package com.hung.shop.services;
+package com.hung.shop.auth.service;
 
+import com.hung.shop.auth.internal.IJwtBlacklistService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -8,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 
 @Service
 @AllArgsConstructor
-public class JwtBlacklistService {
+public class JwtBlacklistService implements IJwtBlacklistService {
     private final RedisTemplate<String, String> redisTemplate;
 
     public void blacklistToken(String token, long expiryInSeconds) {

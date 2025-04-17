@@ -1,5 +1,6 @@
 package com.hung.shop.mapper;
 
+import com.hung.shop.auth.mapper.UserAuthMapper;
 import com.hung.shop.dto.request.UserCreateRequest;
 import com.hung.shop.dto.request.UserUpdateRequest;
 import com.hung.shop.dto.respond.UserDto;
