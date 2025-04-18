@@ -1,7 +1,8 @@
-package com.hung.shop.controllers;
+package com.hung.shop.productImages.controller;
 
-import com.hung.shop.dto.respond.ProductImageDto;
-import com.hung.shop.services.ProductImageService;
+import com.hung.shop.productImages.dto.response.ProductImageDto;
+import com.hung.shop.productImages.service.IProductImageService;
+import com.hung.shop.productImages.service.impl.ProductImageService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -16,7 +17,7 @@ import java.util.List;
 @Tag(name = "Product Images", description = "Product Images API")
 public class ProductImageController {
     @Autowired
-    private ProductImageService productImageService;
+    private IProductImageService productImageService;
     @GetMapping
     @Operation(summary = "Get all product images")
     @ApiResponses(value = {

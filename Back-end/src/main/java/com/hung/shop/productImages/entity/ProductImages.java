@@ -1,4 +1,5 @@
-package com.hung.shop.entity;
+package com.hung.shop.productImages.entity;
+import com.hung.shop.entity.Products;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,9 +24,7 @@ public class ProductImages {
     private Integer displayOrder;
     private LocalDateTime createdAt;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id", nullable = false)
-    private Products product;
+    private Long productId;
 
     @PrePersist
     public void prePersist() {
