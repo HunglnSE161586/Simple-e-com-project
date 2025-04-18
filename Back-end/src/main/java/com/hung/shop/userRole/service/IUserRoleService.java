@@ -1,4 +1,4 @@
-package com.hung.shop.services;
+package com.hung.shop.userRole.service;
 
 import com.hung.shop.share.UserRolePOJO;
 

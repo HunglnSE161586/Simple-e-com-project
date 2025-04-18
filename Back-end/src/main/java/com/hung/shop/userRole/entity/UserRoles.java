@@ -1,4 +1,4 @@
-package com.hung.shop.entity;
+package com.hung.shop.userRole.entity;
 
 import com.hung.shop.user.entity.Users;
 import jakarta.persistence.*;

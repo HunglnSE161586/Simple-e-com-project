@@ -1,12 +1,12 @@
-package com.hung.shop.services;
+package com.hung.shop.userRole.service.impl;
 
-import com.hung.shop.mapper.RoleMapper;
-import com.hung.shop.repositories.UserRoleRepository;
+import com.hung.shop.userRole.mapper.RoleMapper;
+import com.hung.shop.userRole.repository.UserRoleRepository;
 import com.hung.shop.share.UserRolePOJO;
+import com.hung.shop.userRole.service.IUserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service

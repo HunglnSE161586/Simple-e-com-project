@@ -2,11 +2,10 @@ package com.hung.shop.auth.service.impl;
 
 import com.hung.shop.auth.entity.CustomUserDetails;
 import com.hung.shop.auth.service.IUserAuthService;
-import com.hung.shop.services.IUserRoleService;
+import com.hung.shop.userRole.service.IUserRoleService;
 import com.hung.shop.share.UserAuthPOJO;
 import com.hung.shop.share.UsersPOJO;
 import com.hung.shop.user.internal.IUserService;
-import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

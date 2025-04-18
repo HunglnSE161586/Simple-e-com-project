@@ -1,13 +1,10 @@
 package com.hung.shop.user.entity;
 
-import com.hung.shop.auth.entity.UserAuth;
-import com.hung.shop.entity.UserRoles;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 @Table(name = "users")

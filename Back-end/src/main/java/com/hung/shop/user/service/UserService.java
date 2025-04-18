@@ -1,7 +1,7 @@
 package com.hung.shop.user.service;
 
 import com.hung.shop.auth.service.IUserAuthService;
-import com.hung.shop.services.IUserRoleService;
+import com.hung.shop.userRole.service.IUserRoleService;
 import com.hung.shop.share.UserRolePOJO;
 import com.hung.shop.share.UsersPOJO;
 import com.hung.shop.user.dto.request.UserCreateRequest;

@@ -1,6 +1,6 @@
-package com.hung.shop.repositories;
+package com.hung.shop.userRole.repository;
 
-import com.hung.shop.entity.UserRoles;
+import com.hung.shop.userRole.entity.UserRoles;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

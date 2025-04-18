@@ -1,8 +1,7 @@
-package com.hung.shop.mapper;
+package com.hung.shop.userRole.mapper;
 
-import com.hung.shop.entity.UserRoles;
+import com.hung.shop.userRole.entity.UserRoles;
 import com.hung.shop.share.UserRolePOJO;
-import org.apache.catalina.Role;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
