@@ -52,6 +52,7 @@ public class SecurityConfig{
                                 "/swagger-ui/index.html",
                                 "/api/users/**",
                                 "/api/products/**",
+                                "/api/categories/**",
                                 "/api/product-images/**",
                                 "/api-docs/**").permitAll()
                         // All other endpoints require authentication

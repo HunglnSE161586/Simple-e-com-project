@@ -1,5 +1,6 @@
 package com.hung.shop.entity;
 
+import com.hung.shop.categories.entity.Categories;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -39,13 +40,8 @@ public class Products {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    @ManyToMany
-    @JoinTable(
-            name = "product_categories",
-            joinColumns = @JoinColumn(name = "product_id"),
-            inverseJoinColumns = @JoinColumn(name = "category_id")
-    )
-    private Set<Categories> categories = new HashSet<>();
+    private Long categoryId;
+
     //cascade = CascadeType.ALL: any operation you perform on the parent entity (Product) will also be performed automatically on its associated child entities (ProductImages).
     //orphanRemoval = true: if you remove a Product entity, all associated ProductImages entities will also be removed from the database.
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)

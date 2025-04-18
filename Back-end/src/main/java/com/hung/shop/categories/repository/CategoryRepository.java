@@ -1,6 +1,6 @@
-package com.hung.shop.repositories;
+package com.hung.shop.categories.repository;
 
-import com.hung.shop.entity.Categories;
+import com.hung.shop.categories.entity.Categories;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

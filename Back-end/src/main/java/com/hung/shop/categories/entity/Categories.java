@@ -1,4 +1,4 @@
-package com.hung.shop.entity;
+package com.hung.shop.categories.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -24,8 +24,6 @@ public class Categories {
     private String description;
     private LocalDateTime createdAt;
 
-    @ManyToMany(mappedBy = "categories")
-    private Set<Products> products = new HashSet<>();
 
 
     @PrePersist
