@@ -1,13 +1,13 @@
-package com.hung.shop.controllers;
+package com.hung.shop.product.controller;
 
-import com.hung.shop.services.ProductService;
+import com.hung.shop.product.service.IProductService;
+import com.hung.shop.product.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Min;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Products", description = "Product API")
 public class ProductController {
     @Autowired
-    private ProductService productService;
+    private IProductService productService;
     @GetMapping()
     @Operation(summary = "Get all products", description = "Retrieves all products in the system. For testing purposes only. No authentication required.")
     @ApiResponses(value = {

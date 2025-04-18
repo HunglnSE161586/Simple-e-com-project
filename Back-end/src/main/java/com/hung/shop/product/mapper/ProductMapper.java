@@ -1,7 +1,7 @@
-package com.hung.shop.mapper;
+package com.hung.shop.product.mapper;
 
-import com.hung.shop.dto.respond.ProductDto;
-import com.hung.shop.entity.Products;
+import com.hung.shop.product.dto.response.ProductDto;
+import com.hung.shop.product.entity.Products;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")

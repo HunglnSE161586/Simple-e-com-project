@@ -1,9 +1,9 @@
-package com.hung.shop.services;
+package com.hung.shop.product.service;
 
-import com.hung.shop.dto.respond.ProductDto;
-import com.hung.shop.entity.Products;
-import com.hung.shop.mapper.ProductMapper;
-import com.hung.shop.repositories.ProductRepository;
+import com.hung.shop.product.dto.response.ProductDto;
+import com.hung.shop.product.entity.Products;
+import com.hung.shop.product.mapper.ProductMapper;
+import com.hung.shop.product.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ProductService {
+public class ProductService implements IProductService {
     @Autowired
     private ProductMapper productMapper;
     @Autowired

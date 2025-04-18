@@ -2,7 +2,6 @@ package com.hung.shop.productImages.controller;
 
 import com.hung.shop.productImages.dto.response.ProductImageDto;
 import com.hung.shop.productImages.service.IProductImageService;
-import com.hung.shop.productImages.service.impl.ProductImageService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -27,7 +26,7 @@ public class ProductImageController {
         return productImageService.getAllProductImages();
     }
 
-    @GetMapping("/product/{productId}")
+    @GetMapping("/com/hung/shop/product/{productId}")
     @Operation(summary = "Get product images by product ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Product images retrieved successfully"),

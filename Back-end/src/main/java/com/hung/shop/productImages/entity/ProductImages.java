@@ -1,5 +1,4 @@
 package com.hung.shop.productImages.entity;
-import com.hung.shop.entity.Products;
 import jakarta.persistence.*;
 import lombok.*;
 

@@ -1,4 +1,4 @@
-package com.hung.shop.entity;
+package com.hung.shop.product.entity;
 
 import com.hung.shop.productImages.entity.ProductImages;
 import jakarta.persistence.*;
