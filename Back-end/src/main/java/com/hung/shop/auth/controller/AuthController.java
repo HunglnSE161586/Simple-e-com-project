@@ -1,8 +1,8 @@
 package com.hung.shop.auth.controller;
 
 import com.hung.shop.auth.dto.request.LoginRequest;
-import com.hung.shop.auth.internal.IJwtBlacklistService;
-import com.hung.shop.auth.internal.IJwtTokenUtil;
+import com.hung.shop.auth.service.IJwtBlacklistService;
+import com.hung.shop.auth.utils.IJwtTokenUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;

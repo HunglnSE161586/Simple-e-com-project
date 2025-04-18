@@ -1,6 +1,7 @@
-package com.hung.shop.entity;
+package com.hung.shop.user.entity;
 
 import com.hung.shop.auth.entity.UserAuth;
+import com.hung.shop.entity.UserRoles;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.*;
@@ -28,12 +29,8 @@ public class Users {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "role_id", nullable = false)
-    private UserRoles role;
+    private Long roleId;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<UserAuth> userAuths;
 
     @PrePersist
     public void prePersist() {

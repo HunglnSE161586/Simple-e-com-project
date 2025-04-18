@@ -1,5 +1,6 @@
 package com.hung.shop.entity;
 
+import com.hung.shop.user.entity.Users;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,6 +22,4 @@ public class UserRoles {
     @Column(nullable = false, unique = true)
     private String roleName;
     private String description;
-    @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
-    private List<Users> users;
 }

@@ -1,4 +1,4 @@
-package com.hung.shop.auth.internal;
+package com.hung.shop.auth.utils;
 
 import jakarta.servlet.http.HttpServletRequest;
 

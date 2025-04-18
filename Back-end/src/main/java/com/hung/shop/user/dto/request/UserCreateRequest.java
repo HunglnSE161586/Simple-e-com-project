@@ -1,4 +1,4 @@
-package com.hung.shop.dto.request;
+package com.hung.shop.user.dto.request;
 
 import com.hung.shop.auth.dto.request.UserAuthCreateDto;
 import jakarta.validation.constraints.Email;
@@ -11,6 +11,6 @@ public class UserCreateRequest {
     private String email;
     private String firstName;
     private String lastName;
-    private UserAuthCreateDto userAuthCreateDto;
-
+//    private UserAuthCreateDto userAuthCreateDto;
+    private String password;
 }

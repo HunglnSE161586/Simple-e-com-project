@@ -1,6 +1,6 @@
-package com.hung.shop.auth.service;
+package com.hung.shop.auth.service.impl;
 
-import com.hung.shop.auth.internal.IJwtBlacklistService;
+import com.hung.shop.auth.service.IJwtBlacklistService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;

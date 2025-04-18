@@ -2,12 +2,15 @@ package com.hung.shop.auth.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hung.shop.auth.config.JwtAuthenticationFilter;
+import com.hung.shop.auth.service.impl.CustomUserDetailsService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -25,8 +28,10 @@ import java.util.Map;
 @EnableWebSecurity
 @EnableMethodSecurity()
 public class SecurityConfig{
-    @Autowired
-    private JwtAuthenticationFilter jwtAuthenticationFilter;
+    @Bean
+    public JwtAuthenticationFilter jwtAuthenticationFilter(){
+        return new JwtAuthenticationFilter();
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -83,8 +88,7 @@ public class SecurityConfig{
                 .httpBasic(Customizer.withDefaults());
 
         // Add your custom JWT filter before the UsernamePasswordAuthenticationFilter
-        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-
+        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
     @Bean
@@ -92,9 +96,4 @@ public class SecurityConfig{
         return authConfig.getAuthenticationManager();
     }
 
-    // Define a PasswordEncoder bean to encrypt and verify passwords (using BCrypt here)
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 }

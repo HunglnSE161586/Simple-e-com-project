@@ -1,9 +1,10 @@
-package com.hung.shop.controllers;
+package com.hung.shop.user.controller;
 
-import com.hung.shop.dto.request.UserCreateRequest;
-import com.hung.shop.dto.request.UserUpdateRequest;
-import com.hung.shop.dto.respond.UserDto;
-import com.hung.shop.services.UserService;
+import com.hung.shop.user.dto.request.UserCreateRequest;
+import com.hung.shop.user.dto.request.UserUpdateRequest;
+import com.hung.shop.user.dto.response.UserDto;
+import com.hung.shop.user.internal.IUserService;
+import com.hung.shop.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -22,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Users", description = "User API")
 public class UserController {
     @Autowired
-    private UserService userService;
+    private IUserService userService;
     @PostMapping("/register")
     @Operation(summary = "Register a new user", description = "Creates a new user with the given credentials.")
     @ApiResponses(value = {
