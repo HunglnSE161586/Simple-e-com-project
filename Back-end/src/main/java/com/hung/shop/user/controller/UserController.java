@@ -48,8 +48,7 @@ public class UserController {
     })
     public ResponseEntity<?> getUserById(@PathVariable Long id) {
         try {
-            UserDto userDto = userService.getUserById(id);
-            return ResponseEntity.ok(userDto);
+            return ResponseEntity.ok(userService.getUserById(id));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

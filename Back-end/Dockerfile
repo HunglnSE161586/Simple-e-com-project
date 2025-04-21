@@ -1,5 +1,5 @@
 # Use the official OpenJDK image as the base
-FROM eclipse-temurin:17-jdk-alpine
+FROM eclipse-temurin:21-jdk-alpine
 
 # Set the working directory inside the container
 WORKDIR /app

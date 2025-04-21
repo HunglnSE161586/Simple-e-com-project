@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductService implements IProductService {
@@ -63,5 +64,10 @@ public class ProductService implements IProductService {
         Products product = productRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Product not found"));
         product.setIsActive(true);
         return productMapper.toDto(productRepository.save(product));
+    }
+
+    @Override
+    public Optional<ProductDto> findById(Long id) {
+        return productRepository.findById(id).map(productMapper::toDto);
     }
 }

@@ -7,13 +7,14 @@ import com.hung.shop.user.dto.response.UserDto;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface IUserService {
-    public UserDto registerUser(UserCreateRequest userCreateRequest);
-    public UserDto getUserById(Long id);
-    public List<UserDto> getAllUsers();
-    public Page<UserDto> getPagedUsers(Integer page, Integer size);
-    public UserDto updateUser(Long id, UserUpdateRequest userUpdateRequest);
-    public UserDto updateUserStatus(Long id, Boolean isActive);
+    UserDto registerUser(UserCreateRequest userCreateRequest);
+    Optional<UserDto> getUserById(Long id);
+    List<UserDto> getAllUsers();
+    Page<UserDto> getPagedUsers(Integer page, Integer size);
+    UserDto updateUser(Long id, UserUpdateRequest userUpdateRequest);
+    UserDto updateUserStatus(Long id, Boolean isActive);
     UsersPOJO getUserByEmail(String email);
 }

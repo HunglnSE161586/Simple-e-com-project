@@ -54,10 +54,10 @@ public class UserService implements IUserService {
         userAuthService.saveUserAuth(user.getUserId(), password);
         return userMapper.toDto(user);
     }
-    public UserDto getUserById(Long id) {
+    public Optional<UserDto> getUserById(Long id) {
         Optional<Users> userOptional = usersRepository.findByUserId(id);
         if (userOptional.isPresent()) {
-            return userMapper.toDto(userOptional.get());
+            return Optional.of(userMapper.toDto(userOptional.get()));
         } else {
             throw new IllegalArgumentException("User not found");
         }
