@@ -5,6 +5,7 @@ import com.hung.shop.productReview.service.IProductReviewService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/product-reviews")
+@Tag(name = "Product Review", description = "Product Review API")
 public class ProductReviewController {
     @Autowired
     private IProductReviewService productReviewService;
