@@ -1,7 +1,7 @@
 package com.hung.shop.auth.config;
 
-import com.hung.shop.auth.internal.IJwtBlacklistService;
-import com.hung.shop.auth.internal.IJwtTokenUtil;
+import com.hung.shop.auth.service.IJwtBlacklistService;
+import com.hung.shop.auth.utils.IJwtTokenUtil;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,7 +18,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-@Component
+// remove @Component annotation to avoid circular dependency
+// @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private static final Logger logger = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
     @Autowired

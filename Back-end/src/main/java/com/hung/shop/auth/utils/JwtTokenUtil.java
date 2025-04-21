@@ -1,6 +1,5 @@
 package com.hung.shop.auth.utils;
 
-import com.hung.shop.auth.internal.IJwtTokenUtil;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;

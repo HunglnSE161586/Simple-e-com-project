@@ -1,6 +1,5 @@
 package com.hung.shop.auth.entity;
 
-import com.hung.shop.entity.Users;
 import jakarta.persistence.*;
 import lombok.*;
 

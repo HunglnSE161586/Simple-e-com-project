@@ -1,7 +1,7 @@
 package com.hung.shop.auth.entity;
 
-import com.hung.shop.auth.entity.UserAuth;
-import com.hung.shop.entity.Users;
+import com.hung.shop.share.UserAuthPOJO;
+import com.hung.shop.share.UsersPOJO;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -13,10 +13,10 @@ import java.util.Set;
 @NoArgsConstructor
 public class CustomUserDetails implements UserDetails {
 
-    private Users user;
+    private UsersPOJO user;
     private Set<GrantedAuthority> authoritySet;
 
-    public CustomUserDetails(Users user) {
+    public CustomUserDetails(UsersPOJO user) {
         this.user = user;
     }
 
@@ -28,13 +28,12 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-        return user.getUserAuths().stream()
-                .map(UserAuth::getPassword)
-                .filter(password -> password != null)
+        return user.getUserAuthPOJO().stream()
+                .filter(auth -> auth.getPassword() != null)
+                .map(UserAuthPOJO::getPassword)
                 .findFirst()
                 .orElse(null);
     }
-
     @Override
     public String getUsername() {
         return user.getEmail();
@@ -42,7 +41,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return true;
+        return user.getIsActive();
     }
 
     @Override
@@ -60,7 +59,7 @@ public class CustomUserDetails implements UserDetails {
         return user.getIsActive();
     }
 
-    public Users getUser() {
+    public UsersPOJO getUser() {
         return user;
     }
 }
