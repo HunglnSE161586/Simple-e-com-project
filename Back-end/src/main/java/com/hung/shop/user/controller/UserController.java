@@ -3,8 +3,7 @@ package com.hung.shop.user.controller;
 import com.hung.shop.user.dto.request.UserCreateRequest;
 import com.hung.shop.user.dto.request.UserUpdateRequest;
 import com.hung.shop.user.dto.response.UserDto;
-import com.hung.shop.user.internal.IUserService;
-import com.hung.shop.user.service.UserService;
+import com.hung.shop.user.service.IUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -49,8 +48,7 @@ public class UserController {
     })
     public ResponseEntity<?> getUserById(@PathVariable Long id) {
         try {
-            UserDto userDto = userService.getUserById(id);
-            return ResponseEntity.ok(userDto);
+            return ResponseEntity.ok(userService.getUserById(id));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

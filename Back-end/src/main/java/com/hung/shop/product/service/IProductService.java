@@ -6,6 +6,7 @@ import com.hung.shop.product.dto.response.ProductDto;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface IProductService {
     List<ProductDto> getAllProducts();
@@ -15,4 +16,5 @@ public interface IProductService {
     ProductDto updateProduct(Long id, ProductUpdateRequest productUpdateRequest);
     ProductDto softDeleteProduct(Long id);
     ProductDto restoreProduct(Long id);
+    Optional<ProductDto> findById(Long id);
 }

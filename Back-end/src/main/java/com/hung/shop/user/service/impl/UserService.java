@@ -1,4 +1,4 @@
-package com.hung.shop.user.service;
+package com.hung.shop.user.service.impl;
 
 import com.hung.shop.auth.service.IUserAuthService;
 import com.hung.shop.userRole.service.IUserRoleService;
@@ -8,7 +8,7 @@ import com.hung.shop.user.dto.request.UserCreateRequest;
 import com.hung.shop.user.dto.request.UserUpdateRequest;
 import com.hung.shop.user.dto.response.UserDto;
 import com.hung.shop.user.entity.Users;
-import com.hung.shop.user.internal.IUserService;
+import com.hung.shop.user.service.IUserService;
 import com.hung.shop.user.mapper.UserMapper;
 import com.hung.shop.user.repository.UsersRepository;
 import jakarta.transaction.Transactional;
@@ -54,10 +54,10 @@ public class UserService implements IUserService {
         userAuthService.saveUserAuth(user.getUserId(), password);
         return userMapper.toDto(user);
     }
-    public UserDto getUserById(Long id) {
+    public Optional<UserDto> getUserById(Long id) {
         Optional<Users> userOptional = usersRepository.findByUserId(id);
         if (userOptional.isPresent()) {
-            return userMapper.toDto(userOptional.get());
+            return Optional.of(userMapper.toDto(userOptional.get()));
         } else {
             throw new IllegalArgumentException("User not found");
         }

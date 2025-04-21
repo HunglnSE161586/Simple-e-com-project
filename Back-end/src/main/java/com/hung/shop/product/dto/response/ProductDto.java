@@ -14,4 +14,5 @@ public class ProductDto {
     private Boolean isFeatured;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private Long stock;
 }

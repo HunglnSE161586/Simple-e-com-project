@@ -53,6 +53,7 @@ public class SecurityConfig{
                                 "/api/users/**",
                                 "/api/products/**",
                                 "/api/categories/**",
+                                "/api/product-reviews/**",
                                 "/api/product-images/**",
                                 "/api-docs/**").permitAll()
                         // All other endpoints require authentication

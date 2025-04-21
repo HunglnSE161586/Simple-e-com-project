@@ -8,12 +8,14 @@ import com.hung.shop.product.entity.Products;
 import com.hung.shop.product.mapper.ProductMapper;
 import com.hung.shop.product.repository.ProductRepository;
 import com.hung.shop.product.service.IProductService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductService implements IProductService {
@@ -35,18 +37,21 @@ public class ProductService implements IProductService {
     }
 
     @Override
+    @Transactional
     public ProductDto createProduct(ProductCreateRequest productCreateRequest) {
         Products product = productMapper.toEntity(productCreateRequest);
         return productMapper.toDto(productRepository.save(product));
     }
 
     @Override
+    @Transactional
     public ProductDto updateProduct(Long id, ProductUpdateRequest productUpdateRequest) {
         Products product = productRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Product not found"));
         return productMapper.toDto(productRepository.save(productMapper.toEntity(productUpdateRequest, product)));
     }
 
     @Override
+    @Transactional
     public ProductDto softDeleteProduct(Long id) {
         Products product = productRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Product not found"));
         product.setIsActive(false);
@@ -54,9 +59,15 @@ public class ProductService implements IProductService {
     }
 
     @Override
+    @Transactional
     public ProductDto restoreProduct(Long id) {
         Products product = productRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Product not found"));
         product.setIsActive(true);
         return productMapper.toDto(productRepository.save(product));
+    }
+
+    @Override
+    public Optional<ProductDto> findById(Long id) {
+        return productRepository.findById(id).map(productMapper::toDto);
     }
 }

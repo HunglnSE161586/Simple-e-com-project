@@ -37,6 +37,7 @@ public class Products {
     private Boolean isFeatured;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private Long stock;
 
     private Long categoryId;
 
