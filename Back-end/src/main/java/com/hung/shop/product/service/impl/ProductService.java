@@ -1,9 +1,10 @@
-package com.hung.shop.product.service;
+package com.hung.shop.product.service.impl;
 
 import com.hung.shop.product.dto.response.ProductDto;
 import com.hung.shop.product.entity.Products;
 import com.hung.shop.product.mapper.ProductMapper;
 import com.hung.shop.product.repository.ProductRepository;
+import com.hung.shop.product.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
