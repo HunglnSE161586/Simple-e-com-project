@@ -9,4 +9,5 @@ public class ProductUpdateRequest {
     private Double price;
     private Long categoryId;
     private Boolean isFeatured;
+    private Long stock;
 }
