@@ -45,6 +45,8 @@ public class Products {
     public void prePersist() {
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
+        this.isActive = true;
+        this.isFeatured = false;
     }
     @PreUpdate
     public void preUpdate() {

@@ -15,14 +15,14 @@ CREATE TABLE categories (
 );
 
 INSERT INTO categories (category_name, description, created_at) VALUES
-('Anime', 'Figures based on Japanese anime characters.', NOW()),
-('Manga', 'Figures inspired by Japanese manga series.', NOW()),
-('Video Games', 'Figures from popular video game franchises.', NOW()),
-('Movies & TV', 'Figures from live-action and animated films/series.', NOW()),
-('Superheroes', 'Characters from Marvel, DC, and other comic universes.', NOW()),
-('Mecha', 'Robot and mechanical figures, e.g., Gundam.', NOW()),
-('Fantasy', 'Fantasy-themed figures like elves, dragons, and knights.', NOW()),
-('Horror', 'Figures based on horror movie monsters and characters.', NOW()),
-('Chibi / SD', 'Super-deformed or chibi-style figures.', NOW()),
-('Limited Edition', 'Rare or special release figures.', NOW());
+('Electronics', 'Devices and gadgets like phones, laptops, and cameras.', NOW()),
+('Fashion', 'Clothing, footwear, and accessories for men and women.', NOW()),
+('Home & Kitchen', 'Appliances, furniture, and home improvement items.', NOW()),
+('Books', 'Fiction, non-fiction, educational books, and more.', NOW()),
+('Health & Beauty', 'Skincare, wellness products, and personal care items.', NOW()),
+('Toys & Games', 'Toys, games, and puzzles for all ages.', NOW()),
+('Sports & Outdoors', 'Gear and equipment for sports, fitness, and outdoor activities.', NOW()),
+('Automotive', 'Car accessories, parts, and tools.', NOW()),
+('Pet Supplies', 'Food, toys, and essentials for pets.', NOW()),
+('Groceries', 'Everyday essentials including food, drinks, and household items.', NOW());
 

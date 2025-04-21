@@ -1,5 +1,8 @@
 package com.hung.shop.product.service.impl;
 
+import com.hung.shop.categories.service.ICategoryService;
+import com.hung.shop.product.dto.request.ProductCreateRequest;
+import com.hung.shop.product.dto.request.ProductUpdateRequest;
 import com.hung.shop.product.dto.response.ProductDto;
 import com.hung.shop.product.entity.Products;
 import com.hung.shop.product.mapper.ProductMapper;
@@ -29,5 +32,31 @@ public class ProductService implements IProductService {
     public Page<ProductDto> getPagedProduct(int page, int size) {
         Pageable pageable = Pageable.ofSize(size).withPage(page);
         return productRepository.findAll(pageable).map(productMapper::toDto);
+    }
+
+    @Override
+    public ProductDto createProduct(ProductCreateRequest productCreateRequest) {
+        Products product = productMapper.toEntity(productCreateRequest);
+        return productMapper.toDto(productRepository.save(product));
+    }
+
+    @Override
+    public ProductDto updateProduct(Long id, ProductUpdateRequest productUpdateRequest) {
+        Products product = productRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Product not found"));
+        return productMapper.toDto(productRepository.save(productMapper.toEntity(productUpdateRequest, product)));
+    }
+
+    @Override
+    public ProductDto softDeleteProduct(Long id) {
+        Products product = productRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Product not found"));
+        product.setIsActive(false);
+        return productMapper.toDto(productRepository.save(product));
+    }
+
+    @Override
+    public ProductDto restoreProduct(Long id) {
+        Products product = productRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Product not found"));
+        product.setIsActive(true);
+        return productMapper.toDto(productRepository.save(product));
     }
 }
