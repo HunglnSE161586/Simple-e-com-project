@@ -1,6 +1,7 @@
 package com.hung.shop.productImages.controller;
 
 import com.hung.shop.productImages.dto.request.ProductImageCreateRequest;
+import com.hung.shop.productImages.dto.request.ProductImageUpdateRequest;
 import com.hung.shop.productImages.dto.response.ProductImageDto;
 import com.hung.shop.productImages.service.IProductImageService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -45,6 +46,19 @@ public class ProductImageController {
         try {
             productImageService.createProductImage(productImageCreateRequests, productId);
             return ResponseEntity.ok("Product images created successfully");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+    @PutMapping("/{id}")
+    @Operation(summary = "Update product image")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Product image updated successfully"),
+    })
+    public ResponseEntity<?> updateProductImage(@PathVariable Long id, @RequestBody ProductImageUpdateRequest productImageUpdateRequest) {
+        try {
+
+            return ResponseEntity.ok(productImageService.updateProductImage(id, productImageUpdateRequest));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

@@ -2,6 +2,7 @@ package com.hung.shop.productImages.service.impl;
 
 import com.hung.shop.product.service.IProductService;
 import com.hung.shop.productImages.dto.request.ProductImageCreateRequest;
+import com.hung.shop.productImages.dto.request.ProductImageUpdateRequest;
 import com.hung.shop.productImages.dto.response.ProductImageDto;
 import com.hung.shop.productImages.entity.ProductImages;
 import com.hung.shop.productImages.mapper.ProductImageMapper;
@@ -54,5 +55,15 @@ public class ProductImageService implements IProductImageService {
             productImage.setProductId(productId);
             productImageRepository.save(productImage);
         }
+    }
+
+    @Override
+    @Transactional
+    public ProductImageDto updateProductImage(Long id, ProductImageUpdateRequest productImageUpdateRequest) {
+        ProductImages productImage = productImageRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Product image with id " + id + " not found"));
+        return productImageMapper.toDto(productImageRepository.save(
+                productImageMapper.toEntity(productImageUpdateRequest, productImage))
+        );
     }
 }
