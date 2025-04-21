@@ -1,4 +1,4 @@
-package com.hung.shop.user.service;
+package com.hung.shop.user.service.impl;
 
 import com.hung.shop.auth.service.IUserAuthService;
 import com.hung.shop.userRole.service.IUserRoleService;
@@ -8,7 +8,7 @@ import com.hung.shop.user.dto.request.UserCreateRequest;
 import com.hung.shop.user.dto.request.UserUpdateRequest;
 import com.hung.shop.user.dto.response.UserDto;
 import com.hung.shop.user.entity.Users;
-import com.hung.shop.user.internal.IUserService;
+import com.hung.shop.user.service.IUserService;
 import com.hung.shop.user.mapper.UserMapper;
 import com.hung.shop.user.repository.UsersRepository;
 import jakarta.transaction.Transactional;

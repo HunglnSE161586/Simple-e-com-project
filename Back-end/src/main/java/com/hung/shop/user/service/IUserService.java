@@ -1,4 +1,4 @@
-package com.hung.shop.user.internal;
+package com.hung.shop.user.service;
 
 import com.hung.shop.share.UsersPOJO;
 import com.hung.shop.user.dto.request.UserCreateRequest;

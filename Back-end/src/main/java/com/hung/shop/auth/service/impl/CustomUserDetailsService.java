@@ -5,7 +5,7 @@ import com.hung.shop.auth.service.IUserAuthService;
 import com.hung.shop.userRole.service.IUserRoleService;
 import com.hung.shop.share.UserAuthPOJO;
 import com.hung.shop.share.UsersPOJO;
-import com.hung.shop.user.internal.IUserService;
+import com.hung.shop.user.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
