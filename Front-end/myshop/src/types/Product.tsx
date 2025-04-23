@@ -1,4 +1,5 @@
 // types/Product.ts
+import { ProductImage } from "./ProductImage";
 export interface Product {
   productId: number;
   productName: string;
@@ -10,5 +11,6 @@ export interface Product {
   updatedAt: string; // or Date
   stock: number;
   categoryId: number;
-  image:string;
+  productImagePOJO?:ProductImage; //optional
 }
+

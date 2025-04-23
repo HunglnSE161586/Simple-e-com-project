@@ -1,8 +1,8 @@
 import { Product } from "../types/Product";
 
-const ProductCard = ({ image, productName, description, price }:Omit<Product,"id">) => (
+const ProductCard = ({ productImagePOJO, productName, description, price }:Omit<Product,"id">) => (
   <div className="card h-100">
-    <img src={image} className="card-img-top" alt={productName} />
+    <img src={productImagePOJO?.imageUrl} className="card-img-top" alt={productName} />
     <div className="card-body d-flex flex-column">
       <h5 className="card-title">{productName}</h5>
       <p className="card-text flex-grow-1">{description}</p>
