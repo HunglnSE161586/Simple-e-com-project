@@ -23,7 +23,7 @@ public class Categories {
 
     private String description;
     private LocalDateTime createdAt;
-
+    private String image;
 
 
     @PrePersist

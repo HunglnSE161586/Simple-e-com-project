@@ -9,4 +9,5 @@ public class CategoryPOJO {
     private String categoryName;
     private String description;
     private LocalDateTime createdAt;
+    private String image;
 }
