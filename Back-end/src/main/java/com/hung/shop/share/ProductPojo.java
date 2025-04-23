@@ -1,11 +1,11 @@
-package com.hung.shop.product.dto.response;
+package com.hung.shop.share;
 
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
 @Data
-public class ProductDto {
+public class ProductPojo {
     private Long productId;
     private String productName;
     private String description;

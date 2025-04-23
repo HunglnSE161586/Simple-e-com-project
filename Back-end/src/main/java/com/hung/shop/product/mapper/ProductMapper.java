@@ -4,6 +4,7 @@ import com.hung.shop.product.dto.request.ProductCreateRequest;
 import com.hung.shop.product.dto.request.ProductUpdateRequest;
 import com.hung.shop.product.dto.response.ProductDto;
 import com.hung.shop.product.entity.Products;
+import com.hung.shop.share.ProductPojo;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
@@ -16,4 +17,5 @@ public interface ProductMapper {
     Products toEntity(ProductCreateRequest productCreateRequest);
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     Products toEntity(ProductUpdateRequest productUpdateRequest, @MappingTarget Products entity);
+    ProductPojo toPojo(Products entity);
 }
