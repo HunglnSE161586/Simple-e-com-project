@@ -8,6 +8,7 @@ import com.hung.shop.product.entity.Products;
 import com.hung.shop.product.mapper.ProductMapper;
 import com.hung.shop.product.repository.ProductRepository;
 import com.hung.shop.product.service.IProductService;
+import com.hung.shop.share.ProductPojo;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -67,7 +68,7 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Optional<ProductDto> findById(Long id) {
-        return productRepository.findById(id).map(productMapper::toDto);
+    public Optional<ProductPojo> findById(Long id) {
+        return productRepository.findById(id).map(productMapper::toPojo);
     }
 }
