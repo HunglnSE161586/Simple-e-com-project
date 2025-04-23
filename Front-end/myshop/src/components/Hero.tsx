@@ -7,9 +7,9 @@ const HeroSection = () => {
         <div className="row align-items-center">
           {/* Text content */}
           <div className="col-md-6 mb-4 mb-md-0">
-            <h1 className="display-4 fw-bold">Discover the Latest Trends</h1>
+            <h1 className="display-4 fw-bold">Welcome to Millennium Mart</h1>
             <p className="lead">
-              Shop from the hottest collections of fashion, lifestyle, and tech—all in one place.
+              Shop from the latest collections of high-tech equipments, tools, and many more—all in one place.
             </p>
             <a href="/shop" className="btn btn-warning btn-lg mt-3">
               Shop Now

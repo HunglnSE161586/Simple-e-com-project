@@ -1,10 +1,10 @@
 import { Product } from "../types/Product";
 
-const ProductCard = ({ image, title, description, price }:Omit<Product,"id">) => (
+const ProductCard = ({ image, productName, description, price }:Omit<Product,"id">) => (
   <div className="card h-100">
-    <img src={image} className="card-img-top" alt={title} />
+    <img src={image} className="card-img-top" alt={productName} />
     <div className="card-body d-flex flex-column">
-      <h5 className="card-title">{title}</h5>
+      <h5 className="card-title">{productName}</h5>
       <p className="card-text flex-grow-1">{description}</p>
       <div className="d-flex justify-content-between align-items-center">
         <span className="text-primary fw-bold">${price}</span>

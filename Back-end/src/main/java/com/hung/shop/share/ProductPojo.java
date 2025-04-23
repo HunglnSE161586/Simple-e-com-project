@@ -16,4 +16,5 @@ public class ProductPojo {
     private LocalDateTime updatedAt;
     private Long stock;
     private Long categoryId;
+    private ProductImagePOJO productImagePOJO;
 }

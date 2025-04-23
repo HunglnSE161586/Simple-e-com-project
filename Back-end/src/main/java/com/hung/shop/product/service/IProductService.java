@@ -10,9 +10,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IProductService {
-    List<ProductDto> getAllProducts();
+    List<ProductPojo> getAllProducts();
     ProductDto getProductById(Long id);
-    Page<ProductDto> getPagedProduct(int page, int size);
+    Page<ProductPojo> getPagedProduct(int page, int size);
     ProductDto createProduct(ProductCreateRequest productCreateRequest);
     ProductDto updateProduct(Long id, ProductUpdateRequest productUpdateRequest);
     ProductDto softDeleteProduct(Long id);

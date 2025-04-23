@@ -11,7 +11,7 @@ const ProductList = ({ products }:ProductList) => {
     return (
       <div className="row g-4">
         {products.map((product) => (
-          <div className="col-md-4" key={product.id}>
+          <div className="col-md-4" key={product.productId}>
             <ProductCard {...product} />
           </div>
         ))}

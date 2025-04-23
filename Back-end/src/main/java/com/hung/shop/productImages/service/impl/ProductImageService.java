@@ -11,9 +11,12 @@ import com.hung.shop.productImages.service.IProductImageService;
 import com.hung.shop.share.ProductImagePOJO;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductImageService implements IProductImageService {
@@ -21,8 +24,12 @@ public class ProductImageService implements IProductImageService {
     private ProductImageRepository productImageRepository;
     @Autowired
     private ProductImageMapper productImageMapper;
-    @Autowired
-    private IProductService productService;
+    private final IProductService productService;
+    //@Lazy annotation is used to avoid circular dependency, IProductService is injected only when needed (ex: in createProductImage method)
+    public ProductImageService(@Lazy IProductService productService) {
+        this.productService = productService;
+    }
+
 
     public List<ProductImageDto> getAllProductImages() {
         return productImageRepository.findAll().stream()
@@ -66,4 +73,17 @@ public class ProductImageService implements IProductImageService {
                 productImageMapper.toEntity(productImageUpdateRequest, productImage))
         );
     }
+
+    @Override
+    public Map<Long, ProductImagePOJO> getMainProductImagesByProductId(List<Long> productIds) {
+        List<ProductImages> mainImages = productImageRepository.findMainImagesForProductIds(productIds);
+
+        return mainImages.stream()
+                .collect(Collectors.toMap(
+                        ProductImages::getProductId,        //key
+                        productImageMapper::toPOJO          //value
+                ));
+    }
+
+
 }
