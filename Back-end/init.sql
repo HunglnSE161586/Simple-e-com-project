@@ -57,7 +57,12 @@ INSERT INTO products (
 ('Nike Air Max', 'Comfortable and stylish running shoes.', 129.99, true, false, NOW(), NOW(), 250, 2),
 ('Non-stick Frying Pan', 'Durable pan, perfect for blocking bullets and everyday cooking.', 25.50, true, false, NOW(), NOW(), 180, 3),
 ('Atomic Habits', 'Book by James Clear on building good habits.', 17.99, true, true, NOW(), NOW(), 500, 4),
-('Vitamin C Serum', 'Brightening serum for healthy skin.', 19.99, true, false, NOW(), NOW(), 300, 5);
+('Vitamin C Serum', 'Brightening serum for healthy skin.', 19.99, true, false, NOW(), NOW(), 300, 5),
+('Kirov airship', 'Brighten your day with hammer and sickle.', 1999.99, true, true, NOW(), NOW(), 300, 6),
+('Blue Archive: Comic Anthology Volume 1', 'A short spin-off from the game Blue Archive', 49.99, true, false, NOW(), NOW(), 300, 4),
+('Adidas Tracksuit', 'Have fun with your slav friends', 139.99, true, true, NOW(), NOW(), 300, 2),
+('Adidas AK47 lego', 'Beautiful lego set', 29.99, true, true, NOW(), NOW(), 300, 6),
+('Room Cleaner 3000', 'Clean up your room within 20 meter radius', 599.99, true, true, NOW(), NOW(), 300, 8);
 INSERT INTO product_images (
     image_url, alt_text, display_order, created_at, product_id
 ) VALUES
@@ -67,4 +72,10 @@ INSERT INTO product_images (
 ('https://bizweb.dktcdn.net/100/340/361/products/dh2987-002-19.jpg?v=1726735475647','Back view of Nike Air Max', 2, NOW(), 2),
 ('https://i.ebayimg.com/00/s/NTk4WDYxMQ==/z/hRAAAOSwaGBbhVpX/$_1.JPG?set_id=8800005007', 'Non-stick frying pan', 1, NOW(), 3),
 ('https://cdn.shopify.com/s/files/1/0194/2855/files/atomic-habits_600x600.jpg?v=1624825894', 'Cover of Atomic Habits book', 1, NOW(), 4),
-('https://m.media-amazon.com/images/I/51h+qCXUaSL._SL1000_.jpg', 'Bottle of Vitamin C Serum', 1, NOW(), 5);
+('https://m.media-amazon.com/images/I/51h+qCXUaSL._SL1000_.jpg', 'Bottle of Vitamin C Serum', 1, NOW(), 5),
+('https://i.namu.wiki/i/kSjKXcCn6_3X9Q8BT73WkyokGzvzkJpghN5RWy-nBT4_YG0v7OODlcFOBK-V4c0ApgDfwFine-1zpzpa2Yautg.webp', 'Kirov airship', 1, NOW(), 6),
+('https://media.fab.com/image_previews/gallery_images/29667852-1054-417e-bae0-24bf21cc3447/6914e5ba-0823-4e0b-b1c7-8963b9bbb2f8.jpg', 'Kirov airship', 2, NOW(), 6),
+('https://m.media-amazon.com/images/I/81gBvmy7gZL._AC_UF350,350_QL50_.jpg', 'Blue Archive: Comic Anthology Volume 1', 1, NOW(), 7),
+('https://pbs.twimg.com/media/ELcaXt-XUAAhwJ5.jpg', 'Adidas Tracksuit', 1, NOW(), 8),
+('https://i.ytimg.com/vi/7trENSUNkYQ/hqdefault.jpg', 'Adidas AK47 lego', 1, NOW(), 9),
+('https://inertproducts.com/wp-content/uploads/2020/05/TM46_2-600-copy.jpg', 'Adidas AK47 lego', 1, NOW(), 10);
