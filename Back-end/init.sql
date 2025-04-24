@@ -55,16 +55,16 @@ INSERT INTO products (
 ) VALUES
 ('iPhone 14', 'Latest Apple smartphone with A15 Bionic chip.', 999.99, true, true, NOW(), NOW(), 100, 1),
 ('Nike Air Max', 'Comfortable and stylish running shoes.', 129.99, true, false, NOW(), NOW(), 250, 2),
-('Non-stick Frying Pan', 'Durable pan perfect for everyday cooking.', 25.50, true, false, NOW(), NOW(), 180, 3),
+('Non-stick Frying Pan', 'Durable pan, perfect for blocking bullets and everyday cooking.', 25.50, true, false, NOW(), NOW(), 180, 3),
 ('Atomic Habits', 'Book by James Clear on building good habits.', 17.99, true, true, NOW(), NOW(), 500, 4),
 ('Vitamin C Serum', 'Brightening serum for healthy skin.', 19.99, true, false, NOW(), NOW(), 300, 5);
 INSERT INTO product_images (
     image_url, alt_text, display_order, created_at, product_id
 ) VALUES
-('https://example.com/images/iphone14-front.jpg', 'Front view of iPhone 14', 1, NOW(), 1),
-('https://example.com/images/iphone14-back.jpg', 'Back view of iPhone 14', 2, NOW(), 1),
-('https://example.com/images/nike-air-max-side.jpg', 'Side view of Nike Air Max', 1, NOW(), 2),
-('https://example.com/images/nike-air-max-top.jpg', 'Top view of Nike Air Max', 2, NOW(), 2),
-('https://example.com/images/frying-pan.jpg', 'Non-stick frying pan', 1, NOW(), 3),
-('https://example.com/images/atomic-habits-cover.jpg', 'Cover of Atomic Habits book', 1, NOW(), 4),
-('https://example.com/images/vitamin-c-serum.jpg', 'Bottle of Vitamin C Serum', 1, NOW(), 5);
+('https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/i/p/iphone-14-plus_1_.png', 'Front view of iPhone 14', 1, NOW(), 1),
+('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTIN8l5A45JRRcn7WwsZN_7YfOPrDcmwkH_w&s', 'Back view of iPhone 14', 2, NOW(), 1),
+('https://static.nike.com/a/images/t_PDP_936_v1/f_auto,q_auto:eco/e783e052-9360-4afb-adb8-c4e9c0f5db07/NIKE+AIR+MAX+NUAXIS.png', 'Side view of Nike Air Max', 1, NOW(), 2),
+('https://bizweb.dktcdn.net/100/340/361/products/dh2987-002-19.jpg?v=1726735475647','Back view of Nike Air Max', 2, NOW(), 2),
+('https://i.ebayimg.com/00/s/NTk4WDYxMQ==/z/hRAAAOSwaGBbhVpX/$_1.JPG?set_id=8800005007', 'Non-stick frying pan', 1, NOW(), 3),
+('https://cdn.shopify.com/s/files/1/0194/2855/files/atomic-habits_600x600.jpg?v=1624825894', 'Cover of Atomic Habits book', 1, NOW(), 4),
+('https://m.media-amazon.com/images/I/51h+qCXUaSL._SL1000_.jpg', 'Bottle of Vitamin C Serum', 1, NOW(), 5);
