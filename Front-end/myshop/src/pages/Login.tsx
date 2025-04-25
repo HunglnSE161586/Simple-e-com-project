@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { loginUser } from '../api/UserAPI'; 
 import { UserLogin } from '../types/User';
+import { setToken } from '../auth/Token';
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
@@ -28,6 +29,7 @@ const Login: React.FC = () => {
       .then((jwt) => {
         console.log('Login successful:', jwt);
         toast.success('Logged in successfully!');
+        setToken(jwt)
         navigate('/', { state: { showToast: true } });
       })
       .catch((error) => {

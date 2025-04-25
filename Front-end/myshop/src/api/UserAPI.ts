@@ -9,7 +9,7 @@ export const registerUser= async (userData:CreateUser):Promise<User> =>{
         throw error; 
       }
 }
-export const loginUser= async (userData:UserLogin):Promise<String> =>{
+export const loginUser= async (userData:UserLogin):Promise<string> =>{
   try {
       const response = await axiosInstance.post("/auth/login", userData);
       return response.data;

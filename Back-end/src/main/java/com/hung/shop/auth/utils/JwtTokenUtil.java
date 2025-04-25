@@ -4,10 +4,12 @@ import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import javax.crypto.SecretKey;
+import java.util.Collection;
 import java.util.Date;
 @Component
 public class JwtTokenUtil implements IJwtTokenUtil {
@@ -22,20 +24,32 @@ public class JwtTokenUtil implements IJwtTokenUtil {
         Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
 
         return Jwts.builder()
-                .setSubject(email)
-                .setIssuedAt(now)
-                .setExpiration(expiryDate)
-                .signWith(SECRET_KEY, SignatureAlgorithm.HS256)
+                .subject(email)
+                .issuedAt(now)
+                .expiration(expiryDate)
+                .signWith(SECRET_KEY, Jwts.SIG.HS256)
+                .compact();
+    }
+    public String generateToken(String email, Collection<? extends GrantedAuthority> roles) {
+        Date now = new Date();
+        Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
+
+        return Jwts.builder()
+                .subject(email)
+                .claim("role", roles) // Add role as a claim
+                .issuedAt(now)
+                .expiration(expiryDate)
+                .signWith(SECRET_KEY, Jwts.SIG.HS256)
                 .compact();
     }
 
     // Extract email from token
     public String getEmailFromToken(String token) {
-        Claims claims = Jwts.parserBuilder()
-                .setSigningKey(SECRET_KEY)
+        Claims claims = Jwts.parser()
+                .verifyWith(SECRET_KEY)
                 .build()
-                .parseClaimsJws(token)
-                .getBody();
+                .parseSignedClaims(token)
+                .getPayload();
 
         return claims.getSubject();
     }
@@ -43,7 +57,7 @@ public class JwtTokenUtil implements IJwtTokenUtil {
     // Validate token
     public boolean validateToken(String token) {
         try {
-            Jwts.parserBuilder().setSigningKey(SECRET_KEY).build().parseClaimsJws(token);
+            Jwts.parser().verifyWith(SECRET_KEY).build().parseSignedClaims(token);
             return true;
         } catch (SignatureException ex) {
             System.out.println("Invalid JWT signature");
@@ -66,10 +80,10 @@ public class JwtTokenUtil implements IJwtTokenUtil {
         return null;
     }
     public long getTokenExpiryInSeconds(String token) {
-        Claims claims = Jwts.parserBuilder()
-                .setSigningKey(SECRET_KEY).build()
-                .parseClaimsJws(token)
-                .getBody();
+        Claims claims = Jwts.parser()
+                .verifyWith(SECRET_KEY).build()
+                .parseSignedClaims(token)
+                .getPayload();
 
         return (claims.getExpiration().getTime() - System.currentTimeMillis()) / 1000;
     }
