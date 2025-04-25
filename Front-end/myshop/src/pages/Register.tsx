@@ -2,142 +2,137 @@ import React, { useState } from 'react';
 import { CreateUser } from '../types/User';
 import { registerUser } from '../api/UserAPI';
 import { toast } from 'react-toastify';
-import "react-toastify/dist/ReactToastify.css";
-import { useNavigate } from "react-router-dom";
-
+import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
 
 const Register: React.FC = () => {
-    const navigate = useNavigate();
-    const [form, setForm] = useState({
-        firstName: '',
-        lastName: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-    });
+  const navigate = useNavigate();
+  const [form, setForm] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+  });
 
-    const [error, setError] = useState('');
+  const [error, setError] = useState('');
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        const updatedForm = { ...form, [name]: value };
-        setForm(updatedForm);
-                
-        // Real-time password match check
-        if (name === 'password' || name === 'confirmPassword') {
-            if (updatedForm.password && updatedForm.confirmPassword && updatedForm.password !== updatedForm.confirmPassword) {
-                setError('Passwords do not match');                
-            } else {
-                setError('');
-            }
-        }
-    };
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    const updatedForm = { ...form, [name]: value };
+    setForm(updatedForm);
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
+    if (name === 'password' || name === 'confirmPassword') {
+      if (
+        updatedForm.password &&
+        updatedForm.confirmPassword &&
+        updatedForm.password !== updatedForm.confirmPassword
+      ) {
+        setError('Passwords do not match');
+      } else {
         setError('');
+      }
+    }
+  };
 
-        const userData: CreateUser = {
-            firstName: form.firstName,
-            lastName: form.lastName,
-            email: form.email,
-            password: form.password,
-        };
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
 
-        registerUser(userData)
-            .then((user) => {
-                console.log("User registered successfully:", user);
-                toast.success("User registered successfully!");
-                navigate("/", { state: { showToast: true } });
-            })
-            .catch((error) => {
-                console.error("Error during registration:", error);
-                toast.error("Error during registration:" + error);
-            });
+    const userData: CreateUser = {
+      firstName: form.firstName,
+      lastName: form.lastName,
+      email: form.email,
+      password: form.password,
     };
 
-    return (
-        <div className="flex justify-center py-16 px-4 bg-white flex-grow">
-            <div className="w-full max-w-2xl shadow-2xl rounded-xl overflow-hidden bg-white">
-                <div className="px-10 py-12">
-                    <h2 className="text-3xl font-semibold text-center mb-10">Register</h2>
+    registerUser(userData)
+      .then(() => {
+        toast.success('User registered successfully!');
+        navigate('/', { state: { showToast: true } });
+      })
+      .catch((error) => {
+        console.error('Error during registration:', error);
+        toast.error('Error during registration: ' + error);
+      });
+  };
 
-                    <form onSubmit={handleSubmit} className="space-y-6">
-                        <div>
-                            <label className="block mb-1 font-medium text-gray-700">First Name</label>
-                            <input
-                                type="text"
-                                name="firstName"
-                                value={form.firstName}
-                                onChange={handleChange}
-                                required
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-                            />
-                        </div>
-                        <div>
-                            <label className="block mb-1 font-medium text-gray-700">Last Name</label>
-                            <input
-                                type="text"
-                                name="lastName"
-                                value={form.lastName}
-                                onChange={handleChange}
-                                required
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-                            />
-                        </div>
+  return (
+    <div className="container py-5 d-flex justify-content-center align-items-center flex-grow-1">
+      <div className="card w-100" style={{ maxWidth: '600px' }}>
+        <div className="card-body p-5">
+          <h2 className="card-title text-center mb-4">Register</h2>
 
-                        <div>
-                            <label className="block mb-1 font-medium text-gray-700">Email</label>
-                            <input
-                                type="email"
-                                name="email"
-                                value={form.email}
-                                onChange={handleChange}
-                                required
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-                            />
-                        </div>
-
-                        <div>
-                            <label className="block mb-1 font-medium text-gray-700">Password</label>
-                            <input
-                                type="password"
-                                name="password"
-                                value={form.password}
-                                onChange={handleChange}
-                                required
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-                            />
-                        </div>
-
-                        <div>
-                            <label className="block mb-1 font-medium text-gray-700">Confirm Password</label>
-                            <input
-                                type="password"
-                                name="confirmPassword"
-                                value={form.confirmPassword}
-                                onChange={handleChange}
-                                required
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-                            />
-                            {/* Show real-time error here */}
-                            {error && (
-                                <p className="text-red-500 text-sm mt-1">{error}</p>
-                            )}
-                        </div>
-
-                        <button
-                            type="submit"
-                            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition"
-                        >
-                            Register
-                        </button>
-                    </form>
-                </div>
+          <form onSubmit={handleSubmit}>
+            <div className="mb-3">
+              <label className="form-label">First Name</label>
+              <input
+                type="text"
+                name="firstName"
+                className="form-control"
+                value={form.firstName}
+                onChange={handleChange}
+                required
+              />
             </div>
-            
+
+            <div className="mb-3">
+              <label className="form-label">Last Name</label>
+              <input
+                type="text"
+                name="lastName"
+                className="form-control"
+                value={form.lastName}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="mb-3">
+              <label className="form-label">Email</label>
+              <input
+                type="email"
+                name="email"
+                className="form-control"
+                value={form.email}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="mb-3">
+              <label className="form-label">Password</label>
+              <input
+                type="password"
+                name="password"
+                className="form-control"
+                value={form.password}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="mb-3">
+              <label className="form-label">Confirm Password</label>
+              <input
+                type="password"
+                name="confirmPassword"
+                className="form-control"
+                value={form.confirmPassword}
+                onChange={handleChange}
+                required
+              />
+              {error && <div className="text-danger mt-1">{error}</div>}
+            </div>
+
+            <button type="submit" className="btn btn-primary w-100">
+              Register
+            </button>
+          </form>
         </div>
-    );
+      </div>
+    </div>
+  );
 };
 
 export default Register;

@@ -51,8 +51,8 @@ public class SecurityConfig{
                 // Configure authorization rules
                 .authorizeHttpRequests(auth -> auth
                         // Permit public endpoints for login and logout
-                        .requestMatchers("/auth/login",
-                                "/auth/logout",
+                        .requestMatchers("api/auth/login",
+                                "api/auth/logout",
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**",
                                 "/swagger-ui/index.html",
