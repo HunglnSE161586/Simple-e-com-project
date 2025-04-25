@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { loginUser } from '../api/UserAPI'; 
 import { UserLogin } from '../types/User';
 import { setToken } from '../auth/Token';
+import { getUserRole } from '../auth/JwtDecode';
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
@@ -27,10 +28,14 @@ const Login: React.FC = () => {
 
     loginUser(data)
       .then((jwt) => {
-        console.log('Login successful:', jwt);
+        setToken(jwt)        
         toast.success('Logged in successfully!');
-        setToken(jwt)
-        navigate('/', { state: { showToast: true } });
+        const role = getUserRole(jwt);
+        if (role === 'ROLE_ADMIN') {
+          navigate('/dashboard');
+        } else {
+          navigate('/', { state: { showToast: true } }); 
+        }                
       })
       .catch((error) => {
         console.error('Login error:', error);

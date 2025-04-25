@@ -18,3 +18,12 @@ export const loginUser= async (userData:UserLogin):Promise<string> =>{
       throw error; 
     }
 }
+export const logoutUser=async ():Promise<string>=>{
+  try {
+    const response = await axiosInstance.post("/auth/logout");
+    return response.data;
+  } catch (error) {
+    console.error("Error logout user:", error);
+    throw error; 
+  }
+}
