@@ -9,3 +9,7 @@ export const fetchPagedProduct = async (page: number, size: number): Promise<Pag
   const response = await axiosInstance.get(`/products/paged?page=${page}&size=${size}`);
   return response.data;
 }
+export const fetchPagedProductByCategory = async (categoryId:number,page: number, size: number): Promise<PaginatedResponse<Product>> => {
+  const response = await axiosInstance.get(`/products/category/${categoryId}?page=${page}&size=${size}`);
+  return response.data;
+}
