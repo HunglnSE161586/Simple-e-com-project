@@ -12,7 +12,7 @@ const ProductList = ({ products }:ProductList) => {
       <div className="row g-4">
         {products.map((product) => (
           <div className="col-md-4" key={product.productId}>
-            <ProductCard {...product} />
+            <ProductCard product={product} />
           </div>
         ))}
       </div>

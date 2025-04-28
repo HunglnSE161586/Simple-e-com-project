@@ -51,9 +51,7 @@ const ProductList: React.FC = () => {
                         {products.length > 0 ? (
                             products.map(product => (
                                 <div key={product.productId} className="col-md-4 mb-4">
-                                    <ProductCard
-                                        {...product}
-                                    />
+                                    <ProductCard product={product} />
                                 </div>
                             ))
                         ) : (

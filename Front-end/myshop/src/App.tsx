@@ -12,13 +12,8 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./auth/ProtectedRoute";
 import ProductsPage from "./pages/ProductsPage"
-function AppWrapper() {
-  return (
-    <Router>
-      <App />
-    </Router>
-  );
-}
+import ProductDetail from "./pages/ProductDetail";
+
 
 function App() {
   const location = useLocation();
@@ -32,6 +27,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/products" element={<ProductsPage/>}/>
+        <Route path="/products/:id" element={<ProductDetail />} />
         <Route path="/dashboard" element={
           <ProtectedRoute role="ROLE_ADMIN">
             <Dashboard />
@@ -44,4 +40,10 @@ function App() {
   );
 }
 
-export default AppWrapper
+export default function AppWrapper() {
+  return (
+    <Router>
+      <App />
+    </Router>
+  );
+}
