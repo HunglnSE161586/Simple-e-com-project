@@ -1,26 +1,10 @@
 import React from 'react';
-import { removeToken } from '../auth/Token';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import { logoutUser } from '../api/UserAPI';
+import { useHandleLogout } from '../auth/LogoutHandler';
 
 
 
 const Topbar: React.FC = () => {
-    const navigate = useNavigate();
-    const handleLogout = () => {
-        logoutUser()
-        .then((response)=>{
-            removeToken();        
-            toast.success(response);            
-            navigate('/');
-        })
-        .catch((error) => {
-            console.error('Logout error:', error);
-            toast.error('Logout failed: ' + (error.response?.data || error.message));
-          });
-        
-    };
+    const handleLogout=useHandleLogout();
     return (
         <nav className="navbar navbar-expand navbar-light bg-light px-4 shadow-sm">
             <span className="navbar-brand mb-0 h1">Dashboard</span>

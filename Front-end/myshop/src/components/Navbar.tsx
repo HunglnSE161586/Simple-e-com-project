@@ -1,6 +1,18 @@
 import { Link } from "react-router-dom";
+import { getToken } from "../auth/Token";
+import { useHandleLogout } from "../auth/LogoutHandler";
+import { useEffect, useState } from "react";
 
 const Navbar = () => {
+  const [isLoggedIn,setIsLogin] = useState(!!getToken());
+  const handleLogout = useHandleLogout();
+  const handleLogoutClick = () => {
+    handleLogout(); 
+    setIsLogin(false);
+  };
+  useEffect(() => {
+    setIsLogin(!!getToken());
+  }, [getToken()]);
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
       <div className="container">
@@ -32,7 +44,7 @@ const Navbar = () => {
               </Link>
             </li>
             <li className="nav-item">
-              <Link to="/" className="nav-link active" aria-current="page">
+              <Link to="/products" className="nav-link active" aria-current="page">
                 Products
               </Link>
             </li>
@@ -50,26 +62,37 @@ const Navbar = () => {
               aria-label="Search"
             />
             <Link to="/" className="nav-link active" aria-current="page">
-            <button className="btn btn-outline-primary" type="submit">
-              Search
-            </button>
+              <button className="btn btn-outline-primary" type="submit">
+                Search
+              </button>
             </Link>
-            <Link to="/login" className="nav-link active" aria-current="page">
-            <button type="button" className="btn btn-dark btn-icon .text-nowrap ms-3">
-              <span className="btn-inner--icon me-1">
-                <i className="fa fa-github" aria-hidden="true"></i>
-              </span>
-              <span className="btn-inner--text" style={{ whiteSpace: "nowrap" }}>Sign in </span>
-            </button>
-            </Link>
-            <Link to="/register" className="nav-link active" aria-current="page">
-            <button type="button" className="btn btn-dark btn-icon .text-nowrap ms-3">
-              <span className="btn-inner--icon me-1">
-                <i className="fa fa-github" aria-hidden="true"></i>
-              </span>
-              <span className="btn-inner--text" style={{ whiteSpace: "nowrap" }}>Sign up </span>
-            </button>
-            </Link>
+            {isLoggedIn ? (
+              <button onClick={handleLogoutClick} className="btn btn-dark btn-icon text-nowrap ms-3">
+                <span className="btn-inner--icon me-1">
+                  <i className="fa fa-sign-out" aria-hidden="true"></i>
+                </span>
+                <span className="btn-inner--text" style={{ whiteSpace: 'nowrap' }}>Logout</span>
+              </button>
+            ) : (
+              <>
+                <Link to="/login" className="nav-link active" aria-current="page">
+                  <button type="button" className="btn btn-dark btn-icon text-nowrap ms-3">
+                    <span className="btn-inner--icon me-1">
+                      <i className="fa fa-sign-in" aria-hidden="true"></i>
+                    </span>
+                    <span className="btn-inner--text" style={{ whiteSpace: 'nowrap' }}>Sign in</span>
+                  </button>
+                </Link>
+                <Link to="/register" className="nav-link active" aria-current="page">
+                  <button type="button" className="btn btn-dark btn-icon text-nowrap ms-3">
+                    <span className="btn-inner--icon me-1">
+                      <i className="fa fa-user-plus" aria-hidden="true"></i>
+                    </span>
+                    <span className="btn-inner--text" style={{ whiteSpace: 'nowrap' }}>Sign up</span>
+                  </button>
+                </Link>
+              </>
+            )}
           </form>
         </div>
       </div>

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 
 
 const HeroSection = () => {
@@ -11,9 +12,9 @@ const HeroSection = () => {
             <p className="lead">
               Shop from the latest collections of high-tech equipments, tools, and many more—all in one place.
             </p>
-            <a href="/shop" className="btn btn-warning btn-lg mt-3">
-              Shop Now
-            </a>
+            <Link to="/products" className="btn btn-warning btn-lg mt-3">            
+              Shop Now            
+            </Link>
           </div>
 
           {/* Image */}

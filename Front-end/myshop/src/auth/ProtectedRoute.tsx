@@ -14,7 +14,7 @@ const ProtectedRoute = ({ role, children }: Props) => {
   const userRole = token ? getUserRole(token) : null;
 
   if (!token) return <Navigate to="/login" />;
-  if (userRole !== role) return <Navigate to="/unauthorized" />;
+  if (userRole !== role) return <Navigate to="/login" />;
 
   return children;
 };

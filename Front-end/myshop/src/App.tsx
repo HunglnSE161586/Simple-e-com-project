@@ -11,6 +11,7 @@ import './App.css'
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./auth/ProtectedRoute";
+import ProductsPage from "./pages/ProductsPage"
 function AppWrapper() {
   return (
     <Router>
@@ -30,6 +31,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/products" element={<ProductsPage/>}/>
         <Route path="/dashboard" element={
           <ProtectedRoute role="ROLE_ADMIN">
             <Dashboard />
