@@ -7,7 +7,7 @@ import java.util.Collection;
 
 public interface IJwtTokenUtil {
     String generateToken(String email);
-    String generateToken(String email, Collection<? extends GrantedAuthority> roles);
+    String generateToken(Long userId, String email, Collection<? extends GrantedAuthority> roles);
     String getEmailFromToken(String token);
     boolean validateToken(String token);
     String extractJwtFromRequest(HttpServletRequest request);

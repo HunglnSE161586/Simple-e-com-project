@@ -1,6 +1,7 @@
 package com.hung.shop.auth.controller;
 
 import com.hung.shop.auth.dto.request.LoginRequest;
+import com.hung.shop.auth.entity.CustomUserDetails;
 import com.hung.shop.auth.service.IJwtBlacklistService;
 import com.hung.shop.auth.utils.IJwtTokenUtil;
 import io.swagger.v3.oas.annotations.Operation;
@@ -52,10 +53,10 @@ public class AuthController {
             );
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
-
+            CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 
             // Generate JWT token for the authenticated user
-            String token = jwtTokenUtil.generateToken(loginRequest.username, authentication.getAuthorities());
+            String token = jwtTokenUtil.generateToken(userDetails.getUser().getUserId(),loginRequest.username, authentication.getAuthorities());
 
             return ResponseEntity.ok(token);
         } catch (BadCredentialsException e) {

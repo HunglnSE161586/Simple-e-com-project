@@ -6,6 +6,7 @@ interface RoleObject {
 
 interface JwtPayload {
   sub: string;
+  userId:number;
   role: RoleObject[];
   iat: number;
   exp: number;
@@ -21,6 +22,17 @@ export const getUserRole = (token: string): string | null => {
     }
 
     return null;
+  } catch (e) {
+    console.error("Invalid token", e);
+    return null;
+  }
+};
+export const getUserId=(token:string): number | null => {
+  try {
+    const decoded = jwtDecode<JwtPayload>(token);
+    const userId = decoded.userId;
+
+    return userId;
   } catch (e) {
     console.error("Invalid token", e);
     return null;

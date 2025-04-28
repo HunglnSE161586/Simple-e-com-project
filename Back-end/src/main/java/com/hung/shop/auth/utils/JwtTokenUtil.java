@@ -30,12 +30,13 @@ public class JwtTokenUtil implements IJwtTokenUtil {
                 .signWith(SECRET_KEY, Jwts.SIG.HS256)
                 .compact();
     }
-    public String generateToken(String email, Collection<? extends GrantedAuthority> roles) {
+    public String generateToken(Long userId, String email, Collection<? extends GrantedAuthority> roles) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
 
         return Jwts.builder()
                 .subject(email)
+                .claim("userId", userId) // Add userId as a claim
                 .claim("role", roles) // Add role as a claim
                 .issuedAt(now)
                 .expiration(expiryDate)
