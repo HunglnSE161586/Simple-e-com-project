@@ -19,4 +19,5 @@ public interface IProductService {
     ProductDto softDeleteProduct(Long id);
     ProductDto restoreProduct(Long id);
     Optional<ProductPojo> findById(Long id);
+    Page<ProductPojo> getPagedProductByCategoryId(Long categoryId, int page, int size);
 }

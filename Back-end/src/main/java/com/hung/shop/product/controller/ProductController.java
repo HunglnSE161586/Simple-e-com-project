@@ -24,18 +24,28 @@ public class ProductController {
     @Operation(summary = "Get all products", description = "Retrieves all products in the system. For testing purposes only. No authentication required.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Get products successfully"),
+            @ApiResponse(responseCode = "500", description = "Internal server error"),
     })
     public ResponseEntity<?> getAllProducts() {
-        return ResponseEntity.ok(productService.getAllProducts());
+        try {
+            return ResponseEntity.ok(productService.getAllProducts());
+        }catch (Exception e) {
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
     }
     @GetMapping("/paged")
     @Operation(summary = "Get paged products", description = "Retrieves paged products ")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Get products successfully"),
+            @ApiResponse(responseCode = "500", description = "Internal server error"),
     })
     public ResponseEntity<?> getPagedProducts(@RequestParam(defaultValue = "0") @Min(value = 0, message = "Page index must be non-negative") int page,
                                               @RequestParam(defaultValue = "10") @Min(value = 1, message = "Page size must be at least 1") int size) {
-        return ResponseEntity.ok(productService.getPagedProduct(page, size));
+        try {
+            return ResponseEntity.ok(productService.getPagedProduct(page, size));
+        }catch (Exception e) {
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
     }
     @GetMapping("/{id}")
     @Operation(summary = "Get product by id", description = "Retrieves a product by product id")
@@ -52,6 +62,18 @@ public class ProductController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+    @GetMapping("/category/{id}")
+    @Operation(summary = "Get paginated products by category", description = "Retrieves paginated products by category ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Get products by category successfully"),
+    })
+    public ResponseEntity<?> getProductsByCategory(
+            @PathVariable Long id,
+            @RequestParam(defaultValue = "0") @Min(value = 0, message = "Page index must be non-negative") int page,
+            @RequestParam(defaultValue = "10") @Min(value = 1, message = "Page size must be at least 1") int size) {
+        return ResponseEntity.ok(productService.getPagedProductByCategoryId(id, page, size));
+    }
+
     @PostMapping("")
     @Operation(summary = "Create a new product", description = "Creates a new product in the system. Requires authentication.")
     @ApiResponses(value = {

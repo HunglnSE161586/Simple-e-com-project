@@ -120,4 +120,13 @@ public class ProductService implements IProductService {
     public Optional<ProductPojo> findById(Long id) {
         return productRepository.findById(id).map(productMapper::toPojo);
     }
+
+    @Override
+    public Page<ProductPojo> getPagedProductByCategoryId(Long categoryId, int page, int size) {
+        Pageable pageable = Pageable.ofSize(size).withPage(page);
+        Page<ProductPojo> productPage = productRepository.findAllByCategoryId(categoryId, pageable).map(productMapper::toPojo);
+        // Get the product image POJOs
+        List<ProductPojo> productPojos = getProductPojoWithProductImagePoJo(productPage.getContent());
+        return new PageImpl<>(productPojos, pageable, productPage.getTotalElements());
+    }
 }
