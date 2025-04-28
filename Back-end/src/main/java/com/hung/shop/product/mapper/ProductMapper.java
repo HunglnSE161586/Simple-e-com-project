@@ -2,13 +2,11 @@ package com.hung.shop.product.mapper;
 
 import com.hung.shop.product.dto.request.ProductCreateRequest;
 import com.hung.shop.product.dto.request.ProductUpdateRequest;
+import com.hung.shop.product.dto.response.ProductDetailResponse;
 import com.hung.shop.product.dto.response.ProductDto;
 import com.hung.shop.product.entity.Products;
 import com.hung.shop.share.ProductPojo;
-import org.mapstruct.BeanMapping;
-import org.mapstruct.Mapper;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.NullValuePropertyMappingStrategy;
+import org.mapstruct.*;
 
 @Mapper(componentModel = "spring")
 public interface ProductMapper {
@@ -18,4 +16,6 @@ public interface ProductMapper {
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     Products toEntity(ProductUpdateRequest productUpdateRequest, @MappingTarget Products entity);
     ProductPojo toPojo(Products entity);
+    @Mapping(target = "categoryPOJO.categoryId", source = "categoryId")
+    ProductDetailResponse toDetailResponse(Products entity);
 }

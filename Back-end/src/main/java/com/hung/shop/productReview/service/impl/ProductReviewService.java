@@ -6,6 +6,7 @@ import com.hung.shop.productReview.dto.response.ProductReviewDto;
 import com.hung.shop.productReview.mapper.ProductReviewMapper;
 import com.hung.shop.productReview.repository.ProductReviewRepository;
 import com.hung.shop.productReview.service.IProductReviewService;
+import com.hung.shop.share.ProductReviewPOJO;
 import com.hung.shop.user.service.IUserService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,5 +47,13 @@ public class ProductReviewService implements IProductReviewService {
                         productReviewMapper.toEntity(productReviewCreateRequest)
                 )
         );
+    }
+
+    @Override
+    public List<ProductReviewPOJO> getProductReviewsPojoByProductId(Long productId) {
+        return productReviewRepository.findAllByProductId(productId)
+                .stream()
+                .map(productReviewMapper::toPOJO)
+                .toList();
     }
 }

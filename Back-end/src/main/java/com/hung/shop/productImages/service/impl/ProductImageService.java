@@ -31,17 +31,20 @@ public class ProductImageService implements IProductImageService {
     }
 
 
+    @Override
     public List<ProductImageDto> getAllProductImages() {
         return productImageRepository.findAll().stream()
                 .map(productImageMapper::toDto)
                 .toList();
     }
+    @Override
     public List<ProductImageDto> getProductImagesByProductId(Long productId) {
         return productImageRepository.findAll().stream()
                 .filter(productImage -> productImage.getProductId().equals(productId))
                 .map(productImageMapper::toDto)
                 .toList();
     }
+
     @Override
     public List<ProductImagePOJO> getProductImagesPojoByProductId(Long productId) {
         return productImageRepository.findAll().stream()

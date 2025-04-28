@@ -37,6 +37,21 @@ public class ProductController {
                                               @RequestParam(defaultValue = "10") @Min(value = 1, message = "Page size must be at least 1") int size) {
         return ResponseEntity.ok(productService.getPagedProduct(page, size));
     }
+    @GetMapping("/{id}")
+    @Operation(summary = "Get product by id", description = "Retrieves a product by product id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Get products successfully"),
+            @ApiResponse(responseCode = "404", description = "Product not found"),
+    })
+    public ResponseEntity<?> getProductById(@PathVariable Long id) {
+        try {
+            return ResponseEntity.ok(productService.getProductById(id));
+        }catch (IllegalArgumentException e) {
+            return ResponseEntity.notFound().build();
+        }catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
     @PostMapping("")
     @Operation(summary = "Create a new product", description = "Creates a new product in the system. Requires authentication.")
     @ApiResponses(value = {
