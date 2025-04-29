@@ -5,13 +5,13 @@ import CategoryMenu from "../components/CategoryMenu";
 import { fetchPagedProduct } from "../api/ProductAPI";
 import { Product } from "../types/Product";
 
-import { categories } from "../dummy/DummyCategories";
+import { Category } from "../types/Category";
+import { fetchPagedCategories } from "../api/CategoryAPI";
 
 export function Home(){
-    const [products, setProducts] = useState<Product[]>([]);
-  const [page, setPage] = useState(0);  
+  const [products, setProducts] = useState<Product[]>([]);  
   const [loading, setLoading] = useState(true);
-  
+  const [categories, setCategories] = useState<Category[]>([]);
 
 
   useEffect(() => {
@@ -26,9 +26,17 @@ export function Home(){
         setLoading(false);
       }
     };
+    const loadCategories=async()=>{
+      try{
+        const data = await fetchPagedCategories(0,9);
+        setCategories(data.content);
+      }catch(err){
 
+      }
+    }
+    loadCategories();
     loadProducts();
-  }, [page]);
+  }, []);
   
   // const handleNext = () => setPage((p) => Math.min(p + 1, totalPages - 1));
   // const handlePrevious = () => setPage((p) => Math.max(p - 1, 0));

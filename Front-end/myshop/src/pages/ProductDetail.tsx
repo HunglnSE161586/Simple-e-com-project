@@ -9,16 +9,16 @@ import { getUserId } from "../auth/JwtDecode";
 
 const ProductDetail: React.FC = () => {
     const { id } = useParams<{ id: string }>();
-    const [product, setProduct] = useState<ProductDetail | null>(null);    
+    const [product, setProduct] = useState<ProductDetail | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
-    const [isLoggedIn,setIsLogin] = useState(!!getToken());
-     // Review form states
-     const [reviewText, setReviewText] = useState("");
-     const [rating, setRating] = useState(5);
-     const [isSubmitting, setIsSubmitting] = useState(false);
-     const [reviewError, setReviewError] = useState("");
-     const [userId, setUserId] = useState<number>(0);
+    const [isLoggedIn, setIsLogin] = useState(!!getToken());
+    // Review form states
+    const [reviewText, setReviewText] = useState("");
+    const [rating, setRating] = useState(5);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [reviewError, setReviewError] = useState("");
+    const [userId, setUserId] = useState<number>(0);
     const calculateAverageRating = (reviews: ProductReview[]): number => {
         if (reviews.length === 0) return 0;  // No reviews, return 0
 
@@ -46,13 +46,13 @@ const ProductDetail: React.FC = () => {
     useEffect(() => {
         const token = getToken();
         if (token) {
-          setUserId(getUserId(token) || 0);
-          setIsLogin(true);
+            setUserId(getUserId(token) || 0);
+            setIsLogin(true);
         } else {
-          setUserId(0); 
-          setIsLogin(false);
+            setUserId(0);
+            setIsLogin(false);
         }
-      }, []);
+    }, []);
 
     if (loading) return <div className="text-center mt-5">Loading...</div>;
     if (error) return <div className="alert alert-danger text-center">{error}</div>;
@@ -60,8 +60,8 @@ const ProductDetail: React.FC = () => {
 
     const handleSubmitReview = async (e: React.FormEvent) => {
         e.preventDefault();
-        
-        if (!isLoggedIn ) {
+
+        if (!isLoggedIn) {
             toast.error('Please log in to leave a review.')
             return;
         }
@@ -89,15 +89,15 @@ const ProductDetail: React.FC = () => {
 
             // Submit the review
             await axiosInstance.post('/product-reviews', reviewData);
-            
+
             // Refresh product data to get updated reviews
             const response = await axiosInstance.get(`/products/${id}`);
             setProduct(response.data);
-            
+
             // Reset form
             setReviewText("");
             setRating(5);
-            
+
         } catch (err) {
             setReviewError("Failed to submit review. Please try again.");
             console.error("Error submitting review:", err);
@@ -150,8 +150,8 @@ const ProductDetail: React.FC = () => {
                             required
                         />
                     </div>
-                    <button 
-                        type="submit" 
+                    <button
+                        type="submit"
                         className="btn btn-primary"
                         disabled={isSubmitting}
                     >
@@ -161,6 +161,15 @@ const ProductDetail: React.FC = () => {
             </div>
         );
     };
+    const dummyBodyDetail = () => {
+        return (
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </p>
+        );
+    }
     return (
         <div className="container mt-4">
             <div className="row">
@@ -193,16 +202,12 @@ const ProductDetail: React.FC = () => {
                 <div className="col-md-7">
                     <h2>{product.productName}</h2>
                     <div>
-                            <strong>Average Rating:</strong> {averageRating.toFixed(1)} ⭐
+                        <strong>Average Rating:</strong> {averageRating.toFixed(1)} ⭐
                     </div>
                     <p className="text-muted">{product.categoryPOJO?.categoryName}</p>
                     <h4 className="text-primary">${product.price}</h4>
                     <p>{product.description}</p>
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    </p>
+                    {dummyBodyDetail()}
 
                     <p><strong>Stock:</strong> {product.stock > 0 ? `${product.stock} available` : "Out of stock"}</p>
                     <button className="btn btn-success">Add to Cart</button>
@@ -217,13 +222,14 @@ const ProductDetail: React.FC = () => {
                 {product.productReviewPOJOS && product.productReviewPOJOS.length > 0 ? (
                     product.productReviewPOJOS.map(review => (
                         <div key={review.reviewId} className="border p-3 mb-3">
+                            <strong>User id: {review.userId}</strong>
                             <div>
                                 <strong>Rating:</strong> {Array(review.rating).fill("★").join("")}
                                 {Array(5 - review.rating).fill("☆").join("")}
                             </div>
                             <div>{review.reviewText}</div>
                             <div className="text-muted mt-2">
-                                {new Date(review.createdAt).toLocaleString()}                                
+                                {new Date(review.createdAt).toLocaleString()}
                             </div>
                         </div>
                     ))
@@ -231,7 +237,7 @@ const ProductDetail: React.FC = () => {
                     <p>No reviews yet. Be the first to review this product!</p>
                 )}
             </div>
-            
+
         </div>
     );
 };

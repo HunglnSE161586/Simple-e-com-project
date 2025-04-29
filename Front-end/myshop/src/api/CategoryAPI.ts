@@ -6,7 +6,7 @@ export const fetchAllCategories = async (): Promise<Category[]> => {
   const response = await axiosInstance.get("/categories");
   return response.data;
 };
-export const fetchPagedCategories = async ():Promise<PaginatedResponse<Category>>=>{
-    const response=await axiosInstance.get("/categories/paged");
+export const fetchPagedCategories = async (page: number, size: number):Promise<PaginatedResponse<Category>>=>{
+    const response=await axiosInstance.get(`/categories/paged?page=${page}&size=${size}`);
     return response.data;
 }

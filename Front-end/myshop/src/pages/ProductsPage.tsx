@@ -4,19 +4,27 @@ import { Product } from '../types/Product';
 import CategorySidebar from "../components/CategorySidebar";
 import { PaginatedResponse } from '../types/PaginatedResponse';
 import ProductCard from '../components/ProductCard';
+import { useLocation, useSearchParams } from "react-router-dom";
+
 const ProductList: React.FC = () => {
     const [products, setProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string>('');
     const [page, setPage] = useState<number>(0);
-    const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null);
+    const location = useLocation();
+    const categoryIdFromState = location.state?.categoryId as number | undefined;
+    const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
+        categoryIdFromState ?? null
+    );
+
     useEffect(() => {
         const loadProducts = async () => {
             try {
                 let data: PaginatedResponse<Product>;
                 if (selectedCategoryId) {
                     data = await fetchPagedProductByCategory(selectedCategoryId, page, 6);
-                } else {
+                }
+                else {
                     data = await fetchPagedProduct(page, 6);
                 }
                 setProducts(data.content);
@@ -28,7 +36,7 @@ const ProductList: React.FC = () => {
         };
 
         loadProducts();
-    }, [page, selectedCategoryId]);
+    }, [page, selectedCategoryId, categoryIdFromState]);
 
     if (loading) return <div className="text-center mt-5">Loading...</div>;
     if (error) return <div className="alert alert-danger text-center">{error}</div>;
