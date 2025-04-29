@@ -9,4 +9,5 @@ import java.util.List;
 
 public interface ProductRepository extends JpaRepository<Products, Long> {
     Page<Products> findAllByCategoryId(Long categoryId, Pageable pageable);
+    Page<Products> findAllByIsFeaturedTrue(Pageable pageable);
 }

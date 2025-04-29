@@ -40,8 +40,12 @@ public class ProductController {
             @ApiResponse(responseCode = "500", description = "Internal server error"),
     })
     public ResponseEntity<?> getPagedProducts(@RequestParam(defaultValue = "0") @Min(value = 0, message = "Page index must be non-negative") int page,
-                                              @RequestParam(defaultValue = "10") @Min(value = 1, message = "Page size must be at least 1") int size) {
+                                              @RequestParam(defaultValue = "10") @Min(value = 1, message = "Page size must be at least 1") int size,
+                                              @RequestParam(required = false) String isFeatured) {
         try {
+            if (isFeatured != null && isFeatured.equals("true")) {
+                return ResponseEntity.ok(productService.getPagedProductByIsFeaturedTrue( page, size));
+            }
             return ResponseEntity.ok(productService.getPagedProduct(page, size));
         }catch (Exception e) {
             return ResponseEntity.internalServerError().body(e.getMessage());

@@ -20,4 +20,5 @@ public interface IProductService {
     ProductDto restoreProduct(Long id);
     Optional<ProductPojo> findById(Long id);
     Page<ProductPojo> getPagedProductByCategoryId(Long categoryId, int page, int size);
+    Page<ProductPojo> getPagedProductByIsFeaturedTrue(int page, int size);
 }
