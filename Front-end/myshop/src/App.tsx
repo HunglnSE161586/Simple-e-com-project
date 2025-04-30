@@ -13,6 +13,7 @@ import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./auth/ProtectedRoute";
 import ProductsPage from "./pages/ProductsPage"
 import ProductDetail from "./pages/ProductDetail";
+import UserManagement from "./pages/UserManagement";
 
 
 function App() {
@@ -32,6 +33,10 @@ function App() {
           <ProtectedRoute role="ROLE_ADMIN">
             <Dashboard />
           </ProtectedRoute>} />
+        <Route path="/dashboard/users" element={
+          <ProtectedRoute role="ROLE_ADMIN">
+            <UserManagement />
+          </ProtectedRoute>}/>
       </Routes>
 
       {!hideLayout && <Footer />}
