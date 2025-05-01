@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import Topbar from '../components/Topbar';
 import Sidebar from '../components/Sidebar';
 import { User } from '../types/User';
-import { getUsersPaged } from '../api/UserAPI';
+import { getUsersPaged, softDeleteUser, softRestoreUser } from '../api/UserAPI';
 import { PaginatedResponse } from '../types/PaginatedResponse';
+import { toast } from 'react-toastify';
 
 const UserManagement: React.FC = () => {
     const [users, setUsers] = useState<User[]>([]);
@@ -32,6 +33,26 @@ const UserManagement: React.FC = () => {
     const handleNext = () => {
         if (page < totalPages - 1) setPage(prev => prev + 1);
     };
+    const handleDelete = async (userId: number) => {
+        try {
+            await softDeleteUser(userId);
+            fetchUsers(); // Refresh the user list after deletion
+            toast.success("Delete success!");
+        } catch (error) {
+            console.error('Failed to delete user:', error);
+        }
+    };
+
+    const handleRestore = async (userId: number) => {
+        try {
+            await softRestoreUser(userId);
+            fetchUsers(); // Refresh the user list after restoration
+            toast.success("Restore success!");
+        } catch (error) {
+            console.error('Failed to restore user:', error);
+        }
+    };
+
 
     return (
         <div className="d-flex">
@@ -68,7 +89,21 @@ const UserManagement: React.FC = () => {
                                         <td>{new Date(user.createdAt).toLocaleString()}</td>
                                         <td>
                                             <button className="btn btn-sm btn-primary me-2">Edit</button>
-                                            <button className="btn btn-sm btn-danger">Delete</button>
+                                            {user.isActive ? (
+                                                <button
+                                                    className="btn btn-sm btn-danger"
+                                                    onClick={() => handleDelete(user.userId)}
+                                                >
+                                                    Delete
+                                                </button>
+                                            ) : (
+                                                <button
+                                                    className="btn btn-sm btn-success"
+                                                    onClick={() => handleRestore(user.userId)}
+                                                >
+                                                    Restore
+                                                </button>
+                                            )}
                                         </td>
                                     </tr>
                                 ))}

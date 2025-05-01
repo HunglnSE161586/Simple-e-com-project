@@ -46,3 +46,21 @@ export const getUsersPaged=async(page: number, size: number):Promise<PaginatedRe
     throw error; 
   }
 }
+export const softDeleteUser=async(userId:number):Promise<User>=>{
+  try {
+    const response = await axiosInstance.delete(`/users/${userId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error delete user by id:", error);
+    throw error; 
+  }
+}
+export const softRestoreUser=async(userId:number):Promise<User>=>{
+  try {
+    const response = await axiosInstance.patch(`/users/${userId}/restore`);
+    return response.data;
+  } catch (error) {
+    console.error("Error restore user by id:", error);
+    throw error; 
+  }
+}
