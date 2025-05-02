@@ -1,6 +1,9 @@
 package com.hung.shop.categories.service.impl;
 
+import com.hung.shop.categories.dto.request.CategoryCreateRequest;
+import com.hung.shop.categories.dto.request.CategoryUpdateRequest;
 import com.hung.shop.categories.dto.response.CategoryDto;
+import com.hung.shop.categories.entity.Categories;
 import com.hung.shop.categories.mapper.CategoryMapper;
 import com.hung.shop.categories.repository.CategoryRepository;
 import com.hung.shop.categories.service.ICategoryService;
@@ -41,6 +44,21 @@ public class CategoryService implements ICategoryService {
     public Page<CategoryDto> getAllCategories(int page, int size, String sortBy, String sortDir) {
         return categoryRepository.findAll(PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortDir), sortBy)))
                 .map(categoryMapper::toCategoryDto);
+    }
+
+    @Override
+    public CategoryDto createCategory(CategoryCreateRequest categoryCreateRequest) {
+        return categoryMapper.toCategoryDto(
+                categoryRepository.save(categoryMapper.toEntity(categoryCreateRequest))
+        );
+    }
+
+    @Override
+    public CategoryDto updateCategory(Long id, CategoryUpdateRequest categoryUpdateRequest) {
+        Categories categories = categoryRepository.findById(id).orElseThrow(() -> new NullPointerException("Category not found"));
+        return categoryMapper.toCategoryDto(
+                categoryRepository.save(categoryMapper.toEntity(categoryUpdateRequest, categories))
+        );
     }
 
 }

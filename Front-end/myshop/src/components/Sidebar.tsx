@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Sidebar: React.FC = () => {
     return (
@@ -6,16 +7,19 @@ const Sidebar: React.FC = () => {
             <h4>Admin Panel</h4>
             <ul className="nav flex-column mt-4">
                 <li className="nav-item">
-                    <a className="nav-link text-white" href="#">Users</a>
+                    <Link to="/dashboard/users" className="nav-link text-white">
+                    Users
+                    </Link>
                 </li>
                 <li className="nav-item">
-                    <a className="nav-link text-white" href="#">Products</a>
+                    <Link to="/dashboard" className="nav-link text-white">
+                    Products
+                    </Link>
                 </li>
                 <li className="nav-item">
-                    <a className="nav-link text-white" href="#">Categories</a>
-                </li>
-                <li className="nav-item">
-                    <a className="nav-link text-white" href="#">Orders</a>
+                    <Link to="/dashboard" className="nav-link text-white">
+                    Categories
+                    </Link>
                 </li>
             </ul>
         </div>

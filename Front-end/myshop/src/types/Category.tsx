@@ -6,3 +6,8 @@ export interface Category {
   createdAt: string;
   image: string;
 }
+export interface CreateCategory {
+  categoryName: string;
+  description: string;
+  image: string;
+}
