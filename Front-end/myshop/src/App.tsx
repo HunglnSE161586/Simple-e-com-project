@@ -14,6 +14,7 @@ import ProtectedRoute from "./auth/ProtectedRoute";
 import ProductsPage from "./pages/ProductsPage"
 import ProductDetail from "./pages/ProductDetail";
 import UserManagement from "./pages/UserManagement";
+import CategoryManagement from "./pages/CategoryManagement";
 
 
 function App() {
@@ -27,7 +28,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/products" element={<ProductsPage/>}/>
+        <Route path="/products" element={<ProductsPage />} />
         <Route path="/products/:id" element={<ProductDetail />} />
         <Route path="/dashboard" element={
           <ProtectedRoute role="ROLE_ADMIN">
@@ -36,7 +37,11 @@ function App() {
         <Route path="/dashboard/users" element={
           <ProtectedRoute role="ROLE_ADMIN">
             <UserManagement />
-          </ProtectedRoute>}/>
+          </ProtectedRoute>} />
+        <Route path="/dashboard/categories" element={
+          <ProtectedRoute role="ROLE_ADMIN">
+            <CategoryManagement />
+          </ProtectedRoute>} />
       </Routes>
 
       {!hideLayout && <Footer />}
