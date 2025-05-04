@@ -3,11 +3,11 @@ import { Category, CreateCategory } from "../types/Category";
 import { PaginatedResponse } from "../types/PaginatedResponse";
 
 export const fetchAllCategories = async (): Promise<Category[]> => {
-  const response = await axiosInstance.get("/categories");
+  const response = await axiosInstance.get("/categories/all-test");
   return response.data;
 };
 export const fetchPagedCategories = async (page: number, size: number):Promise<PaginatedResponse<Category>>=>{
-    const response=await axiosInstance.get(`/categories/paged?page=${page}&size=${size}`);
+    const response=await axiosInstance.get(`/categories?page=${page}&size=${size}`);
     return response.data;
 }
 export const createCategory = async (createCategory:CreateCategory):Promise<Category>=>{

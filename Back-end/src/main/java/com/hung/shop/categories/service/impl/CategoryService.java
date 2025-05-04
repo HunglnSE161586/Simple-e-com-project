@@ -1,5 +1,6 @@
 package com.hung.shop.categories.service.impl;
 
+import com.hung.shop.categories.CategoryNotFoundException;
 import com.hung.shop.categories.dto.request.CategoryCreateRequest;
 import com.hung.shop.categories.dto.request.CategoryUpdateRequest;
 import com.hung.shop.categories.dto.response.CategoryDto;
@@ -8,6 +9,8 @@ import com.hung.shop.categories.mapper.CategoryMapper;
 import com.hung.shop.categories.repository.CategoryRepository;
 import com.hung.shop.categories.service.ICategoryService;
 import com.hung.shop.share.CategoryPOJO;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,11 +20,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class CategoryService implements ICategoryService {
-    @Autowired
-    private CategoryRepository categoryRepository;
-    @Autowired
-    private CategoryMapper categoryMapper;
+    private final CategoryRepository categoryRepository;
+    private final CategoryMapper categoryMapper;
     public List<CategoryDto> getAllCategories() {
         return categoryRepository.findAll().stream().map(categoryMapper::toCategoryDto).toList();
     }
@@ -47,6 +49,7 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
+    @Transactional
     public CategoryDto createCategory(CategoryCreateRequest categoryCreateRequest) {
         return categoryMapper.toCategoryDto(
                 categoryRepository.save(categoryMapper.toEntity(categoryCreateRequest))
@@ -55,7 +58,7 @@ public class CategoryService implements ICategoryService {
 
     @Override
     public CategoryDto updateCategory(Long id, CategoryUpdateRequest categoryUpdateRequest) {
-        Categories categories = categoryRepository.findById(id).orElseThrow(() -> new NullPointerException("Category not found"));
+        Categories categories = categoryRepository.findById(id).orElseThrow(() -> new CategoryNotFoundException("Category not found with ID: " + id));
         return categoryMapper.toCategoryDto(
                 categoryRepository.save(categoryMapper.toEntity(categoryUpdateRequest, categories))
         );

@@ -16,10 +16,11 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Products {
+public class Products { /* FIXME Should be singular. Rename Products to Product to follow the convention. The table name 'products' í okay
+                        Apply to other entities as well*/
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long productId;
+    private Long productId; /* Should be renamed to 'id' to follow the best practices. Apply to other entities as well. */
 
     @Column(nullable = false)
     private String productName;
@@ -28,7 +29,7 @@ public class Products {
     private String description;
 
     @Column(nullable = false)
-    private Double price;
+    private Double price; /* Use BigDecimal for monetary values */
 
     @Column(nullable = false)
     private Boolean isActive;

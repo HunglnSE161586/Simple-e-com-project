@@ -12,6 +12,7 @@ import com.hung.shop.user.service.IUserService;
 import com.hung.shop.user.mapper.UserMapper;
 import com.hung.shop.user.repository.UsersRepository;
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,10 +24,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class UserService implements IUserService {
     private final String DEFAULT_ROLE = "ROLE_CUSTOMER";
     @Autowired
-    private UsersRepository usersRepository;
+    private UsersRepository usersRepository; /* FIXME Use constructor injection instead of field injection for required dependencies.
+                                               Utilize Lombok @AllArgsConstructor to inject dependencies via constructor*/
     @Autowired
     private IUserRoleService userRoleService;
     @Autowired
@@ -37,9 +40,11 @@ public class UserService implements IUserService {
     private PasswordEncoder passwordEncoder;
     @Transactional
     public UserDto registerUser(UserCreateRequest userCreateRequest) {
+        /* FIXME remove unnecessary comments as the code is self-explained*/
         // Check if email already exists
         if (usersRepository.findByEmail(userCreateRequest.getEmail()).isPresent()) {
-            throw new IllegalArgumentException("Email already exists");
+            throw new IllegalArgumentException("Email already exists"); /* FIXME Use a custom exception instead of IllegalArgumentException for better error handling
+                                                                            This comment apply to other places as well*/
         }
         // Check if user role exists
         UserRolePOJO defaultRole = userRoleService.findByRoleName(DEFAULT_ROLE)
@@ -55,6 +60,12 @@ public class UserService implements IUserService {
         return userMapper.toDto(user);
     }
     public Optional<UserDto> getUserById(Long id) {
+        /*
+        * This code can be refactored to use Optional's orElseThrow method, e.g.:
+        *
+        * return usersRepository.findByUserId(id).map(userMapper::toDto)
+        *    .orElseThrow(() -> new UserNotFoundException("Cannot find user with id: " + id));
+        * */
         Optional<Users> userOptional = usersRepository.findByUserId(id);
         if (userOptional.isPresent()) {
             return Optional.of(userMapper.toDto(userOptional.get()));
@@ -63,6 +74,7 @@ public class UserService implements IUserService {
         }
     }
     public List<UserDto> getAllUsers() {
+        /* FIXME return directly without using a variable */
         List<UserDto> userDtos = usersRepository.findAll().stream().map(userMapper::toDto).toList();
         return userDtos;
     }

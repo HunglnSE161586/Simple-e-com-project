@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Category } from "../types/Category";
-import { fetchAllCategories } from "../api/CategoryAPI";
+import { fetchPagedCategories } from "../api/CategoryAPI";
 
 interface Props {
   onSelectCategory: (categoryId: number | null) => void;
@@ -13,8 +13,8 @@ const CategorySidebar: React.FC<Props> = ({ onSelectCategory }) => {
   useEffect(() => {
     const loadCategories = async () => {
       try {
-        const data = await fetchAllCategories();
-        setCategories(data);
+        const data = await fetchPagedCategories(0,15);
+        setCategories(data.content);
       } catch (error) {
         console.error("Failed to load categories", error);
       } finally {

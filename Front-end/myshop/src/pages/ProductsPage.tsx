@@ -4,7 +4,7 @@ import { Product } from '../types/Product';
 import CategorySidebar from "../components/CategorySidebar";
 import { PaginatedResponse } from '../types/PaginatedResponse';
 import ProductCard from '../components/ProductCard';
-import { useLocation, useSearchParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const ProductList: React.FC = () => {
     const [products, setProducts] = useState<Product[]>([]);

@@ -66,7 +66,7 @@ public class ProductController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-    @GetMapping("/category/{id}")
+    @GetMapping("/category/{id}") /* FIXME use plural: category -> categories */
     @Operation(summary = "Get paginated products by category", description = "Retrieves paginated products by category ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Get products by category successfully"),

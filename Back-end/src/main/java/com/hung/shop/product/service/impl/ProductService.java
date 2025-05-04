@@ -37,6 +37,7 @@ public class ProductService implements IProductService {
     private final ICategoryService categoryService;
     private final IProductReviewService productReviewService;
 
+    /* FIXME Restructure to avoid circular dependencies*/
     public ProductService(@Lazy IProductImageService productImageService,
                           @Lazy ICategoryService categoryService,
                           @Lazy IProductReviewService productReviewService) {

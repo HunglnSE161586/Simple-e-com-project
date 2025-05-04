@@ -35,6 +35,8 @@ public class UserController {
             return ResponseEntity.ok(userDto);
         }
         catch (Exception e) {
+            /* Catching Exception is too broad. Catch specific ones instead
+            *  Use @ControllerAdvice for global exception handling*/
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }

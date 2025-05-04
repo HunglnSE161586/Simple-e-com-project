@@ -10,6 +10,8 @@ import org.springframework.data.domain.Page;
 import java.util.List;
 import java.util.Optional;
 
+/* Add javadoc comments for interfaces, public methods/classes.
+What are the distinct use cases of DTOs and POJOs? Are POJOs used for inter-service communication only? */
 public interface IProductService {
     List<ProductPojo> getAllProducts();
     ProductDetailResponse getProductById(Long id);
