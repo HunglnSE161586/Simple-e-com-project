@@ -1,8 +1,8 @@
-package com.hung.shop.categories.service;
+package com.hung.shop.product.service;
 
-import com.hung.shop.categories.dto.request.CategoryCreateRequest;
-import com.hung.shop.categories.dto.request.CategoryUpdateRequest;
-import com.hung.shop.categories.dto.response.CategoryDto;
+import com.hung.shop.product.dto.category.request.CategoryCreateRequest;
+import com.hung.shop.product.dto.category.request.CategoryUpdateRequest;
+import com.hung.shop.product.dto.category.response.CategoryDto;
 import com.hung.shop.share.CategoryPOJO;
 import org.springframework.data.domain.Page;
 

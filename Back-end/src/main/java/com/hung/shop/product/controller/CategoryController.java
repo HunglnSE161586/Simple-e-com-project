@@ -1,17 +1,14 @@
-package com.hung.shop.categories.controller;
+package com.hung.shop.product.controller;
 
-import com.hung.shop.categories.dto.request.CategoryCreateRequest;
-import com.hung.shop.categories.dto.request.CategoryUpdateRequest;
-import com.hung.shop.categories.dto.response.CategoryDto;
-import com.hung.shop.categories.service.ICategoryService;
-import com.hung.shop.categories.service.impl.CategoryService;
+import com.hung.shop.product.dto.category.request.CategoryCreateRequest;
+import com.hung.shop.product.dto.category.request.CategoryUpdateRequest;
+import com.hung.shop.product.dto.category.response.CategoryDto;
+import com.hung.shop.product.service.ICategoryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
-import lombok.Builder;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

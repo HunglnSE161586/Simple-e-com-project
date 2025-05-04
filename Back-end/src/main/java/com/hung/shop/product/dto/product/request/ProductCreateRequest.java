@@ -1,4 +1,4 @@
-package com.hung.shop.product.dto.request;
+package com.hung.shop.product.dto.product.request;
 
 import lombok.Data;
 

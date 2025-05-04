@@ -1,4 +1,4 @@
-package com.hung.shop.categories.dto.response;
+package com.hung.shop.product.dto.category.response;
 
 import lombok.Data;
 

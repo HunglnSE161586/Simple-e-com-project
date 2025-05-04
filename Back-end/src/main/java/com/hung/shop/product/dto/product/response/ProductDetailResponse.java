@@ -1,4 +1,4 @@
-package com.hung.shop.product.dto.response;
+package com.hung.shop.product.dto.product.response;
 
 import com.hung.shop.share.CategoryPOJO;
 import com.hung.shop.share.ProductImagePOJO;

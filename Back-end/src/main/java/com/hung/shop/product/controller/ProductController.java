@@ -1,7 +1,7 @@
 package com.hung.shop.product.controller;
 
-import com.hung.shop.product.dto.request.ProductCreateRequest;
-import com.hung.shop.product.dto.request.ProductUpdateRequest;
+import com.hung.shop.product.dto.product.request.ProductCreateRequest;
+import com.hung.shop.product.dto.product.request.ProductUpdateRequest;
 import com.hung.shop.product.service.IProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

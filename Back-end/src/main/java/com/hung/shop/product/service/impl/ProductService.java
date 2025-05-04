@@ -1,10 +1,10 @@
 package com.hung.shop.product.service.impl;
 
-import com.hung.shop.categories.service.ICategoryService;
-import com.hung.shop.product.dto.request.ProductCreateRequest;
-import com.hung.shop.product.dto.request.ProductUpdateRequest;
-import com.hung.shop.product.dto.response.ProductDetailResponse;
-import com.hung.shop.product.dto.response.ProductDto;
+import com.hung.shop.product.service.ICategoryService;
+import com.hung.shop.product.dto.product.request.ProductCreateRequest;
+import com.hung.shop.product.dto.product.request.ProductUpdateRequest;
+import com.hung.shop.product.dto.product.response.ProductDetailResponse;
+import com.hung.shop.product.dto.product.response.ProductDto;
 import com.hung.shop.product.entity.Products;
 import com.hung.shop.product.mapper.ProductMapper;
 import com.hung.shop.product.repository.ProductRepository;

@@ -1,17 +1,16 @@
-package com.hung.shop.categories.service.impl;
+package com.hung.shop.product.service.impl;
 
-import com.hung.shop.categories.CategoryNotFoundException;
-import com.hung.shop.categories.dto.request.CategoryCreateRequest;
-import com.hung.shop.categories.dto.request.CategoryUpdateRequest;
-import com.hung.shop.categories.dto.response.CategoryDto;
-import com.hung.shop.categories.entity.Categories;
-import com.hung.shop.categories.mapper.CategoryMapper;
-import com.hung.shop.categories.repository.CategoryRepository;
-import com.hung.shop.categories.service.ICategoryService;
+import com.hung.shop.product.exception.category.CategoryNotFoundException;
+import com.hung.shop.product.dto.category.request.CategoryCreateRequest;
+import com.hung.shop.product.dto.category.request.CategoryUpdateRequest;
+import com.hung.shop.product.dto.category.response.CategoryDto;
+import com.hung.shop.product.entity.Category;
+import com.hung.shop.product.mapper.CategoryMapper;
+import com.hung.shop.product.repository.CategoryRepository;
+import com.hung.shop.product.service.ICategoryService;
 import com.hung.shop.share.CategoryPOJO;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -58,9 +57,9 @@ public class CategoryService implements ICategoryService {
 
     @Override
     public CategoryDto updateCategory(Long id, CategoryUpdateRequest categoryUpdateRequest) {
-        Categories categories = categoryRepository.findById(id).orElseThrow(() -> new CategoryNotFoundException("Category not found with ID: " + id));
+        Category category = categoryRepository.findById(id).orElseThrow(() -> new CategoryNotFoundException("Category not found with ID: " + id));
         return categoryMapper.toCategoryDto(
-                categoryRepository.save(categoryMapper.toEntity(categoryUpdateRequest, categories))
+                categoryRepository.save(categoryMapper.toEntity(categoryUpdateRequest, category))
         );
     }
 
