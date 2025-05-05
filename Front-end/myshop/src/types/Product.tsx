@@ -1,6 +1,6 @@
 // types/Product.ts
 import { Category } from "./Category";
-import { ProductImage } from "./ProductImage";
+import { CreateProductImage, ProductImage } from "./ProductImage";
 import { ProductReview } from "./ProductReview";
 export interface Product {
   productId: number;
@@ -13,7 +13,7 @@ export interface Product {
   updatedAt: string; // or Date
   stock: number;
   categoryId: number;
-  productImagePOJO?:ProductImage; //optional
+  productImagePOJO?: ProductImage; //optional
 }
 
 export interface ProductDetail {
@@ -29,4 +29,12 @@ export interface ProductDetail {
   productImagePOJOS: ProductImage[];
   categoryPOJO: Category;
   productReviewPOJOS: ProductReview[];
+}
+export interface CreateProduct {
+  productName: string;
+  description: string;
+  price: number;
+  stock: number;
+  categoryId: number;
+  productImages:CreateProductImage[];
 }

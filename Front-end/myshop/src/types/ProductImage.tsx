@@ -1,8 +1,13 @@
 export interface ProductImage {
-    imageId: number;
-    productId: number;
-    imageUrl: string;
-    altText: string;
-    displayOrder: number;
-    createdAt: string;
-  }
+  imageId: number;
+  productId: number;
+  imageUrl: string;
+  altText: string;
+  displayOrder: number;
+  createdAt: string;
+}
+export interface CreateProductImage {
+  imageUrl: string;
+  altText: string;
+  displayOrder: number;
+}

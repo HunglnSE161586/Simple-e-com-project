@@ -58,7 +58,7 @@ const UserManagement: React.FC = () => {
         <div className="d-flex">
             <Sidebar />
             <div className="flex-grow-1">
-                <Topbar />
+            <Topbar />
                 <div className="p-4">
                     <h2 className="text-center mb-4">User Management</h2>
                     <div className="table-responsive">

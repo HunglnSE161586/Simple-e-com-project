@@ -14,7 +14,7 @@ const Sidebar: React.FC = () => {
                     </Link>
                 </li>
                 <li className="nav-item">
-                    <Link to="/dashboard" className="nav-link text-white">
+                    <Link to="/dashboard/products" className="nav-link text-white">
                     Products
                     </Link>
                 </li>

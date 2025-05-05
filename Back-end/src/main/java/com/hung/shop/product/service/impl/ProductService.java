@@ -6,10 +6,9 @@ import com.hung.shop.product.dto.product.request.ProductCreateRequest;
 import com.hung.shop.product.dto.product.request.ProductUpdateRequest;
 import com.hung.shop.product.dto.product.response.ProductDetailResponse;
 import com.hung.shop.product.dto.product.response.ProductDto;
-import com.hung.shop.product.entity.Products;
+import com.hung.shop.product.entity.Product;
 import com.hung.shop.product.mapper.ProductMapper;
 import com.hung.shop.product.repository.ProductRepository;
-import com.hung.shop.product.service.IProductExistenceChecker;
 import com.hung.shop.product.service.IProductService;
 import com.hung.shop.productImages.service.IProductImageQueryPort;
 import com.hung.shop.productImages.service.IProductMainImageService;
@@ -57,7 +56,7 @@ public class ProductService implements IProductService {
     @Override
     public ProductDetailResponse getProductById(Long id) {
         // Get the product by id
-        Products product = productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException("Product with id:"+id+" not found"));
+        Product product = productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException("Product with id:"+id+" not found"));
         // Get the category POJO, product image POJOs, and product review POJOs
         CategoryPOJO categoryPOJO = categoryService.getCategoryPojoById(product.getCategoryId());
         List<ProductImagePOJO> productImagePOJOS = productImageService.getProductImagesPojoByProductId(id);
@@ -84,21 +83,21 @@ public class ProductService implements IProductService {
     @Override
     @Transactional
     public ProductDto createProduct(ProductCreateRequest productCreateRequest) {
-        Products product = productMapper.toEntity(productCreateRequest);
+        Product product = productMapper.toEntity(productCreateRequest);
         return productMapper.toDto(productRepository.save(product));
     }
 
     @Override
     @Transactional
     public ProductDto updateProduct(Long id, ProductUpdateRequest productUpdateRequest) {
-        Products product = productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException("Product with id:"+id+" not found"));
+        Product product = productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException("Product with id:"+id+" not found"));
         return productMapper.toDto(productRepository.save(productMapper.toEntity(productUpdateRequest, product)));
     }
 
     @Override
     @Transactional
     public ProductDto softDeleteProduct(Long id) {
-        Products product = productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException("Product with id:"+id+" not found"));
+        Product product = productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException("Product with id:"+id+" not found"));
         product.setIsActive(false);
         return productMapper.toDto(productRepository.save(product));
     }
@@ -106,7 +105,7 @@ public class ProductService implements IProductService {
     @Override
     @Transactional
     public ProductDto restoreProduct(Long id) {
-        Products product = productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException("Product with id:"+id+" not found"));
+        Product product = productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException("Product with id:"+id+" not found"));
         product.setIsActive(true);
         return productMapper.toDto(productRepository.save(product));
     }

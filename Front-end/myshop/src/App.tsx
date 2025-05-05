@@ -15,6 +15,7 @@ import ProductsPage from "./pages/ProductsPage"
 import ProductDetail from "./pages/ProductDetail";
 import UserManagement from "./pages/UserManagement";
 import CategoryManagement from "./pages/CategoryManagement";
+import ProductManagement from "./pages/ProductManagement";
 
 
 function App() {
@@ -41,6 +42,10 @@ function App() {
         <Route path="/dashboard/categories" element={
           <ProtectedRoute role="ROLE_ADMIN">
             <CategoryManagement />
+          </ProtectedRoute>} />
+          <Route path="/dashboard/products" element={
+          <ProtectedRoute role="ROLE_ADMIN">
+            <ProductManagement />
           </ProtectedRoute>} />
       </Routes>
 

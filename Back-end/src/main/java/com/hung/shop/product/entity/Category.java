@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "categories")
@@ -23,6 +24,8 @@ public class Category {
     private LocalDateTime createdAt;
     private String image;
 
+//    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
+//    private List<Product> products;
 
     @PrePersist
     public void prePersist() {
