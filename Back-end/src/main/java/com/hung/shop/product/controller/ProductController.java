@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Min;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,9 +18,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/products")
 @SecurityRequirement(name = "Authorization")
 @Tag(name = "Products", description = "Product API")
+@RequiredArgsConstructor
 public class ProductController {
-    @Autowired
-    private IProductService productService;
+    private final IProductService productService;
     @GetMapping()
     @Operation(summary = "Get all products", description = "Retrieves all products in the system. For testing purposes only. No authentication required.")
     @ApiResponses(value = {

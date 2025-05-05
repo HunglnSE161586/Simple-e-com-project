@@ -1,5 +1,6 @@
 package com.hung.shop.productReview.service.impl;
 
+import com.hung.shop.product.service.IProductExistenceChecker;
 import com.hung.shop.product.service.IProductService;
 import com.hung.shop.productReview.dto.request.ProductReviewCreateRequest;
 import com.hung.shop.productReview.dto.response.ProductReviewDto;
@@ -9,21 +10,19 @@ import com.hung.shop.productReview.service.IProductReviewService;
 import com.hung.shop.share.ProductReviewPOJO;
 import com.hung.shop.user.service.IUserService;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ProductReviewService implements IProductReviewService {
-    @Autowired
-    private ProductReviewRepository productReviewRepository;
-    @Autowired
-    private ProductReviewMapper productReviewMapper;
-    @Autowired
-    private IProductService productService;
-    @Autowired
-    private IUserService userService;
+    private final ProductReviewRepository productReviewRepository;
+    private final ProductReviewMapper productReviewMapper;
+    private final IProductExistenceChecker productExistenceChecker;
+    private final IUserService userService;
 
     @Override
     public List<ProductReviewDto> getAllProductReviewsByProductId(Long productId) {
@@ -36,7 +35,7 @@ public class ProductReviewService implements IProductReviewService {
     @Override
     @Transactional
     public ProductReviewDto createProductReview(ProductReviewCreateRequest productReviewCreateRequest) {
-        if (productService.findById(productReviewCreateRequest.getProductId()).isEmpty()) {
+        if (productExistenceChecker.existsById(productReviewCreateRequest.getProductId()) == false) {
             throw new IllegalArgumentException("Product not found");
         }
         if (userService.getUserById(productReviewCreateRequest.getUserId()) == null) {

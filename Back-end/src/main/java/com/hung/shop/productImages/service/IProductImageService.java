@@ -12,8 +12,8 @@ import java.util.Map;
 public interface IProductImageService {
     List<ProductImageDto> getAllProductImages();
     List<ProductImageDto> getProductImagesByProductId(Long productId);
-    List<ProductImagePOJO> getProductImagesPojoByProductId(Long productId);
+
     void createProductImage(List<ProductImageCreateRequest> productImageCreateRequests, Long productId);
     ProductImageDto updateProductImage(Long id, ProductImageUpdateRequest productImageUpdateRequest);
-    Map<Long,ProductImagePOJO> getMainProductImagesByProductId(List<Long> productIds);
+
 }

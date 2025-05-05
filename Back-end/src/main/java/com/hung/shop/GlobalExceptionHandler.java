@@ -1,6 +1,8 @@
 package com.hung.shop;
 
 import com.hung.shop.product.exception.category.CategoryNotFoundException;
+import com.hung.shop.product.exception.product.ProductNotFoundException;
+import com.hung.shop.productImages.ProductImageNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -15,5 +17,13 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleAllOtherExceptions(Exception ex) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + ex.getMessage());
+    }
+    @ExceptionHandler(ProductImageNotFoundException.class)
+    public ResponseEntity<String> handleProductImageNotFound(ProductImageNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+    @ExceptionHandler(ProductNotFoundException.class)
+    public ResponseEntity<String> handleProductNotFound(ProductNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 }

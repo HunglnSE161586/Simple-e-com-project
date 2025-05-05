@@ -1,5 +1,6 @@
 package com.hung.shop.product.service.impl;
 
+import com.hung.shop.product.exception.product.ProductNotFoundException;
 import com.hung.shop.product.service.ICategoryService;
 import com.hung.shop.product.dto.product.request.ProductCreateRequest;
 import com.hung.shop.product.dto.product.request.ProductUpdateRequest;
@@ -8,16 +9,17 @@ import com.hung.shop.product.dto.product.response.ProductDto;
 import com.hung.shop.product.entity.Products;
 import com.hung.shop.product.mapper.ProductMapper;
 import com.hung.shop.product.repository.ProductRepository;
+import com.hung.shop.product.service.IProductExistenceChecker;
 import com.hung.shop.product.service.IProductService;
-import com.hung.shop.productImages.service.IProductImageService;
+import com.hung.shop.productImages.service.IProductImageQueryPort;
+import com.hung.shop.productImages.service.IProductMainImageService;
 import com.hung.shop.productReview.service.IProductReviewService;
 import com.hung.shop.share.CategoryPOJO;
 import com.hung.shop.share.ProductImagePOJO;
 import com.hung.shop.share.ProductPojo;
 import com.hung.shop.share.ProductReviewPOJO;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -28,28 +30,20 @@ import java.util.Map;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class ProductService implements IProductService {
-    @Autowired
-    private ProductMapper productMapper;
-    @Autowired
-    private ProductRepository productRepository;
-    private final IProductImageService productImageService;
+    private final ProductMapper productMapper;
+    private final ProductRepository productRepository;
+    private final IProductImageQueryPort productImageService;
+    private final IProductMainImageService productMainImageService;
     private final ICategoryService categoryService;
     private final IProductReviewService productReviewService;
 
-    /* FIXME Restructure to avoid circular dependencies*/
-    public ProductService(@Lazy IProductImageService productImageService,
-                          @Lazy ICategoryService categoryService,
-                          @Lazy IProductReviewService productReviewService) {
-        this.productImageService = productImageService;
-        this.categoryService = categoryService;
-        this.productReviewService = productReviewService;
-    }
 
     private List<ProductPojo> getProductPojoWithProductImagePoJo(List<ProductPojo> productPojos) {
         List<Long> productIds = productPojos.stream().map(ProductPojo::getProductId).toList();
 
-        Map<Long, ProductImagePOJO> imageMap = productImageService.getMainProductImagesByProductId(productIds);
+        Map<Long, ProductImagePOJO> imageMap = productMainImageService.getMainProductImagesByProductId(productIds);
         return productPojos.stream()
                 .peek(product -> product.setProductImagePOJO(imageMap.get(product.getProductId())))
                 .toList();
@@ -63,7 +57,7 @@ public class ProductService implements IProductService {
     @Override
     public ProductDetailResponse getProductById(Long id) {
         // Get the product by id
-        Products product = productRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Product not found"));
+        Products product = productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException("Product with id:"+id+" not found"));
         // Get the category POJO, product image POJOs, and product review POJOs
         CategoryPOJO categoryPOJO = categoryService.getCategoryPojoById(product.getCategoryId());
         List<ProductImagePOJO> productImagePOJOS = productImageService.getProductImagesPojoByProductId(id);
@@ -97,14 +91,14 @@ public class ProductService implements IProductService {
     @Override
     @Transactional
     public ProductDto updateProduct(Long id, ProductUpdateRequest productUpdateRequest) {
-        Products product = productRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Product not found"));
+        Products product = productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException("Product with id:"+id+" not found"));
         return productMapper.toDto(productRepository.save(productMapper.toEntity(productUpdateRequest, product)));
     }
 
     @Override
     @Transactional
     public ProductDto softDeleteProduct(Long id) {
-        Products product = productRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Product not found"));
+        Products product = productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException("Product with id:"+id+" not found"));
         product.setIsActive(false);
         return productMapper.toDto(productRepository.save(product));
     }
@@ -112,7 +106,7 @@ public class ProductService implements IProductService {
     @Override
     @Transactional
     public ProductDto restoreProduct(Long id) {
-        Products product = productRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Product not found"));
+        Products product = productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException("Product with id:"+id+" not found"));
         product.setIsActive(true);
         return productMapper.toDto(productRepository.save(product));
     }
