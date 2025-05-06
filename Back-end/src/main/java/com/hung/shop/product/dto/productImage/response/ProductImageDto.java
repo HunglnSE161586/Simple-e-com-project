@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 @Data
 public class ProductImageDto {
-    private Long imageId;
+    private Long id;
     private Long productId;
     private String imageUrl;
     private String altText;

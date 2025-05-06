@@ -1,12 +1,12 @@
 package com.hung.shop.product.service.impl;
 
+import com.hung.shop.product.entity.ProductImage;
 import com.hung.shop.product.exception.product.ProductNotFoundException;
 import com.hung.shop.product.service.IProductExistenceChecker;
 import com.hung.shop.product.exception.productImage.ProductImageNotFoundException;
 import com.hung.shop.product.dto.productImage.request.ProductImageCreateRequest;
 import com.hung.shop.product.dto.productImage.request.ProductImageUpdateRequest;
 import com.hung.shop.product.dto.productImage.response.ProductImageDto;
-import com.hung.shop.product.entity.ProductImages;
 import com.hung.shop.product.mapper.ProductImageMapper;
 import com.hung.shop.product.repository.ProductImageRepository;
 import com.hung.shop.product.service.IProductImageQueryPort;
@@ -38,7 +38,7 @@ public class ProductImageService implements IProductImageService, IProductImageQ
     @Override
     public List<ProductImageDto> getProductImagesByProductId(Long productId) {
         return productImageRepository.findAll().stream()
-                .filter(productImage -> productImage.getProductId().equals(productId))
+                .filter(productImage -> productImage.getProduct().getId().equals(productId))
                 .map(productImageMapper::toDto)
                 .toList();
     }
@@ -46,7 +46,7 @@ public class ProductImageService implements IProductImageService, IProductImageQ
     @Override
     public List<ProductImagePOJO> getProductImagesPojoByProductId(Long productId) {
         return productImageRepository.findAll().stream()
-                .filter(productImage -> productImage.getProductId().equals(productId))
+                .filter(productImage -> productImage.getProduct().getId().equals(productId))
                 .map(productImageMapper::toPOJO)
                 .toList();
     }
@@ -58,8 +58,8 @@ public class ProductImageService implements IProductImageService, IProductImageQ
             throw new ProductNotFoundException("Product with id "+productId+" not found");
         }
         for (ProductImageCreateRequest productImageCreateRequest : productImageCreateRequests) {
-            ProductImages productImage = productImageMapper.toEntity(productImageCreateRequest);
-            productImage.setProductId(productId);
+            ProductImage productImage = productImageMapper.toEntity(productImageCreateRequest);
+            productImage.setId(productId);
             productImageRepository.save(productImage);
         }
     }
@@ -67,7 +67,7 @@ public class ProductImageService implements IProductImageService, IProductImageQ
     @Override
     @Transactional
     public ProductImageDto updateProductImage(Long id, ProductImageUpdateRequest productImageUpdateRequest) {
-        ProductImages productImage = productImageRepository.findById(id)
+        ProductImage productImage = productImageRepository.findById(id)
                 .orElseThrow(() -> new ProductImageNotFoundException("Product image with id " + id + " not found"));
         return productImageMapper.toDto(productImageRepository.save(
                 productImageMapper.toEntity(productImageUpdateRequest, productImage))
@@ -76,11 +76,11 @@ public class ProductImageService implements IProductImageService, IProductImageQ
 
     @Override
     public Map<Long, ProductImagePOJO> getMainProductImagesByProductId(List<Long> productIds) {
-        List<ProductImages> mainImages = productImageRepository.findMainImagesForProductIds(productIds);
+        List<ProductImage> mainImages = productImageRepository.findMainImagesForProductIds(productIds);
 
         return mainImages.stream()
                 .collect(Collectors.toMap(
-                        ProductImages::getProductId,        //key
+                        image -> image.getProduct().getId(), //key
                         productImageMapper::toPOJO          //value
                 ));
     }

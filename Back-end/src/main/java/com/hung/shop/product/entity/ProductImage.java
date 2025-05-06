@@ -10,11 +10,12 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductImages {
+public class ProductImage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long imageId;
+    @Column(name = "image_id")
+    private Long id;
     @Column(nullable = false)
     private String imageUrl;
 
@@ -22,8 +23,9 @@ public class ProductImages {
 
     private Integer displayOrder;
     private LocalDateTime createdAt;
-
-    private Long productId;
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
 
     @PrePersist
     public void prePersist() {
