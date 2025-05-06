@@ -85,6 +85,9 @@ public class ProductService implements IProductService {
     @Transactional
     public ProductDto createProduct(ProductCreateRequest productCreateRequest) {
         Product product = productMapper.toEntity(productCreateRequest);
+        if (product.getProductImages() != null) {
+            product.getProductImages().forEach(image -> image.setProduct(product));
+        }
         return productMapper.toDto(productRepository.save(product));
     }
 

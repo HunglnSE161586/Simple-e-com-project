@@ -20,5 +20,5 @@ public interface ProductImageRepository extends JpaRepository<ProductImage, Long
       )
     """)
     List<ProductImage> findMainImagesForProductIds(@Param("productIds") List<Long> productIds);
-
+    List<ProductImage> findAllByProductId(Long productId);
 }

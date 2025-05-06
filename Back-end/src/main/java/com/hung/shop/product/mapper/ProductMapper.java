@@ -8,10 +8,11 @@ import com.hung.shop.product.entity.Product;
 import com.hung.shop.share.ProductPojo;
 import org.mapstruct.*;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {ProductImageMapper.class})
 public interface ProductMapper {
     @Mapping(target = "categoryId", source = "category.id")
     ProductDto toDto(Product entity);
+    @Mapping(target = "category.id", source = "categoryId")
     Product toEntity(ProductCreateRequest productCreateRequest);
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(target = "category.id", source = "categoryId")

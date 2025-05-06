@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -80,7 +81,7 @@ public class ProductController {
             @ApiResponse(responseCode = "500", description = "Internal server error"),
     })
     @PreAuthorize("hasRole('ADMIN')" )
-    public ResponseEntity<ProductDto> createProduct(@RequestBody ProductCreateRequest productCreateRequest) {
+    public ResponseEntity<ProductDto> createProduct(@RequestBody @Valid ProductCreateRequest productCreateRequest) {
         return ResponseEntity.ok(productService.createProduct(productCreateRequest));
     }
     @PutMapping("/{id}")

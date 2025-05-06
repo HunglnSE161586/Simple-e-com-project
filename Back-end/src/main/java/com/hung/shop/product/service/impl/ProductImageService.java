@@ -37,16 +37,14 @@ public class ProductImageService implements IProductImageService, IProductImageQ
     }
     @Override
     public List<ProductImageDto> getProductImagesByProductId(Long productId) {
-        return productImageRepository.findAll().stream()
-                .filter(productImage -> productImage.getProduct().getId().equals(productId))
+        return productImageRepository.findAllByProductId(productId).stream()
                 .map(productImageMapper::toDto)
                 .toList();
     }
 
     @Override
     public List<ProductImagePOJO> getProductImagesPojoByProductId(Long productId) {
-        return productImageRepository.findAll().stream()
-                .filter(productImage -> productImage.getProduct().getId().equals(productId))
+        return productImageRepository.findAllByProductId(productId).stream()
                 .map(productImageMapper::toPOJO)
                 .toList();
     }

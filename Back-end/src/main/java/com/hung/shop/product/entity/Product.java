@@ -41,11 +41,11 @@ public class Product {
     private LocalDateTime updatedAt;
     private Long stock;
 
-    @ManyToOne
+    @ManyToOne  //fetched eagerly by default
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<ProductImage> productImages;
 
 
