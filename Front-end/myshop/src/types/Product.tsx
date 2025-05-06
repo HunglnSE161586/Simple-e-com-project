@@ -36,5 +36,13 @@ export interface CreateProduct {
   price: number;
   stock: number;
   categoryId: number;
-  productImages:CreateProductImage[];
+  productImages: CreateProductImage[];
+}
+export interface UpdateProduct {
+  productName: string;
+  description: string;
+  price: number;
+  stock: number;
+  categoryId: number;
+  isFeatured: boolean;
 }

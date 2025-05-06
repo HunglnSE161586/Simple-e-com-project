@@ -5,6 +5,7 @@ import { Product } from '../types/Product';
 import { fetchPagedProduct, softDeleteProduct, softRestoreProduct } from '../api/ProductAPI';
 import { PaginatedResponse } from '../types/PaginatedResponse';
 import { toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
 
 const ProductManagement: React.FC = () => {
     const [products, setProducts] = useState<Product[]>([]);
@@ -109,11 +110,9 @@ const ProductManagement: React.FC = () => {
                                         <td>{new Date(product.createdAt).toLocaleString()}</td>
                                         <td>{new Date(product.updatedAt).toLocaleString()}</td>
                                         <td>
-                                            <button
-                                                className="btn btn-sm btn-success"                                                
-                                            >
-                                                Edit
-                                            </button>
+                                            <Link to={`/dashboard/products/${product.productId}`}>
+                                                <button className="btn btn-sm btn-success">Edit</button>
+                                            </Link>
                                         </td>
                                         <td>
 
@@ -132,7 +131,7 @@ const ProductManagement: React.FC = () => {
                                                     Restore
                                                 </button>
                                             )}
-                                        </td>                                        
+                                        </td>
                                     </tr>
                                 ))}
                                 {products.length === 0 && (

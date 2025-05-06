@@ -24,7 +24,7 @@ export const updateCategory = async (categoryId:number, createCategory:CreateCat
     const response=await axiosInstance.put(`/categories/${categoryId}`,createCategory);
     return response.data;
   }catch(error){
-    console.log("Error in create category:"+error);
+    console.log("Error in update category:"+error);
     throw error;
   }
 }

@@ -11,3 +11,7 @@ export interface CreateProductImage {
   altText: string;
   displayOrder: number;
 }
+export interface UpdateProductImage {
+  imageUrl: string;
+  altText: string;
+}
