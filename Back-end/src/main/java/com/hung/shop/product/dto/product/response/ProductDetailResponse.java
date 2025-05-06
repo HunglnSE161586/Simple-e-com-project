@@ -10,7 +10,7 @@ import java.util.List;
 
 @Data
 public class ProductDetailResponse {
-    private Long productId;
+    private Long id;
     private String productName;
     private String description;
     private Double price;

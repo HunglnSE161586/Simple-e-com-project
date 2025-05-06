@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -14,8 +15,8 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Product { /* FIXME Should be singular. Rename Products to Product to follow the convention. The table name 'products' í okay
-                        Apply to other entities as well*/
+public class Product {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
@@ -28,7 +29,7 @@ public class Product { /* FIXME Should be singular. Rename Products to Product t
     private String description;
 
     @Column(nullable = false)
-    private Double price; /* Use BigDecimal for monetary values */
+    private BigDecimal price;
 
     @Column(nullable = false)
     private Boolean isActive;
@@ -39,10 +40,9 @@ public class Product { /* FIXME Should be singular. Rename Products to Product t
     private LocalDateTime updatedAt;
     private Long stock;
 
-    private Long categoryId;
-//    @ManyToOne
-//    @JoinColumn(name = "category_id")
-//    private Category category;
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
 
 
     @PrePersist

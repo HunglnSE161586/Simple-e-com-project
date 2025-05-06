@@ -6,7 +6,7 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => (
-  <Link to={`/products/${product.productId}`} className="text-decoration-none text-dark">
+  <Link to={`/products/${product.id}`} className="text-decoration-none text-dark">
     <div className="card h-100">
       <img
         src={product.productImagePOJO?.imageUrl}

@@ -10,8 +10,8 @@ import com.hung.shop.product.entity.Product;
 import com.hung.shop.product.mapper.ProductMapper;
 import com.hung.shop.product.repository.ProductRepository;
 import com.hung.shop.product.service.IProductService;
-import com.hung.shop.productImages.service.IProductImageQueryPort;
-import com.hung.shop.productImages.service.IProductMainImageService;
+import com.hung.shop.product.service.IProductImageQueryPort;
+import com.hung.shop.product.service.IProductMainImageService;
 import com.hung.shop.productReview.service.IProductReviewService;
 import com.hung.shop.share.CategoryPOJO;
 import com.hung.shop.share.ProductImagePOJO;
@@ -31,6 +31,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class ProductService implements IProductService {
+    private final String PRODUCT_NOT_FOUND = "Product not found, id:";
     private final ProductMapper productMapper;
     private final ProductRepository productRepository;
     private final IProductImageQueryPort productImageService;
@@ -40,11 +41,11 @@ public class ProductService implements IProductService {
 
 
     private List<ProductPojo> getProductPojoWithProductImagePoJo(List<ProductPojo> productPojos) {
-        List<Long> productIds = productPojos.stream().map(ProductPojo::getProductId).toList();
+        List<Long> productIds = productPojos.stream().map(ProductPojo::getId).toList();
 
         Map<Long, ProductImagePOJO> imageMap = productMainImageService.getMainProductImagesByProductId(productIds);
         return productPojos.stream()
-                .peek(product -> product.setProductImagePOJO(imageMap.get(product.getProductId())))
+                .peek(product -> product.setProductImagePOJO(imageMap.get(product.getId())))
                 .toList();
     }
 
@@ -56,9 +57,9 @@ public class ProductService implements IProductService {
     @Override
     public ProductDetailResponse getProductById(Long id) {
         // Get the product by id
-        Product product = productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException("Product with id:"+id+" not found"));
+        Product product = productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException(PRODUCT_NOT_FOUND + id));
         // Get the category POJO, product image POJOs, and product review POJOs
-        CategoryPOJO categoryPOJO = categoryService.getCategoryPojoById(product.getCategoryId());
+        CategoryPOJO categoryPOJO = categoryService.getCategoryPojoById(product.getCategory().getId());
         List<ProductImagePOJO> productImagePOJOS = productImageService.getProductImagesPojoByProductId(id);
         List<ProductReviewPOJO> productReviewPOJOS = productReviewService.getProductReviewsPojoByProductId(id);
         // Map product to ProductDetailResponse
@@ -90,14 +91,14 @@ public class ProductService implements IProductService {
     @Override
     @Transactional
     public ProductDto updateProduct(Long id, ProductUpdateRequest productUpdateRequest) {
-        Product product = productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException("Product with id:"+id+" not found"));
+        Product product = productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException(PRODUCT_NOT_FOUND + id));
         return productMapper.toDto(productRepository.save(productMapper.toEntity(productUpdateRequest, product)));
     }
 
     @Override
     @Transactional
     public ProductDto softDeleteProduct(Long id) {
-        Product product = productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException("Product with id:"+id+" not found"));
+        Product product = productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException(PRODUCT_NOT_FOUND + id));
         product.setIsActive(false);
         return productMapper.toDto(productRepository.save(product));
     }
@@ -105,7 +106,7 @@ public class ProductService implements IProductService {
     @Override
     @Transactional
     public ProductDto restoreProduct(Long id) {
-        Product product = productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException("Product with id:"+id+" not found"));
+        Product product = productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException(PRODUCT_NOT_FOUND + id));
         product.setIsActive(true);
         return productMapper.toDto(productRepository.save(product));
     }

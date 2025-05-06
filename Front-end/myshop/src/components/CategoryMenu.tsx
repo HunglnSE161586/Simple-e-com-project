@@ -28,7 +28,7 @@ const CategoryMenu = ({ categories }: CategoryMenuProps) => {
             <div key={idx} className={`carousel-item ${idx === 0 ? "active" : ""}`}>
               <div className="row g-4">
                 {group.map((category) => (
-                  <div key={category.categoryId} className="col-md-4">
+                  <div key={category.id} className="col-md-4">
                     <div className="card h-100 border-0 shadow-sm text-center">
                       <img
                         src={category.image}
@@ -40,7 +40,7 @@ const CategoryMenu = ({ categories }: CategoryMenuProps) => {
                         <h5 className="card-title">{category.categoryName}</h5>
                         <Link
                           to="/products"
-                          state={{ categoryId: category.categoryId }}
+                          state={{ categoryId: category.id }}
                           className="btn btn-outline-primary"
                         >
                           Explore {category.categoryName}

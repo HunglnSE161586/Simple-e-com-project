@@ -88,8 +88,8 @@ const ProductManagement: React.FC = () => {
                             </thead>
                             <tbody>
                                 {products.map(product => (
-                                    <tr key={product.productId}>
-                                        <td>{product.productId}</td>
+                                    <tr key={product.id}>
+                                        <td>{product.id}</td>
                                         <td>{product.productName}</td>
                                         <td>${product.price.toFixed(2)}</td>
                                         <td>{product.stock}</td>
@@ -110,7 +110,7 @@ const ProductManagement: React.FC = () => {
                                         <td>{new Date(product.createdAt).toLocaleString()}</td>
                                         <td>{new Date(product.updatedAt).toLocaleString()}</td>
                                         <td>
-                                            <Link to={`/dashboard/products/${product.productId}`}>
+                                            <Link to={`/dashboard/products/${product.id}`}>
                                                 <button className="btn btn-sm btn-success">Edit</button>
                                             </Link>
                                         </td>
@@ -119,14 +119,14 @@ const ProductManagement: React.FC = () => {
                                             {product.isActive ? (
                                                 <button
                                                     className="btn btn-sm btn-danger"
-                                                    onClick={() => handleDelete(product.productId)}
+                                                    onClick={() => handleDelete(product.id)}
                                                 >
                                                     Delete
                                                 </button>
                                             ) : (
                                                 <button
                                                     className="btn btn-sm btn-success"
-                                                    onClick={() => handleRestore(product.productId)}
+                                                    onClick={() => handleRestore(product.id)}
                                                 >
                                                     Restore
                                                 </button>

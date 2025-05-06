@@ -59,7 +59,7 @@ const CategoryManagement: React.FC = () => {
   };
 
   const handleEdit = (category: Category) => {
-    setEditingId(category.categoryId);
+    setEditingId(category.id);
     setModalCategory({
       categoryName: category.categoryName,
       description: category.description,
@@ -97,8 +97,8 @@ const CategoryManagement: React.FC = () => {
               </thead>
               <tbody>
                 {categories.map((cat) => (
-                  <tr key={cat.categoryId}>
-                    <td>{cat.categoryId}</td>
+                  <tr key={cat.id}>
+                    <td>{cat.id}</td>
                     <td>{cat.categoryName}</td>
                     <td>{cat.description}</td>
                     <td>

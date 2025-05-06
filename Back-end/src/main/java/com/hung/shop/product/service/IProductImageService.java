@@ -1,13 +1,10 @@
-package com.hung.shop.productImages.service;
+package com.hung.shop.product.service;
 
-import com.hung.shop.productImages.dto.request.ProductImageCreateRequest;
-import com.hung.shop.productImages.dto.request.ProductImageUpdateRequest;
-import com.hung.shop.productImages.dto.response.ProductImageDto;
-import com.hung.shop.share.ProductImagePOJO;
-import com.hung.shop.share.ProductPojo;
+import com.hung.shop.product.dto.productImage.request.ProductImageCreateRequest;
+import com.hung.shop.product.dto.productImage.request.ProductImageUpdateRequest;
+import com.hung.shop.product.dto.productImage.response.ProductImageDto;
 
 import java.util.List;
-import java.util.Map;
 
 public interface IProductImageService {
     List<ProductImageDto> getAllProductImages();

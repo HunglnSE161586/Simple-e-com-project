@@ -1,15 +1,14 @@
-package com.hung.shop.productImages.controller;
+package com.hung.shop.product.controller;
 
-import com.hung.shop.productImages.dto.request.ProductImageCreateRequest;
-import com.hung.shop.productImages.dto.request.ProductImageUpdateRequest;
-import com.hung.shop.productImages.dto.response.ProductImageDto;
-import com.hung.shop.productImages.service.IProductImageService;
+import com.hung.shop.product.dto.productImage.request.ProductImageCreateRequest;
+import com.hung.shop.product.dto.productImage.request.ProductImageUpdateRequest;
+import com.hung.shop.product.dto.productImage.response.ProductImageDto;
+import com.hung.shop.product.service.IProductImageService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

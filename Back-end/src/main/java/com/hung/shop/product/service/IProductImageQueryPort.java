@@ -1,4 +1,4 @@
-package com.hung.shop.productImages.service;
+package com.hung.shop.product.service;
 
 import com.hung.shop.share.ProductImagePOJO;
 

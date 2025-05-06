@@ -6,16 +6,17 @@ import { logoutUser } from '../api/UserAPI';  // Import your API logout function
 export const useHandleLogout = () => {
   const navigate = useNavigate();
 
-  const handleLogout = () => {
+  const handleLogout = () => {    
     logoutUser()
-      .then((response) => {
-        removeToken();
-        toast.success(response);
-        navigate('/');
+      .then((response) => {        
+        toast.success(response);        
       })
       .catch((error) => {
         console.error('Logout error:', error);
         toast.error('Logout failed: ' + (error.response?.data || error.message));
+      }).finally(()=>{
+        removeToken();
+        navigate('/');
       });
   };
 

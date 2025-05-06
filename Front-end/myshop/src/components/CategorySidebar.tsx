@@ -37,9 +37,9 @@ const CategorySidebar: React.FC<Props> = ({ onSelectCategory }) => {
       </button>
       {categories.map(category => (
         <button
-          key={category.categoryId}
+          key={category.id}
           className="list-group-item list-group-item-action"
-          onClick={() => onSelectCategory(category.categoryId)}
+          onClick={() => onSelectCategory(category.id)}
         >
           {category.categoryName}
         </button>

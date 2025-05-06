@@ -3,7 +3,7 @@ import { Category } from "./Category";
 import { CreateProductImage, ProductImage } from "./ProductImage";
 import { ProductReview } from "./ProductReview";
 export interface Product {
-  productId: number;
+  id: number;
   productName: string;
   description: string;
   price: number;
@@ -17,7 +17,7 @@ export interface Product {
 }
 
 export interface ProductDetail {
-  productId: number;
+  id: number;
   productName: string;
   description: string;
   price: number;

@@ -15,7 +15,8 @@ import java.util.List;
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long categoryId;
+    @Column(name = "category_id")
+    private Long id;
 
     @Column(nullable = false, unique = true)
     private String categoryName;
@@ -24,8 +25,8 @@ public class Category {
     private LocalDateTime createdAt;
     private String image;
 
-//    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
-//    private List<Product> products;
+    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
+    private List<Product> products;
 
     @PrePersist
     public void prePersist() {

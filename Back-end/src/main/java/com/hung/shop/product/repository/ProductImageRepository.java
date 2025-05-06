@@ -1,13 +1,12 @@
-package com.hung.shop.productImages.repository;
+package com.hung.shop.product.repository;
 
-import com.hung.shop.productImages.entity.ProductImages;
+import com.hung.shop.product.entity.ProductImages;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface ProductImageRepository extends JpaRepository<ProductImages, Long> {

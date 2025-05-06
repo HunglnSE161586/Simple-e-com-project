@@ -1,4 +1,4 @@
-package com.hung.shop.productImages.entity;
+package com.hung.shop.product.entity;
 import jakarta.persistence.*;
 import lombok.*;
 

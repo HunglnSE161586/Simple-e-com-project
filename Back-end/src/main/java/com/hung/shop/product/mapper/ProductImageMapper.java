@@ -1,9 +1,9 @@
-package com.hung.shop.productImages.mapper;
+package com.hung.shop.product.mapper;
 
-import com.hung.shop.productImages.dto.request.ProductImageCreateRequest;
-import com.hung.shop.productImages.dto.request.ProductImageUpdateRequest;
-import com.hung.shop.productImages.dto.response.ProductImageDto;
-import com.hung.shop.productImages.entity.ProductImages;
+import com.hung.shop.product.dto.productImage.request.ProductImageCreateRequest;
+import com.hung.shop.product.dto.productImage.request.ProductImageUpdateRequest;
+import com.hung.shop.product.dto.productImage.response.ProductImageDto;
+import com.hung.shop.product.entity.ProductImages;
 import com.hung.shop.share.ProductImagePOJO;
 import org.mapstruct.*;
 

@@ -47,11 +47,11 @@ export default function AdminProductDetailPage() {
           description: productData.description,
           price: productData.price,
           stock: productData.stock,
-          categoryId: productData.categoryPOJO.categoryId,
+          categoryId: productData.categoryPOJO.id,
           isFeatured: productData.isFeatured,
         });
         setCategories(allCategories);
-        setSelectedCategoryId(productData.categoryPOJO.categoryId);
+        setSelectedCategoryId(productData.categoryPOJO.id);
       } catch (error) {
         console.error("Failed to load data", error);
       } finally {
@@ -150,7 +150,7 @@ export default function AdminProductDetailPage() {
               >
                 <option value="" disabled>Select a category</option>
                 {categories.map((cat) => (
-                  <option key={cat.categoryId} value={cat.categoryId}>
+                  <option key={cat.id} value={cat.id}>
                     {cat.categoryName}
                   </option>
                 ))}

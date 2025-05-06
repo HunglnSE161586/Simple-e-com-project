@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 @Data
 public class ProductPojo {
-    private Long productId;
+    private Long id;
     private String productName;
     private String description;
     private Double price;
