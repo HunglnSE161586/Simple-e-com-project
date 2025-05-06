@@ -1,5 +1,5 @@
 import axiosInstance from "./AxiosInstance";
-import { Product, ProductDetail, UpdateProduct } from "../types/Product";
+import { CreateProduct, Product, ProductDetail, UpdateProduct } from "../types/Product";
 import { PaginatedResponse } from "../types/PaginatedResponse";
 export const fetchAllProducts = async (): Promise<Product[]> => {
   const response = await axiosInstance.get("/products/all");
@@ -45,6 +45,15 @@ export const updateProduct = async (productId: number,updateProduct:UpdateProduc
     return response.data;
   } catch (error) {
     console.error("Error update product by id:", error);
+    throw error;
+  }
+}
+export const createProduct = async (product:CreateProduct): Promise<Product> => {
+  try {
+    const response = await axiosInstance.post(`/products`,product);
+    return response.data;
+  } catch (error) {
+    console.error("Error create product:", error);
     throw error;
   }
 }

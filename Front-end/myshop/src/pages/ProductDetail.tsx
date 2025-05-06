@@ -179,7 +179,7 @@ const ProductDetail: React.FC = () => {
                         <div id="productImagesCarousel" className="carousel slide" data-bs-ride="carousel">
                             <div className="carousel-inner">
                                 {product.productImagePOJOS.map((image, index) => (
-                                    <div key={image.imageId} className={`carousel-item ${index === 0 ? "active" : ""}`}>
+                                    <div key={image.id} className={`carousel-item ${index === 0 ? "active" : ""}`}>
                                         <img src={image.imageUrl} className="d-block w-100" alt={image.altText} />
                                     </div>
                                 ))}

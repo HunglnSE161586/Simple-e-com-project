@@ -96,7 +96,7 @@ export default function AdminProductDetailPage() {
   const handleImageUpdate = async () => {
     if (!selectedImage) return;
     try {
-      await updateProductImage(selectedImage.imageId, imageFormData);
+      await updateProductImage(selectedImage.id, imageFormData);
       toast.success("Image updated successfully");
       setShowImageModal(false);
 
@@ -121,7 +121,7 @@ export default function AdminProductDetailPage() {
   };
 
   if (loading) return <div className="container mt-5">Loading...</div>;
-  if (!product) return <div className="container mt-5 text-danger">Product not found.</div>;
+  if (!product) return <div className="container mt-5 text-danger">Not found.</div>;
 
   return (
     <div className="d-flex">
@@ -220,7 +220,7 @@ export default function AdminProductDetailPage() {
             </thead>
             <tbody>
               {product.productImagePOJOS.map((img, idx) => (
-                <tr key={img.imageId}>
+                <tr key={img.id}>
                   <td>{idx + 1}</td>
                   <td>
                     <a href={img.imageUrl} target="_blank" rel="noopener noreferrer">

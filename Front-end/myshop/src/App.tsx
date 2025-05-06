@@ -17,6 +17,7 @@ import UserManagement from "./pages/UserManagement";
 import CategoryManagement from "./pages/CategoryManagement";
 import ProductManagement from "./pages/ProductManagement";
 import AdminProductDetailPage from "./pages/AdminProductDetailPage";
+import CreateProductPage from "./pages/CreateProductPage";
 
 
 function App() {
@@ -51,6 +52,10 @@ function App() {
           <Route path="/dashboard/products/:id" element={
           <ProtectedRoute role="ROLE_ADMIN">
             <AdminProductDetailPage />
+          </ProtectedRoute>} />
+          <Route path="/dashboard/products/new" element={
+          <ProtectedRoute role="ROLE_ADMIN">
+            <CreateProductPage />
           </ProtectedRoute>} />
       </Routes>
 

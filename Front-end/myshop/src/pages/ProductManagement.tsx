@@ -70,6 +70,11 @@ const ProductManagement: React.FC = () => {
                 <Topbar />
                 <div className="container mt-4">
                     <h2 className="text-center mb-4">Product Management</h2>
+                    <div className="mb-4 text-center">
+                        <Link to="/dashboard/products/new">
+                            <button className="btn btn-primary">+ New Product</button>
+                        </Link>
+                    </div>
                     <div className="table-responsive">
                         <table className="table table-bordered table-hover">
                             <thead className="table-light">
