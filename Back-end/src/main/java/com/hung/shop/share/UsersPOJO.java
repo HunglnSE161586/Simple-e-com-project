@@ -7,7 +7,7 @@ import java.util.List;
 
 @Data
 public class UsersPOJO {
-    private Long userId;
+    private Long id;
     private String email;
 
     private String firstName;

@@ -31,7 +31,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         String role="";
         Set<GrantedAuthority> authoritySet =new HashSet<>();
         UsersPOJO user = userService.getUserByEmail(email);
-        List<UserAuthPOJO> userAuthPOJOS=userAuthService.getUserAuthsByUserId(user.getUserId());
+        List<UserAuthPOJO> userAuthPOJOS=userAuthService.getUserAuthsByUserId(user.getId());
         user.setUserAuthPOJO(userAuthPOJOS);
         user.setUserRolePOJO(userRoleService.findById(user.getUserRolePOJO().getRoleId()).orElse(null));
         if (user.getUserRolePOJO().getRoleName() != null) {

@@ -54,7 +54,7 @@ public class AuthController {
             CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 
             // Generate JWT token for the authenticated user
-            String token = jwtTokenUtil.generateToken(userDetails.getUser().getUserId(),loginRequest.username, authentication.getAuthorities());
+            String token = jwtTokenUtil.generateToken(userDetails.getUser().getId(),loginRequest.username, authentication.getAuthorities());
 
             return ResponseEntity.ok(token);
         } catch (BadCredentialsException e) {

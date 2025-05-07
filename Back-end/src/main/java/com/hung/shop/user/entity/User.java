@@ -9,10 +9,11 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "users")
 @Data
-public class Users {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
+    @Column(name = "user_id")
+    private Long id;
 
     @Email
     @Column(nullable = false,unique = true, updatable = false)
