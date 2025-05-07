@@ -1,5 +1,8 @@
 package com.hung.shop.auth.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hung.shop.auth.exception.InvalidJwtException;
+import com.hung.shop.auth.exception.JwtBlacklistException;
 import com.hung.shop.auth.service.IJwtBlacklistService;
 import com.hung.shop.auth.utils.IJwtTokenUtil;
 import io.jsonwebtoken.JwtException;
@@ -17,6 +20,9 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
+
+import java.util.HashMap;
+import java.util.Map;
 
 // remove @Component annotation to avoid circular dependency
 // @Component
@@ -36,7 +42,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             if (StringUtils.hasText(jwt) && jwtTokenUtil.validateToken(jwt)) {
                 if (blacklistService.isBlacklisted(jwt)) {
-                    throw new JwtException("Token has been blacklisted");
+                    logger.warn("Token is blacklisted: {}", jwt);
+                    throw new JwtBlacklistException("Token has been blacklisted");
                 }
                 String email = jwtTokenUtil.getEmailFromToken(jwt);
 
@@ -50,9 +57,19 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
-        } catch (Exception ex) {
-            // Log the exception or handle errors as needed
+        } catch (InvalidJwtException ex) {
             logger.warn("JWT authentication failed: {}", ex.getMessage());
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType("application/json");
+
+            Map<String, Object> responseBody = new HashMap<>();
+            responseBody.put("status", 401);
+            responseBody.put("error", "Unauthorized");
+            responseBody.put("message", ex.getMessage());
+            responseBody.put("path", request.getRequestURI());
+
+            new ObjectMapper().writeValue(response.getOutputStream(), responseBody);
+            return; // Stop further processing
         }
         filterChain.doFilter(request, response);
     }

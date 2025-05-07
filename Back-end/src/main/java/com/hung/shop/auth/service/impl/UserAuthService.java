@@ -6,17 +6,17 @@ import com.hung.shop.auth.repository.UserAuthRepository;
 import com.hung.shop.auth.service.IUserAuthService;
 import com.hung.shop.share.UserAuthPOJO;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class UserAuthService implements IUserAuthService {
-    @Autowired
-    private UserAuthMapper userAuthMapper;
-    @Autowired
-    private UserAuthRepository userAuthRepository;
+    private final UserAuthMapper userAuthMapper;
+    private final UserAuthRepository userAuthRepository;
     public List<UserAuthPOJO> getUserAuthsByUserId(Long userId) {
         return userAuthRepository.findAll().stream()
                 .filter(userAuth -> userAuth.getUserId().equals(userId))

@@ -1,0 +1,112 @@
+{
+	"info": {
+		"_postman_id": "45d6d87e-086b-4a7c-9bde-2be2a999b2d6",
+		"name": "Simple e-com",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26189770"
+	},
+	"item": [
+		{
+			"name": "Get Paged Products",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response time is within acceptable range\", function () {\r",
+							"  pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Content array has the correct structure\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseData.content).to.be.an('array').and.to.have.lengthOf.at.least(1);\r",
+							"    responseData.content.forEach(function(item) {\r",
+							"        pm.expect(item).to.have.property('id').that.is.a('number');\r",
+							"        pm.expect(item).to.have.property('productName').that.is.a('string');\r",
+							"        pm.expect(item).to.have.property('description').that.is.a('string');\r",
+							"        pm.expect(item).to.have.property('price').that.is.a('number');\r",
+							"        pm.expect(item).to.have.property('isActive').that.is.a('boolean');\r",
+							"        pm.expect(item).to.have.property('isFeatured').that.is.a('boolean');\r",
+							"        pm.expect(item).to.have.property('createdAt').that.is.a('string');\r",
+							"        pm.expect(item).to.have.property('updatedAt').that.is.a('string');\r",
+							"        pm.expect(item).to.have.property('stock').that.is.a('number');\r",
+							"        pm.expect(item).to.have.property('categoryId').that.is.a('number');\r",
+							"        pm.expect(item).to.have.property('productImagePOJO').that.is.an('object');\r",
+							"    });\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Pageable object contains expected properties\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responseData.pageable).to.be.an('object');\r",
+							"    pm.expect(responseData.pageable).to.have.property('pageNumber');\r",
+							"    pm.expect(responseData.pageable).to.have.property('pageSize');\r",
+							"    pm.expect(responseData.pageable.sort).to.be.an('object');\r",
+							"    pm.expect(responseData.pageable.sort).to.have.property('unsorted');\r",
+							"    pm.expect(responseData.pageable.sort).to.have.property('sorted');\r",
+							"    pm.expect(responseData.pageable.sort).to.have.property('empty');\r",
+							"    pm.expect(responseData.pageable).to.have.property('offset');\r",
+							"    pm.expect(responseData.pageable).to.have.property('unpaged');\r",
+							"    pm.expect(responseData.pageable).to.have.property('paged');\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"ProductImagePOJO object has required fields\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    pm.expect(responseData.content).to.be.an('array').that.is.not.empty;\r",
+							"\r",
+							"    responseData.content.forEach(function(product) {\r",
+							"        pm.expect(product.productImagePOJO).to.exist;\r",
+							"        pm.expect(product.productImagePOJO.id).to.be.a('number');\r",
+							"        pm.expect(product.productImagePOJO.productId).to.be.a('number');\r",
+							"        pm.expect(product.productImagePOJO.imageUrl).to.be.a('string');\r",
+							"        pm.expect(product.productImagePOJO.altText).to.be.a('string');\r",
+							"        pm.expect(product.productImagePOJO.displayOrder).to.be.a('number');\r",
+							"        pm.expect(product.productImagePOJO.createdAt).to.be.a('string');\r",
+							"    });\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/products?page=0&size=10",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "size",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

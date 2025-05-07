@@ -1,6 +1,7 @@
 package com.hung.shop.auth.controller;
 
 import com.hung.shop.auth.dto.request.LoginRequest;
+import com.hung.shop.auth.entity.CustomUserDetails;
 import com.hung.shop.auth.service.IJwtBlacklistService;
 import com.hung.shop.auth.utils.IJwtTokenUtil;
 import io.swagger.v3.oas.annotations.Operation;
@@ -8,6 +9,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,17 +25,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("api/auth")
 @Tag(name = "Auths", description = "Authentication API")
+@RequiredArgsConstructor
 public class AuthController {
-    @Autowired
-    private AuthenticationManager authenticationManager;
-    @Autowired
-    private UserDetailsService customUserDetailsService;
-    @Autowired
-    private IJwtTokenUtil jwtTokenUtil;
-    @Autowired
-    private IJwtBlacklistService blacklistService;
+    private final AuthenticationManager authenticationManager;
+    private final IJwtTokenUtil jwtTokenUtil;
+    private final IJwtBlacklistService blacklistService;
 
     @PostMapping("/login")
     @Operation(summary = "Login", description = "Authenticate user and return JWT token.")
@@ -40,7 +39,7 @@ public class AuthController {
             @ApiResponse(responseCode = "200", description = "Login successful"),
             @ApiResponse(responseCode = "401", description = "Invalid username or password")
     })
-    public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<String> authenticateUser(@RequestBody @Valid LoginRequest loginRequest) {
         try {
             // spring check user exists by calling CustomUserDetailsService.loadUserByUsername()
             // it also auto hash password and check with the password in the database
@@ -52,10 +51,10 @@ public class AuthController {
             );
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
-
+            CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 
             // Generate JWT token for the authenticated user
-            String token = jwtTokenUtil.generateToken(loginRequest.username);
+            String token = jwtTokenUtil.generateToken(userDetails.getUser().getId(),loginRequest.username, authentication.getAuthorities());
 
             return ResponseEntity.ok(token);
         } catch (BadCredentialsException e) {
