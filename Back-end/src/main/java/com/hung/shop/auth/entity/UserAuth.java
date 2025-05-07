@@ -11,7 +11,8 @@ import java.time.LocalDateTime;
 public class UserAuth {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long authId;
+    @Column(name = "auth_id")
+    private Long id;
     @Column(updatable = false)
     private String provider;
     private String providerId;

@@ -6,6 +6,7 @@ import com.hung.shop.userRole.service.IUserRoleService;
 import com.hung.shop.share.UserAuthPOJO;
 import com.hung.shop.share.UsersPOJO;
 import com.hung.shop.user.service.IUserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,13 +20,11 @@ import java.util.List;
 import java.util.Set;
 
 @Service
+@RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
-    @Autowired
-    private IUserService userService;
-    @Autowired
-    private IUserAuthService userAuthService;
-    @Autowired
-    private IUserRoleService userRoleService;
+    private final IUserService userService;
+    private final IUserAuthService userAuthService;
+    private final IUserRoleService userRoleService;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {

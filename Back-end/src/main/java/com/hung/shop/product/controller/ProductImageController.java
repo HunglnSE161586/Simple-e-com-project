@@ -7,6 +7,7 @@ import com.hung.shop.product.service.IProductImageService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -42,6 +43,7 @@ public class ProductImageController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Product images created successfully"),
     })
+    @SecurityRequirement(name = "Authorization")
     public ResponseEntity<String> createProductImage(@RequestBody List<ProductImageCreateRequest> productImageCreateRequests, @PathVariable Long productId) {
         productImageService.createProductImage(productImageCreateRequests, productId);
         return ResponseEntity.ok("Product images created successfully");
@@ -51,6 +53,7 @@ public class ProductImageController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Product image updated successfully"),
     })
+    @SecurityRequirement(name = "Authorization")
     public ResponseEntity<ProductImageDto> updateProductImage(@PathVariable Long id, @RequestBody ProductImageUpdateRequest productImageUpdateRequest) {
         return ResponseEntity.ok(productImageService.updateProductImage(id, productImageUpdateRequest));
     }

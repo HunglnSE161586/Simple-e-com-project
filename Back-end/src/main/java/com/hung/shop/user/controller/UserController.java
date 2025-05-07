@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/users")
-@SecurityRequirement(name = "Authorization")
 @Tag(name = "Users", description = "User API")
 public class UserController {
     @Autowired
@@ -48,6 +47,7 @@ public class UserController {
             @ApiResponse(responseCode = "400", description = "Invalid request or user not found"),
             @ApiResponse(responseCode = "403", description = "Forbidden, current user is not authorized to access other user's information"),
     })
+    @SecurityRequirement(name = "Authorization")
     public ResponseEntity<?> getUserById(@PathVariable Long id) {
         try {
             return ResponseEntity.ok(userService.getUserById(id));
@@ -77,6 +77,7 @@ public class UserController {
             @ApiResponse(responseCode = "400", description = "Invalid request or user not found"),
     })
     @PreAuthorize("hasRole('ADMIN')")
+    @SecurityRequirement(name = "Authorization")
     public ResponseEntity<?> getPagedUsers( @RequestParam(defaultValue = "0") @Min(value = 0, message = "Page index must be non-negative") int page,
                                             @RequestParam(defaultValue = "10") @Min(value = 1, message = "Page size must be at least 1") int size) {
         try {
@@ -93,6 +94,7 @@ public class UserController {
             @ApiResponse(responseCode = "400", description = "Invalid request or user not found"),
             @ApiResponse(responseCode = "403", description = "Forbidden, current user is not authorized to update other user's information"),
     })
+    @SecurityRequirement(name = "Authorization")
     public ResponseEntity<?> updateUser(@PathVariable Long id,
                                             @Valid @RequestBody UserUpdateRequest userUpdateRequest) {
         try {
@@ -108,6 +110,7 @@ public class UserController {
             @ApiResponse(responseCode = "200", description = "User soft-deleted successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid request or user not found"),
     })
+    @SecurityRequirement(name = "Authorization")
     public ResponseEntity<?> softDeleteUser(@PathVariable Long id) {
         try {
             return ResponseEntity.ok(userService.updateUserStatus(id, false)); // false = inactive
@@ -122,6 +125,7 @@ public class UserController {
             @ApiResponse(responseCode = "200", description = "User restored successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid request or user not found")
     })
+    @SecurityRequirement(name = "Authorization")
     public ResponseEntity<?> restoreUser(@PathVariable Long id) {
         try {
             return ResponseEntity.ok(userService.updateUserStatus(id, true)); // true = active

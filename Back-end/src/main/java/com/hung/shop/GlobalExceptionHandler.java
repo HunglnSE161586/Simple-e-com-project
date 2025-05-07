@@ -1,8 +1,12 @@
 package com.hung.shop;
 
+import com.hung.shop.auth.exception.InvalidJwtException;
+import com.hung.shop.auth.exception.JwtBlacklistException;
 import com.hung.shop.product.exception.category.CategoryNotFoundException;
 import com.hung.shop.product.exception.product.ProductNotFoundException;
 import com.hung.shop.product.exception.productImage.ProductImageNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -14,20 +18,25 @@ import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
     @ExceptionHandler(CategoryNotFoundException.class)
     public ResponseEntity<String> handleCategoryNotFound(CategoryNotFoundException ex) {
+        logger.warn("Category not found: ", ex);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleAllOtherExceptions(Exception ex) {
+        logger.error("Unhandled exception: ", ex);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + ex.getMessage());
     }
     @ExceptionHandler(ProductImageNotFoundException.class)
     public ResponseEntity<String> handleProductImageNotFound(ProductImageNotFoundException ex) {
+        logger.warn("Product image not found: ", ex);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
     @ExceptionHandler(ProductNotFoundException.class)
     public ResponseEntity<String> handleProductNotFound(ProductNotFoundException ex) {
+        logger.warn("Product not found: ", ex);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -36,7 +45,7 @@ public class GlobalExceptionHandler {
         ex.getBindingResult().getFieldErrors().forEach(error -> {
             errors.put(error.getField(), error.getDefaultMessage());
         });
+        logger.warn("Validation errors: {}", errors);
         return ResponseEntity.badRequest().body(errors);
     }
-
 }

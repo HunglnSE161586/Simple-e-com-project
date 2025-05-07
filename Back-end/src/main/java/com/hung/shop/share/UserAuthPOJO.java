@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 @Data
 public class UserAuthPOJO {
-    private Long authId;
+    private Long id;
     private String provider;
     private String providerId;
     private String password;

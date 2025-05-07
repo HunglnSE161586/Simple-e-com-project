@@ -6,6 +6,7 @@ import com.hung.shop.productReview.service.IProductReviewService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,7 @@ public class ProductReviewController {
             @ApiResponse(responseCode = "400", description = "Bad request"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
+    @SecurityRequirement(name = "Authorization")
     public ResponseEntity<?> createProductReview(@RequestBody @Valid ProductReviewCreateRequest productReviewCreateRequest) {
         try {
             ProductReviewDto createdProductReview = productReviewService.createProductReview(productReviewCreateRequest);

@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
@@ -56,12 +57,11 @@ public class SecurityConfig{
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**",
                                 "/swagger-ui/index.html",
-                                "/api/users/**",
-                                "/api/products/**",
-                                "/api/categories/**",
                                 "/api/product-reviews/**",
-                                "/api/product-images/**",
                                 "/api-docs/**").permitAll()
+                        .requestMatchers(HttpMethod.GET,  "/api/products/**", "/api/categories/**","/api/product-images/**").permitAll()
+                        .requestMatchers("/api/products/**", "/api/categories/**","/api/product-images/**")
+                        .hasRole("ADMIN")
                         // All other endpoints require authentication
                         .anyRequest().authenticated()
                 )
@@ -73,7 +73,7 @@ public class SecurityConfig{
                             Map<String, Object> errorDetails = new HashMap<>();
                             errorDetails.put("status", 401);
                             errorDetails.put("error", "Unauthorized");
-                            errorDetails.put("message", "JWT token is missing or invalid");
+                            errorDetails.put("message", authException.getMessage());
                             errorDetails.put("path", request.getRequestURI());
 
                             new ObjectMapper().writeValue(response.getOutputStream(), errorDetails);
@@ -85,7 +85,7 @@ public class SecurityConfig{
                             Map<String, Object> errorDetails = new HashMap<>();
                             errorDetails.put("status", 403);
                             errorDetails.put("error", "Forbidden");
-                            errorDetails.put("message", "You don't have permission to access this resource");
+                            errorDetails.put("message", accessDeniedException.getMessage());
                             errorDetails.put("path", request.getRequestURI());
 
                             new ObjectMapper().writeValue(response.getOutputStream(), errorDetails);

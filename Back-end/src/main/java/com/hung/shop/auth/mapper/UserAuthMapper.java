@@ -10,5 +10,4 @@ import org.mapstruct.Mapping;
 public interface UserAuthMapper {
     UserAuth toEntity(UserAuthCreateDto userAuthCreateDto);
     UserAuthPOJO toPOJO(UserAuth userAuth);
-    UserAuth toEntity(UserAuthPOJO userAuthPOJO);
 }

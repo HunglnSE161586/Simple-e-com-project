@@ -1,9 +1,16 @@
 package com.hung.shop.auth.utils;
 
+import com.hung.shop.GlobalExceptionHandler;
+import com.hung.shop.auth.exception.JwtExpiredException;
+import com.hung.shop.auth.exception.JwtMalformedException;
+import com.hung.shop.auth.exception.JwtSignatureException;
+import com.hung.shop.auth.exception.JwtUnsupportedException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
 import jakarta.servlet.http.HttpServletRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -13,12 +20,12 @@ import java.util.Collection;
 import java.util.Date;
 @Component
 public class JwtTokenUtil implements IJwtTokenUtil {
+    private static final Logger logger = LoggerFactory.getLogger(JwtTokenUtil.class);
     private final SecretKey SECRET_KEY = Keys.hmacShaKeyFor("tempSecretKey1234567890aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa".getBytes());
 
     // Token validity in milliseconds (e.g., 15 minutes)
     private final long jwtExpirationInMs = 900000; // 15*60*1000
 
-    // Generate JWT token based on the user's username
     public String generateToken(String email) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
@@ -36,15 +43,14 @@ public class JwtTokenUtil implements IJwtTokenUtil {
 
         return Jwts.builder()
                 .subject(email)
-                .claim("userId", userId) // Add userId as a claim
-                .claim("role", roles) // Add role as a claim
+                .claim("userId", userId)
+                .claim("role", roles)
                 .issuedAt(now)
                 .expiration(expiryDate)
                 .signWith(SECRET_KEY, Jwts.SIG.HS256)
                 .compact();
     }
 
-    // Extract email from token
     public String getEmailFromToken(String token) {
         Claims claims = Jwts.parser()
                 .verifyWith(SECRET_KEY)
@@ -55,20 +61,24 @@ public class JwtTokenUtil implements IJwtTokenUtil {
         return claims.getSubject();
     }
 
-    // Validate token
     public boolean validateToken(String token) {
         try {
             Jwts.parser().verifyWith(SECRET_KEY).build().parseSignedClaims(token);
             return true;
         } catch (SignatureException ex) {
-            System.out.println("Invalid JWT signature");
+            logger.warn("Invalid JWT signature: {}", ex.getMessage());
+            throw new JwtSignatureException("Invalid JWT signature"+ex.getMessage());
         } catch (MalformedJwtException ex) {
-            System.out.println("Invalid JWT token");
+            logger.warn("Invalid JWT token: {}", ex.getMessage());
+            throw new JwtMalformedException("Invalid JWT token:"+ex.getMessage());
         } catch (ExpiredJwtException ex) {
-            System.out.println("Expired JWT token");
+            logger.warn("JWT token is expired: {}", ex.getMessage());
+            throw new JwtExpiredException("Expired JWT token:"+ex.getMessage());
         } catch (UnsupportedJwtException ex) {
-            System.out.println("Unsupported JWT token");
+            logger.warn("Unsupported JWT token: {}", ex.getMessage());
+            throw new JwtUnsupportedException("Unsupported JWT token:"+ex.getMessage());
         } catch (IllegalArgumentException ex) {
+            logger.warn("JWT claims string is empty: {}", ex.getMessage());
             System.out.println("JWT claims string is empty.");
         }
         return false;

@@ -23,7 +23,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/products")
-@SecurityRequirement(name = "Authorization")
 @Tag(name = "Products", description = "Product API")
 @RequiredArgsConstructor
 public class ProductController {
@@ -81,6 +80,7 @@ public class ProductController {
             @ApiResponse(responseCode = "500", description = "Internal server error"),
     })
     @PreAuthorize("hasRole('ADMIN')" )
+    @SecurityRequirement(name = "Authorization")
     public ResponseEntity<ProductDto> createProduct(@RequestBody @Valid ProductCreateRequest productCreateRequest) {
         return ResponseEntity.ok(productService.createProduct(productCreateRequest));
     }
@@ -92,6 +92,7 @@ public class ProductController {
             @ApiResponse(responseCode = "500", description = "Internal server error"),
     })
     @PreAuthorize("hasRole('ADMIN')" )
+    @SecurityRequirement(name = "Authorization")
     public ResponseEntity<?> updateProduct(@PathVariable Long id, @RequestBody ProductUpdateRequest productUpdateRequest) {
         try {
             return ResponseEntity.ok(productService.updateProduct(id, productUpdateRequest));
@@ -107,6 +108,7 @@ public class ProductController {
             @ApiResponse(responseCode = "500", description = "Internal server error"),
     })
     @PreAuthorize("hasRole('ADMIN')" )
+    @SecurityRequirement(name = "Authorization")
     public ResponseEntity<?> softDeleteProduct(@PathVariable Long id) {
         try {
             return ResponseEntity.ok(productService.softDeleteProduct(id));
@@ -122,6 +124,7 @@ public class ProductController {
             @ApiResponse(responseCode = "500", description = "Internal server error"),
     })
     @PreAuthorize("hasRole('ADMIN')" )
+    @SecurityRequirement(name = "Authorization")
     public ResponseEntity<?> restoreProduct(@PathVariable Long id) {
         try {
             return ResponseEntity.ok(productService.restoreProduct(id));

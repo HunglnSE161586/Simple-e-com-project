@@ -5,6 +5,7 @@ import com.hung.shop.product.dto.category.request.CategoryUpdateRequest;
 import com.hung.shop.product.dto.category.response.CategoryDto;
 import com.hung.shop.product.service.ICategoryService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
@@ -38,12 +39,14 @@ public class CategoryController {
     @PostMapping()
     @Operation(summary = "Create a new category", description = "Creates a new category in the system.")
     @PreAuthorize("hasRole('ADMIN')" )
+    @SecurityRequirement(name = "Authorization")
     public ResponseEntity<CategoryDto> createCategory(@RequestBody @Valid CategoryCreateRequest categoryCreateRequest) {
         return ResponseEntity.ok(categoryService.createCategory(categoryCreateRequest));
     }
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')" )
     @Operation(summary = "Update an existing category", description = "Updates an existing category in the system.")
+    @SecurityRequirement(name = "Authorization")
     public ResponseEntity<CategoryDto> updateCategory(@PathVariable Long id, @RequestBody @Valid CategoryUpdateRequest categoryUpdateRequest) {
         return ResponseEntity.ok(categoryService.updateCategory(id, categoryUpdateRequest));
     }
