@@ -50,6 +50,20 @@ jobs:
         echo "All pom.xml files:"
         find . -name "pom.xml" | sort
     
+    - name: Initialize PostgreSQL database
+      run: |
+        # Verify init.sql exists
+        ls -l init.sql
+        # Wait for PostgreSQL to be ready
+        until pg_isready -h localhost -p 5432 -U postgres; do
+          echo "Waiting for PostgreSQL to be ready..."
+          sleep 2
+        done
+        # Execute init.sql to populate the database
+        psql -h localhost -p 5432 -U postgres -d myshop -f init.sql
+      env:
+        PGPASSWORD: postgres
+    
     - name: Build and Test with Maven
       run: |
         cd Back-end
