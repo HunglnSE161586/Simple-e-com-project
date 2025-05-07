@@ -11,7 +11,6 @@ jobs:
     runs-on: ubuntu-latest
     
     services:
-      # Use GitHub Actions services to manage PostgreSQL
       postgres:
         image: postgres:15
         env:
@@ -20,14 +19,12 @@ jobs:
           POSTGRES_PASSWORD: postgres
         ports:
           - 5432:5432
-        # Set health checks to wait until postgres has started
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
       
-      # Redis service
       redis:
         image: redis:latest
         ports:
@@ -49,18 +46,20 @@ jobs:
         find . -type d -not -path "*/\.*" | sort
         echo "All pom.xml files:"
         find . -name "pom.xml" | sort
+        echo "Location of init.sql:"
+        find . -name "init.sql" | sort
     
     - name: Initialize PostgreSQL database
       run: |
         # Verify init.sql exists
-        ls -l init.sql
+        ls -l Back-end/init.sql
         # Wait for PostgreSQL to be ready
         until pg_isready -h localhost -p 5432 -U postgres; do
           echo "Waiting for PostgreSQL to be ready..."
           sleep 2
         done
         # Execute init.sql to populate the database
-        psql -h localhost -p 5432 -U postgres -d myshop -f init.sql
+        psql -h localhost -p 5432 -U postgres -d myshop -f Back-end/init.sql
       env:
         PGPASSWORD: postgres
     
@@ -69,11 +68,10 @@ jobs:
         cd Back-end
         mvn -B package
       env:
-        # Override application.properties with GitHub Actions service connection details
         SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/myshop
         SPRING_DATASOURCE_USERNAME: postgres
         SPRING_DATASOURCE_PASSWORD: postgres
-        
+    
     - name: Install Newman
       run: npm install -g newman
     
@@ -92,7 +90,6 @@ jobs:
         # Run Newman with the correct path
         newman run ./src/postman/collection.json
       env:
-        # Make sure your app connects to the services when running the tests
         SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/myshop
         SPRING_DATASOURCE_USERNAME: postgres
         SPRING_DATASOURCE_PASSWORD: postgres
