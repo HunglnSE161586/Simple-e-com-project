@@ -14,10 +14,11 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductReviews {
+public class ProductReview {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long reviewId;
+    @Column(name = "review_id")
+    private Long id;
     @Column(nullable = false)
     private Long productId;
     @Column(nullable = false)

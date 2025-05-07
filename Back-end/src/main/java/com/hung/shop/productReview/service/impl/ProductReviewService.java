@@ -4,6 +4,8 @@ import com.hung.shop.product.service.IProductExistenceChecker;
 import com.hung.shop.product.service.IProductService;
 import com.hung.shop.productReview.dto.request.ProductReviewCreateRequest;
 import com.hung.shop.productReview.dto.response.ProductReviewDto;
+import com.hung.shop.productReview.exception.ProductNotExistException;
+import com.hung.shop.productReview.exception.UserNotExistException;
 import com.hung.shop.productReview.mapper.ProductReviewMapper;
 import com.hung.shop.productReview.repository.ProductReviewRepository;
 import com.hung.shop.productReview.service.IProductReviewService;
@@ -36,10 +38,10 @@ public class ProductReviewService implements IProductReviewService {
     @Transactional
     public ProductReviewDto createProductReview(ProductReviewCreateRequest productReviewCreateRequest) {
         if (productExistenceChecker.existsById(productReviewCreateRequest.getProductId()) == false) {
-            throw new IllegalArgumentException("Product not found");
+            throw new ProductNotExistException("Product not found");
         }
         if (userService.getUserById(productReviewCreateRequest.getUserId()) == null) {
-            throw new IllegalArgumentException("User not found");
+            throw new UserNotExistException("User not found");
         }
         return productReviewMapper.toDto(
                 productReviewRepository.save(

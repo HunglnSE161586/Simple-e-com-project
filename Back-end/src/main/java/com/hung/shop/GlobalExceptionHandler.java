@@ -5,6 +5,7 @@ import com.hung.shop.auth.exception.JwtBlacklistException;
 import com.hung.shop.product.exception.category.CategoryNotFoundException;
 import com.hung.shop.product.exception.product.ProductNotFoundException;
 import com.hung.shop.product.exception.productImage.ProductImageNotFoundException;
+import com.hung.shop.productReview.exception.ReviewCreateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -21,7 +22,7 @@ public class GlobalExceptionHandler {
     private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
     @ExceptionHandler(CategoryNotFoundException.class)
     public ResponseEntity<String> handleCategoryNotFound(CategoryNotFoundException ex) {
-        logger.warn("Category not found: ", ex);
+        logger.warn("Category not found: {}", ex.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
     @ExceptionHandler(Exception.class)
@@ -31,12 +32,12 @@ public class GlobalExceptionHandler {
     }
     @ExceptionHandler(ProductImageNotFoundException.class)
     public ResponseEntity<String> handleProductImageNotFound(ProductImageNotFoundException ex) {
-        logger.warn("Product image not found: ", ex);
+        logger.warn("Product image not found: {}", ex.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
     @ExceptionHandler(ProductNotFoundException.class)
     public ResponseEntity<String> handleProductNotFound(ProductNotFoundException ex) {
-        logger.warn("Product not found: ", ex);
+        logger.warn("Product not found: {}", ex.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -47,5 +48,10 @@ public class GlobalExceptionHandler {
         });
         logger.warn("Validation errors: {}", errors);
         return ResponseEntity.badRequest().body(errors);
+    }
+    @ExceptionHandler(ReviewCreateException.class)
+    public ResponseEntity<String> handleReviewCreateException(ReviewCreateException ex) {
+        logger.warn("Review creation error: {}", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
 }
