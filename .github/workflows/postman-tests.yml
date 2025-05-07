@@ -21,11 +21,12 @@ jobs:
           cache: maven
 
       - name: Build with Maven
-        run: mvn -B package --file pom.xml
+        run: mvn -B package --file Back-end/pom.xml
+        working-directory: Back-end
 
       - name: Set up Docker Compose
         run: |
-          docker-compose up -d
+          cd Back-end && docker-compose up -d
           # Wait for services to be ready
           sleep 30
 
@@ -33,8 +34,9 @@ jobs:
         run: npm install -g newman
 
       - name: Run Postman Tests
-        run: newman run ./postman/collection.json
+        run: newman run ./src/postman/collection.json
+        working-directory: Back-end
 
       - name: Stop Docker Compose
         if: always()
-        run: docker-compose down
+        run: cd Back-end && docker-compose down
