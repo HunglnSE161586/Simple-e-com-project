@@ -21,13 +21,16 @@ jobs:
         cache: maven
     
     - name: List directory structure
-      run: find . -type f -name "pom.xml" | sort
-    
-    - name: Build with Maven
       run: |
-        # Adjust this path to wherever your pom.xml actually is
+        echo "Repository structure:"
+        find . -type d -not -path "*/\.*" | sort
+        echo "All pom.xml files:"
+        find . -name "pom.xml" | sort
+    
+    - name: Build with Maven (skip tests)
+      run: |
         cd Back-end
-        mvn -B package
+        mvn -B package -DskipTests
       
     - name: Set up Docker Compose
       uses: isbang/compose-action@v1.5.1
@@ -35,12 +38,17 @@ jobs:
         compose-file: "./Back-end/docker-compose.yml"
         down-flags: "--volumes"
         services: |
-          app
           db
           redis
     
     - name: Wait for services to be ready
       run: sleep 30
+      
+    - name: Run Spring Boot tests with Docker services
+      run: |
+        cd Back-end
+        # Override database connection parameters for tests
+        mvn test -Dspring.datasource.url=jdbc:postgresql://localhost:5432/myshop -Dspring.datasource.username=postgres -Dspring.datasource.password=postgres
     
     - name: Install Newman
       run: npm install -g newman
