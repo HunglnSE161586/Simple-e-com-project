@@ -2,11 +2,13 @@ package com.hung.shop.product.dto.product.request;
 
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 @Data
 public class ProductUpdateRequest {
     private String productName;
     private String description;
-    private Double price;
+    private BigDecimal price;
     private Long categoryId;
     private Boolean isFeatured;
     private Long stock;

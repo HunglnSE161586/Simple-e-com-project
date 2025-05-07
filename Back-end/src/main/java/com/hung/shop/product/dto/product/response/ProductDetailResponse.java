@@ -5,6 +5,7 @@ import com.hung.shop.share.ProductImagePOJO;
 import com.hung.shop.share.ProductReviewPOJO;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -13,7 +14,7 @@ public class ProductDetailResponse {
     private Long id;
     private String productName;
     private String description;
-    private Double price;
+    private BigDecimal price;
     private Boolean isActive;
     private Boolean isFeatured;
     private LocalDateTime createdAt;

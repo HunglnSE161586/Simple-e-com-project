@@ -4,6 +4,7 @@ import com.hung.shop.product.dto.productImage.request.ProductImageCreateRequest;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Data
@@ -12,7 +13,7 @@ public class ProductCreateRequest {
     private String productName;
     private String description;
     @NotNull(message = "Price cannot be null")
-    private Double price;
+    private BigDecimal price;
     @NotNull(message = "Category id cannot be null")
     private Long categoryId;
     private Long stock;
