@@ -10,6 +10,29 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
     
+    services:
+      # Use GitHub Actions services to manage PostgreSQL
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_DB: myshop
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      
+      # Redis service
+      redis:
+        image: redis:latest
+        ports:
+          - 6379:6379
+    
     steps:
     - uses: actions/checkout@v3
     
@@ -27,29 +50,16 @@ jobs:
         echo "All pom.xml files:"
         find . -name "pom.xml" | sort
     
-    - name: Build with Maven (skip tests)
+    - name: Build and Test with Maven
       run: |
         cd Back-end
-        mvn -B package -DskipTests
-      
-    - name: Set up Docker Compose
-      uses: isbang/compose-action@v1.5.1
-      with:
-        compose-file: "./Back-end/docker-compose.yml"
-        down-flags: "--volumes"
-        services: |
-          db
-          redis
-    
-    - name: Wait for services to be ready
-      run: sleep 30
-      
-    - name: Run Spring Boot tests with Docker services
-      run: |
-        cd Back-end
-        # Override database connection parameters for tests
-        mvn test -Dspring.datasource.url=jdbc:postgresql://localhost:5432/myshop -Dspring.datasource.username=postgres -Dspring.datasource.password=postgres
-    
+        mvn -B package
+      env:
+        # Override application.properties with GitHub Actions service connection details
+        SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/myshop
+        SPRING_DATASOURCE_USERNAME: postgres
+        SPRING_DATASOURCE_PASSWORD: postgres
+        
     - name: Install Newman
       run: npm install -g newman
     
@@ -58,6 +68,19 @@ jobs:
         # List postman files to verify their location
         find . -path "*/postman/*.json" | sort
         
-        # Run Newman with the correct path
+        # Run your application in the background for API testing
         cd Back-end
+        java -jar target/*.jar &
+        
+        # Wait for your application to start
+        sleep 30
+        
+        # Run Newman with the correct path
         newman run ./src/postman/collection.json
+      env:
+        # Make sure your app connects to the services when running the tests
+        SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/myshop
+        SPRING_DATASOURCE_USERNAME: postgres
+        SPRING_DATASOURCE_PASSWORD: postgres
+        SPRING_DATA_REDIS_HOST: localhost
+        SPRING_DATA_REDIS_PORT: 6379
