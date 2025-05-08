@@ -96,3 +96,4 @@ jobs:
         SPRING_DATASOURCE_PASSWORD: postgres
         SPRING_DATA_REDIS_HOST: localhost
         SPRING_DATA_REDIS_PORT: 6379
+        SECRET_KEY: ${{ secrets.SECRET_KEY }}
