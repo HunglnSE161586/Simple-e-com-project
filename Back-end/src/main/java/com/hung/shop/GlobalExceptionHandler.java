@@ -6,6 +6,7 @@ import com.hung.shop.product.exception.category.CategoryNotFoundException;
 import com.hung.shop.product.exception.product.ProductNotFoundException;
 import com.hung.shop.product.exception.productImage.ProductImageNotFoundException;
 import com.hung.shop.productReview.exception.ReviewCreateException;
+import com.hung.shop.user.exception.RegisterUserException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -53,6 +54,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ReviewCreateException.class)
     public ResponseEntity<String> handleReviewCreateException(ReviewCreateException ex) {
         logger.warn("Review creation error: {}", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
+    @ExceptionHandler(RegisterUserException.class)
+    public ResponseEntity<String> handleRegisterUserException(RegisterUserException ex) {
+        logger.warn("User registration error: {}", ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
 }

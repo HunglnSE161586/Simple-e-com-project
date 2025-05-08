@@ -71,6 +71,7 @@ jobs:
         SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/myshop
         SPRING_DATASOURCE_USERNAME: postgres
         SPRING_DATASOURCE_PASSWORD: postgres
+        SECRET_KEY: ${{ secrets.SECRET_KEY }}
     
     - name: Install Newman
       run: npm install -g newman

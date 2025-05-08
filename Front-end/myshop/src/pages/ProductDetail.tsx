@@ -25,6 +25,7 @@ const ProductDetail: React.FC = () => {
         const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
         return totalRating / reviews.length;
     };
+    
 
     const averageRating = product?.productReviewPOJOS ? calculateAverageRating(product.productReviewPOJOS) : 0;
 
@@ -98,8 +99,10 @@ const ProductDetail: React.FC = () => {
             setReviewText("");
             setRating(5);
 
-        } catch (err) {
-            setReviewError("Failed to submit review. Please try again.");
+        } catch (err: any) {
+            const errorMessage =
+                err.response?.data?.reviewText || err.response?.data || 'An unexpected error occurred while submitting the review.';
+            toast.error(`Error submitting review: ${errorMessage}`);
             console.error("Error submitting review:", err);
         } finally {
             setIsSubmitting(false);
@@ -161,15 +164,7 @@ const ProductDetail: React.FC = () => {
             </div>
         );
     };
-    const dummyBodyDetail = () => {
-        return (
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-            </p>
-        );
-    }
+    
     return (
         <div className="container mt-4">
             <div className="row">
@@ -206,8 +201,7 @@ const ProductDetail: React.FC = () => {
                     </div>
                     <p className="text-muted">{product.categoryPOJO?.categoryName}</p>
                     <h4 className="text-primary">${product.price}</h4>
-                    <p>{product.description}</p>
-                    {dummyBodyDetail()}
+                    <p>{product.description}</p>                    
 
                     <p><strong>Stock:</strong> {product.stock > 0 ? `${product.stock} available` : "Out of stock"}</p>
                     <button className="btn btn-success">Add to Cart</button>
@@ -221,13 +215,13 @@ const ProductDetail: React.FC = () => {
                 <h3>Reviews</h3>
                 {product.productReviewPOJOS && product.productReviewPOJOS.length > 0 ? (
                     product.productReviewPOJOS.map(review => (
-                        <div key={review.reviewId} className="border p-3 mb-3">
+                        <div key={review.reviewId} className="border p-3 mb-3 ">
                             <strong>User id: {review.userId}</strong>
                             <div>
                                 <strong>Rating:</strong> {Array(review.rating).fill("★").join("")}
                                 {Array(5 - review.rating).fill("☆").join("")}
                             </div>
-                            <div>{review.reviewText}</div>
+                            <div className="text-break">{review.reviewText}</div>
                             <div className="text-muted mt-2">
                                 {new Date(review.createdAt).toLocaleString()}
                             </div>

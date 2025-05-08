@@ -28,17 +28,21 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        String role="";
-        Set<GrantedAuthority> authoritySet =new HashSet<>();
-        UsersPOJO user = userService.getUserByEmail(email);
-        List<UserAuthPOJO> userAuthPOJOS=userAuthService.getUserAuthsByUserId(user.getId());
-        user.setUserAuthPOJO(userAuthPOJOS);
-        user.setUserRolePOJO(userRoleService.findById(user.getUserRolePOJO().getRoleId()).orElse(null));
-        if (user.getUserRolePOJO().getRoleName() != null) {
-            role = user.getUserRolePOJO().getRoleName();
-            authoritySet.add(new SimpleGrantedAuthority(role));
-        }
+        try {
+            String role="";
+            Set<GrantedAuthority> authoritySet =new HashSet<>();
+            UsersPOJO user = userService.getUserByEmail(email);
+            List<UserAuthPOJO> userAuthPOJOS=userAuthService.getUserAuthsByUserId(user.getId());
+            user.setUserAuthPOJO(userAuthPOJOS);
+            user.setUserRolePOJO(userRoleService.findById(user.getUserRolePOJO().getRoleId()).orElse(null));
+            if (user.getUserRolePOJO().getRoleName() != null) {
+                role = user.getUserRolePOJO().getRoleName();
+                authoritySet.add(new SimpleGrantedAuthority(role));
+            }
 
-        return new CustomUserDetails(user,authoritySet);
+            return new CustomUserDetails(user,authoritySet);
+        }catch (Exception e){
+            throw new UsernameNotFoundException("User not found with email: " + email, e);
+        }
     }
 }

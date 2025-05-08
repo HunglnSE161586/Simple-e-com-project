@@ -48,11 +48,11 @@ const Navbar = () => {
                 Products
               </Link>
             </li>
-            <li className="nav-item">
+            {/* <li className="nav-item">
               <Link to="/" className="nav-link active" aria-current="page">
                 Categories
               </Link>
-            </li>
+            </li> */}
           </ul>
           <form className="d-flex" role="search">
             <input

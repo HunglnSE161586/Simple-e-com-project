@@ -52,8 +52,9 @@ const Register: React.FC = () => {
         navigate('/', { state: { showToast: true } });
       })
       .catch((error) => {
+        const errorMessage = error.response?.data || 'An unknown error occurred during registration.';
         console.error('Error during registration:', error);
-        toast.error('Error during registration: ' + error);
+        toast.error('Error during registration: ' + errorMessage);
       });
   };
 

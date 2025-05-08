@@ -11,6 +11,7 @@ import io.jsonwebtoken.security.SignatureException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -21,7 +22,11 @@ import java.util.Date;
 @Component
 public class JwtTokenUtil implements IJwtTokenUtil {
     private static final Logger logger = LoggerFactory.getLogger(JwtTokenUtil.class);
-    private final SecretKey SECRET_KEY = Keys.hmacShaKeyFor("tempSecretKey1234567890aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa".getBytes());
+
+    public JwtTokenUtil(@Value("${app.jwt.secret-key}") String secretKeyString) {
+        this.SECRET_KEY = Keys.hmacShaKeyFor(secretKeyString.getBytes());
+    }
+    private final SecretKey SECRET_KEY;
 
     // Token validity in milliseconds (e.g., 15 minutes)
     private final long jwtExpirationInMs = 900000; // 15*60*1000
