@@ -23,13 +23,15 @@ import java.util.Date;
 public class JwtTokenUtil implements IJwtTokenUtil {
     private static final Logger logger = LoggerFactory.getLogger(JwtTokenUtil.class);
 
-    public JwtTokenUtil(@Value("${app.jwt.secret-key}") String secretKeyString) {
+    public JwtTokenUtil(@Value("${app.jwt.secret-key}") String secretKeyString,
+                        @Value("${app.jwt.expiration-time}") long expirationTime) {
         this.SECRET_KEY = Keys.hmacShaKeyFor(secretKeyString.getBytes());
+        this.jwtExpirationInMs = expirationTime;
     }
     private final SecretKey SECRET_KEY;
 
-    // Token validity in milliseconds (e.g., 15 minutes)
-    private final long jwtExpirationInMs = 900000; // 15*60*1000
+    // Token validity in milliseconds (e.g., 15 minutes= 15 * 60 * 1000)
+    private final long jwtExpirationInMs;
 
     public String generateToken(String email) {
         Date now = new Date();

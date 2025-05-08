@@ -223,6 +223,75 @@
 			"response": []
 		},
 		{
+			"name": "Create new Category",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const response = pm.response.json();\r",
+							"const requestBody = JSON.parse(pm.request.body.raw);\r",
+							"\r",
+							"pm.test('Status code is 200', () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test('Check if the response body has the expected fields', () => {\r",
+							"    pm.expect(response.id).to.exist;\r",
+							"    pm.expect(response.categoryName).to.exist;\r",
+							"    pm.expect(response.description).to.exist;\r",
+							"    pm.expect(response.createdAt).to.exist;\r",
+							"    pm.expect(response.image).to.exist;\r",
+							"\r",
+							"    pm.expect(response.categoryName).to.equal(requestBody.categoryName);\r",
+							"    pm.expect(response.description).to.equal(requestBody.description);\r",
+							"    pm.expect(response.image).to.equal(requestBody.image);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"categoryName\": \"{{$randomProductName}}\",\r\n  \"description\": \"string\",\r\n  \"image\": \"{{$randomImageUrl}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/categories",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"categories"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Get Paged Products",
 			"event": [
 				{
