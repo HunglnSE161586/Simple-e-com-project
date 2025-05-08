@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class UserRolePOJO {
-    private Long roleId;
+    private Long id;
     private String roleName;
     private String description;
 }

@@ -46,7 +46,7 @@ public class UserService implements IUserService {
                 .orElseThrow(() -> new DefaultRoleNotFoundException("Default Role not found, please check if the role exists in the database: " + DEFAULT_ROLE + " or create a new one."));
 
         User user = userMapper.userCreateRequestToEntity(userCreateRequest);
-        user.setRoleId(defaultRole.getRoleId());
+        user.setRoleId(defaultRole.getId());
 
         user = usersRepository.save(user);
 

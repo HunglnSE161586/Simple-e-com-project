@@ -12,10 +12,11 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserRoles {
+public class UserRole {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long roleId;
+    @Column(name = "role_id")
+    private Long id;
     @Column(nullable = false, unique = true)
     private String roleName;
     private String description;

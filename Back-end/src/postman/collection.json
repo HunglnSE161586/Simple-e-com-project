@@ -7,6 +7,222 @@
 	},
 	"item": [
 		{
+			"name": "Register request",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const randomNumber = Math.floor(Math.random() * 100000);\r",
+							"const email = `postmantest${randomNumber}@gmail.com`;\r",
+							"\r",
+							"pm.collectionVariables.set(\"test_email\", email);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const requestData = pm.request.body;\r",
+							"const responseData = pm.response.json();\r",
+							"const expectedEmail = pm.collectionVariables.get(\"test_email\");\r",
+							"// Test for status code\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"// Test for response body schema/properties\r",
+							"pm.test(\"Response body has correct schema and properties\", function () {\r",
+							"    pm.expect(responseData.id).to.exist;\r",
+							"    pm.expect(responseData.id).to.be.a('number');\r",
+							"    pm.expect(responseData.email).to.be.a('string');\r",
+							"    pm.expect(responseData.firstName).to.be.a('string');\r",
+							"    pm.expect(responseData.lastName).to.be.a('string');\r",
+							"    pm.expect(responseData.isActive).to.be.a('boolean');\r",
+							"    pm.expect(responseData.createdAt).to.be.a('string');\r",
+							"});\r",
+							"//  Test request body (parsed from raw string)\r",
+							"pm.test(\"Request body has correct data\", function () {\r",
+							"    const parsedRequest = JSON.parse(requestData.toString());\r",
+							"    pm.expect(parsedRequest.email).to.eql(expectedEmail);\r",
+							"    pm.expect(parsedRequest.firstName).to.eql(\"Postman\");\r",
+							"    pm.expect(parsedRequest.lastName).to.eql(\"Tester\");\r",
+							"    pm.expect(parsedRequest.password).to.eql(\"12345\");\r",
+							"});\r",
+							"\r",
+							"//  Test response data\r",
+							"pm.test(\"Response has correct data\", function () {\r",
+							"    pm.expect(responseData.id).to.exist;\r",
+							"    pm.expect(responseData.id).to.be.a('number');\r",
+							"    pm.expect(responseData.email).to.eql(expectedEmail);\r",
+							"    pm.expect(responseData.firstName).to.eql(\"Postman\");\r",
+							"    pm.expect(responseData.lastName).to.eql(\"Tester\");\r",
+							"    pm.expect(responseData.isActive).to.eql(true);\r",
+							"    pm.expect(responseData.createdAt).to.exist;\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accept",
+						"value": "*/*"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\": \"{{test_email}}\",\n  \"firstName\": \"Postman\",\n  \"lastName\": \"Tester\",\n  \"password\": \"12345\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/users/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"users",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login fail request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Test for status code\r",
+							"pm.test(\"Status code is 401\", function () {\r",
+							"    pm.response.to.have.status(401);\r",
+							"});\r",
+							"\r",
+							"// Test for response body message\r",
+							"pm.test(\"Response body contains error message\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Invalid username or password\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accept",
+						"value": "*/*"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"username\": \"test@gmail.com\",\n  \"password\": \"1dfgsdfsdfxc\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Test for status code\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Check if response body contains a valid JWT token\", function () {\r",
+							"    pm.expect(pm.response.text()).to.be.a('string')\r",
+							"});\r",
+							"const token = pm.response.text();\r",
+							"pm.collectionVariables.set(\"jwt\", token);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accept",
+						"value": "*/*"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"username\": \"admin@admin.com\",\n  \"password\": \"12345\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Get Paged Products",
 			"event": [
 				{
@@ -102,6 +318,194 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Get Product by id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Test for response schema\r",
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test('Response product should match the schema', () => {\r",
+							"    const response = pm.response.json();\r",
+							"    pm.expect(response).to.have.property('id');\r",
+							"    pm.expect(response.id).to.be.a('number');\r",
+							"    pm.expect(response).to.have.property('productName');\r",
+							"    pm.expect(response.productName).to.be.a('string');\r",
+							"    pm.expect(response).to.have.property('description');\r",
+							"    pm.expect(response.description).to.be.a('string');\r",
+							"    pm.expect(response).to.have.property('price');\r",
+							"    pm.expect(response.price).to.be.a('number');\r",
+							"    pm.expect(response).to.have.property('isActive');\r",
+							"    pm.expect(response.isActive).to.be.a('boolean');\r",
+							"    pm.expect(response).to.have.property('isFeatured');\r",
+							"    pm.expect(response.isFeatured).to.be.a('boolean');\r",
+							"    pm.expect(response).to.have.property('createdAt');\r",
+							"    pm.expect(response.createdAt).to.be.a('string');\r",
+							"    pm.expect(response).to.have.property('updatedAt');\r",
+							"    pm.expect(response.updatedAt).to.be.a('string');\r",
+							"    pm.expect(response).to.have.property('stock');\r",
+							"    pm.expect(response.stock).to.be.a('number');\r",
+							"    pm.expect(response).to.have.property('productImagePOJOS');\r",
+							"    pm.expect(response.productImagePOJOS).to.be.an('array');\r",
+							"    pm.expect(response).to.have.property('categoryPOJO');\r",
+							"    pm.expect(response.categoryPOJO).to.be.an('object');\r",
+							"    pm.expect(response).to.have.property('productReviewPOJOS');\r",
+							"    pm.expect(response.productReviewPOJOS).to.be.an('array');\r",
+							"});\r",
+							"\r",
+							"pm.test('Response categoryPOJO should match the schema', () => {\r",
+							"    const responseData = pm.response.json();\r",
+							"    pm.expect(responseData).to.have.property('categoryPOJO');\r",
+							"    pm.expect(responseData.categoryPOJO).to.be.an('object');\r",
+							"    pm.expect(responseData.categoryPOJO).to.have.property('id');\r",
+							"    pm.expect(responseData.categoryPOJO.id).to.be.a('number');\r",
+							"    pm.expect(responseData.categoryPOJO).to.have.property('categoryName');\r",
+							"    pm.expect(responseData.categoryPOJO.categoryName).to.be.a('string');\r",
+							"    pm.expect(responseData.categoryPOJO).to.have.property('description');\r",
+							"    pm.expect(responseData.categoryPOJO.description).to.be.a('string');\r",
+							"    pm.expect(responseData.categoryPOJO).to.have.property('createdAt');\r",
+							"    pm.expect(responseData.categoryPOJO.createdAt).to.be.a('string');\r",
+							"    pm.expect(responseData.categoryPOJO).to.have.property('image');\r",
+							"    pm.expect(responseData.categoryPOJO.image).to.be.a('string');\r",
+							"\r",
+							"});\r",
+							"pm.test('Response productImagePOJOS should match the schema', () => {\r",
+							"    const responseData = pm.response.json();\r",
+							"    pm.expect(responseData).to.have.property('productImagePOJOS');\r",
+							"    pm.expect(responseData.productImagePOJOS).to.be.an('array');\r",
+							"    pm.expect(responseData.productImagePOJOS[0]).to.have.property('id');\r",
+							"    pm.expect(responseData.productImagePOJOS[0].id).to.be.a('number');\r",
+							"    pm.expect(responseData.productImagePOJOS[0]).to.have.property('productId');\r",
+							"    pm.expect(responseData.productImagePOJOS[0].productId).to.be.a('number');\r",
+							"    pm.expect(responseData.productImagePOJOS[0]).to.have.property('imageUrl');\r",
+							"    pm.expect(responseData.productImagePOJOS[0].imageUrl).to.be.a('string');\r",
+							"    pm.expect(responseData.productImagePOJOS[0]).to.have.property('altText');\r",
+							"    pm.expect(responseData.productImagePOJOS[0].altText).to.be.a('string');\r",
+							"    pm.expect(responseData.productImagePOJOS[0]).to.have.property('displayOrder');\r",
+							"    pm.expect(responseData.productImagePOJOS[0].displayOrder).to.be.a('number');\r",
+							"    pm.expect(responseData.productImagePOJOS[0]).to.have.property('createdAt');\r",
+							"    pm.expect(responseData.productImagePOJOS[0].createdAt).to.be.a('string');\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/products/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Products by Category id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Test to check if the response contains the \"content\" field\r",
+							"pm.test('Response status code is 200', () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test('Response should contain content', () => {\r",
+							"    const responseBody = pm.response.json();\r",
+							"    pm.expect(responseBody).to.have.property('content');\r",
+							"    pm.expect(responseBody.content).to.be.an('array');\r",
+							"    pm.expect(responseBody.content[0]).to.have.property('id');\r",
+							"    pm.expect(responseBody.content[0].id).to.be.a('number');\r",
+							"    pm.expect(responseBody.content[0]).to.have.property('productName');\r",
+							"    pm.expect(responseBody.content[0].productName).to.be.a('string');\r",
+							"    pm.expect(responseBody.content[0]).to.have.property('description');\r",
+							"    pm.expect(responseBody.content[0].description).to.be.a('string');\r",
+							"    pm.expect(responseBody.content[0]).to.have.property('price');\r",
+							"    pm.expect(responseBody.content[0].price).to.be.a('number');\r",
+							"    pm.expect(responseBody.content[0]).to.have.property('isActive');\r",
+							"    pm.expect(responseBody.content[0].isActive).to.be.a('boolean');\r",
+							"    pm.expect(responseBody.content[0]).to.have.property('isFeatured');\r",
+							"    pm.expect(responseBody.content[0].isFeatured).to.be.a('boolean');\r",
+							"    pm.expect(responseBody.content[0]).to.have.property('createdAt');\r",
+							"    pm.expect(responseBody.content[0].createdAt).to.be.a('string'); // Fixed typo in createdAt\r",
+							"    pm.expect(responseBody.content[0]).to.have.property('updatedAt');\r",
+							"    pm.expect(responseBody.content[0].updatedAt).to.be.a('string');\r",
+							"    pm.expect(responseBody.content[0]).to.have.property('stock');\r",
+							"    pm.expect(responseBody.content[0].stock).to.be.a('number');\r",
+							"    pm.expect(responseBody.content[0]).to.have.property('categoryId');\r",
+							"    pm.expect(responseBody.content[0].categoryId).to.be.a('number');\r",
+							"    pm.expect(responseBody.content[0]).to.have.property('productImagePOJO');\r",
+							"    pm.expect(responseBody.content[0].productImagePOJO).to.be.an('object');\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "accept",
+						"value": "*/*"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/api/products/categories/1?page=0&size=10",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"categories",
+						"1"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "size",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "jwt",
+			"value": ""
+		},
+		{
+			"key": "test_email",
+			"value": ""
 		}
 	]
 }

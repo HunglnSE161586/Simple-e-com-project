@@ -6,7 +6,53 @@ CREATE TABLE user_roles (
 INSERT INTO user_roles (role_name, description) VALUES
 ('ROLE_ADMIN', 'Administrator with full access'),
 ('ROLE_CUSTOMER', 'Customer');
+CREATE TABLE users (
+    user_id SERIAL PRIMARY KEY,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    first_name VARCHAR(255),
+    last_name VARCHAR(255),
+    is_active BOOLEAN NOT NULL,
+    created_at TIMESTAMP,
+    updated_at TIMESTAMP,
+    role_id BIGINT
+);
 
+CREATE TABLE user_auth (
+    auth_id SERIAL PRIMARY KEY,
+    provider VARCHAR(255) NOT NULL,
+    provider_id VARCHAR(255),
+    password VARCHAR(255),
+    user_id BIGINT NOT NULL,
+    created_at TIMESTAMP
+);
+INSERT INTO users (
+    email,
+    first_name,
+    last_name,
+    is_active,
+    created_at,
+    role_id
+) VALUES (
+    'admin@admin.com',
+    'Admin',
+    'User',
+    true,
+    NOW(),
+    1
+);
+INSERT INTO user_auth (
+    provider,
+    provider_id,
+    password,
+    user_id,
+    created_at
+) VALUES (
+    'LOCAL',
+    NULL,
+    '$2a$12$Bgxm0cNojE8PoPzmOaStV.qdzGnR2JFft1uylRdzyTdRHsguMwOfG',
+    1,
+    NOW()
+);
 CREATE TABLE categories (
     category_id SERIAL PRIMARY KEY,
     category_name VARCHAR(100) NOT NULL,

@@ -14,9 +14,9 @@ public interface UserMapper {
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     User userUpdateRequestToEntity(UserUpdateRequest userUpdateRequest, @MappingTarget User entity);
     UserDto toDto(User entity);
-    @Mapping(target = "userRolePOJO.roleId", source = "roleId")
+    @Mapping(target = "userRolePOJO.id", source = "roleId")
     UsersPOJO toPOJO(User entity);
     //@Mapping(target = "userId", source = "userId")
-    @Mapping(target = "roleId", source = "userRolePOJO.roleId")
+    @Mapping(target = "roleId", source = "userRolePOJO.id")
     User toEntity(UsersPOJO usersPOJO);
 }
