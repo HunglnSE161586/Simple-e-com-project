@@ -1,24 +1,18 @@
 package com.hung.shop.auth.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hung.shop.auth.config.JwtAuthenticationFilter;
-import com.hung.shop.auth.service.impl.CustomUserDetailsService;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -32,9 +26,10 @@ import java.util.Map;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity()
-public class SecurityConfig{
+@RequiredArgsConstructor
+public class SecurityConfig {
     @Bean
-    public JwtAuthenticationFilter jwtAuthenticationFilter(){
+    public JwtAuthenticationFilter jwtAuthenticationFilter() {
         return new JwtAuthenticationFilter();
     }
 
@@ -50,22 +45,19 @@ public class SecurityConfig{
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 // Configure authorization rules
-                .authorizeHttpRequests(auth -> auth
-                        // Permit public endpoints for login and logout
-                        .requestMatchers("api/auth/login",
-                                "api/auth/logout",
-                                "/swagger-ui/**",
-                                "/v3/api-docs/**",
-                                "/swagger-ui/index.html",
-                                "/api/product-reviews/**",
-                                "/api/users/**",
-                                "/api-docs/**").permitAll()
-                        .requestMatchers(HttpMethod.GET,  "/api/products/**", "/api/categories/**","/api/product-images/**").permitAll()
-                        .requestMatchers("/api/products/**", "/api/categories/**","/api/product-images/**")
-                        .hasRole("ADMIN")
-                        // All other endpoints require authentication
-                        .anyRequest().authenticated()
-                )
+                .authorizeHttpRequests(auth -> {
+                    PublicEndpoints.PUBLIC_ENDPOINTS.forEach(endpoint -> {
+                        if (endpoint.method() != null) {
+                            auth.requestMatchers(endpoint.method(), endpoint.pattern()).permitAll();
+                        } else {
+                            auth.requestMatchers(endpoint.pattern()).permitAll();
+                        }
+                    });
+                    // Permit public endpoints for login and logout
+                    auth.requestMatchers("/api/products/**", "/api/categories/**", "/api/product-images/**")
+                            .hasRole("ADMIN")
+                            .anyRequest().authenticated();
+                })
                 .exceptionHandling(ex -> ex
                         .authenticationEntryPoint((request, response, authException) -> {
                             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -104,7 +96,7 @@ public class SecurityConfig{
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOrigins(List.of("*"));
-        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS","PATCH"));
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(false);
         config.setMaxAge(3600L); // 1 hour
@@ -113,6 +105,7 @@ public class SecurityConfig{
         source.registerCorsConfiguration("/**", config);
         return source;
     }
+
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
         return authConfig.getAuthenticationManager();

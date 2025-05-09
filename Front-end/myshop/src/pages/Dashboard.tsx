@@ -9,7 +9,7 @@ const Dashboard: React.FC = () => {
             <div className="flex-grow-1">
                 <Topbar />
                 <div className="p-4">
-                    <h2 className="text-center">Dashboard Overview</h2>
+                    {/* <h2 className="text-center">Dashboard Overview</h2>
                     <div className="row mt-4">
                         <div className="col-md-4 mb-3">
                             <div className="card shadow-sm">
@@ -27,7 +27,7 @@ const Dashboard: React.FC = () => {
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </div>

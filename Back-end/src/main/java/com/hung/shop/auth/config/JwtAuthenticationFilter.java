@@ -9,15 +9,18 @@ import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -34,9 +37,26 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private UserDetailsService userDetailsService;
     @Autowired
     private IJwtBlacklistService blacklistService;
+    private AntPathMatcher pathMatcher= new AntPathMatcher();
+    private boolean isPublicEndpoint(HttpServletRequest request) {
+        String requestURI = request.getRequestURI();
+        String requestMethod = request.getMethod();
 
+        for (PublicEndpoints.Endpoint endpoint : PublicEndpoints.PUBLIC_ENDPOINTS) {
+            if ((endpoint.method() == null || endpoint.method().equals(requestMethod))
+                    && pathMatcher.match(endpoint.pattern(), requestURI)) {
+                return true;
+            }
+        }
+        return false;
+    }
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws jakarta.servlet.ServletException, java.io.IOException {
+        // Check if the request is for a public endpoint
+        if (isPublicEndpoint(request)) {
+            filterChain.doFilter(request, response);
+            return; // Skip JWT authentication for public endpoints
+        }
         try {
             String jwt = jwtTokenUtil.extractJwtFromRequest(request);
 

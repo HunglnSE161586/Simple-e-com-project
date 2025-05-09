@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { removeToken } from './Token';
 import { toast } from 'react-toastify';
-import { logoutUser } from '../api/UserAPI';  // Import your API logout function here
+import { logoutUser } from '../api/UserAPI';
 
 export const useHandleLogout = () => {
   const navigate = useNavigate();
@@ -13,7 +13,7 @@ export const useHandleLogout = () => {
       })
       .catch((error) => {
         console.error('Logout error:', error);
-        toast.error('Logout failed: ' + (error.response?.data || error.message));
+        //toast.error('Logout failed: ' + (error.response?.data || error.message));
       }).finally(()=>{
         removeToken();
         navigate('/');
