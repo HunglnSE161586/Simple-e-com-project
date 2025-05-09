@@ -14,7 +14,7 @@ public class PublicEndpoints {
             new Endpoint(null, "/swagger-ui/**"),
             new Endpoint(null, "/v3/api-docs/**"),
             new Endpoint(null, "/swagger-ui/index.html"),
-            new Endpoint(null, "/api/product-reviews/**"),
+            new Endpoint(HttpMethod.GET, "/api/product-reviews/**"),
             new Endpoint(null, "/api/users/**"),
             new Endpoint(null, "/api-docs/**")
     );

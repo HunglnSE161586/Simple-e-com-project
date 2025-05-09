@@ -12,6 +12,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -42,6 +43,7 @@ public class ProductReviewController {
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     @SecurityRequirement(name = "Authorization")
+    @PreAuthorize("hasRole('CUSTOMER') or hasRole('ADMIN')")
     public ResponseEntity<?> createProductReview(@RequestBody @Valid ProductReviewCreateRequest productReviewCreateRequest) {
         ProductReviewDto createdProductReview = productReviewService.createProductReview(productReviewCreateRequest);
         return ResponseEntity.ok(createdProductReview);
