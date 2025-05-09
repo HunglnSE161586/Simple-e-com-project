@@ -14,10 +14,12 @@ Pull the Back-End folder
 Run:
 
 ./mvnw clean package -DskipTests
+
 This create a package (like a jar file) while skipping test (cause it will check for data source if don't skip and fail. Check application.properties and docker compose file for data source and change as need).
 
 Then run:
 
 docker compose up --build 
+
 This will run the container and init data for database in init.sql (check the docker compose file).
 The init.sql will create default role for the app, and insert admin account.
