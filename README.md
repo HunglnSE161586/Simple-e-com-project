@@ -23,3 +23,5 @@ docker compose up --build
 
 This will run the container and init data for database in init.sql (check the docker compose file).
 The init.sql will create default role for the app, and insert admin account.
+
+Note for workflow file: https://chatgpt.com/share/68219313-8b28-8007-ae93-c595407c8c64
